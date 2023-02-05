@@ -20,12 +20,12 @@
   <main class="main wide-container">
     <h1 class="hidden">AVAeditor - online tool for editing photos and images</h1>
     <div class="main-content">
-      <div class="upload-area hidden">
+      <div class="upload-area">
         <p class="upload-slogan">Upload your photo by dragging it or clicking the Upload button</p>
         <div class="image-placeholder"></div>
         <button class="button upload-btn">Upload Image</button>
       </div>
-      <div class="edit-area">
+      <div class="edit-area hidden">
         <div class="undo-controls">
           <button class="button undo-btn">Undo</button>
           <button class="button redo-btn">Redo</button>
@@ -45,12 +45,29 @@
           <div class="image-canvas"></div>
           <div class="edit-tools">
             <ul class="edit-tools-list">
-              <li class="tool-item transform-tool">Transform</li>
-              <li class="tool-item filters-tool">Filters</li>
-              <li class="tool-item adjustments-tool">Adjustments</li>
-              <li class="tool-item text-tool">Text</li>
-              <li class="tool-item border-tool">Border</li>
-              <li class="tool-item draw-tool">Draw</li>
+              <li class="tool-item transform-tool selected" id="transform">Transform
+                <ul class="options-list transform-list">
+                  <li class="edit-option">Crop</li>
+                  <li class="edit-option">Resize</li>
+                  <li class="edit-option">Flip and Rotate</li>
+                </ul>
+              </li>
+              <li class="tool-item filters-tool" id="filters">Filters</li>
+              <li class="tool-item adjustments-tool selected" id="adjustments">Adjustments
+                <ul class="options-list adjustments-list">
+                  <li class="edit-option">Blur</li>
+                  <li class="edit-option">Brightness</li>
+                  <li class="edit-option">Contrast</li>
+                  <li class="edit-option">Gamma</li>
+                  <li class="edit-option">Hue</li>
+                  <li class="edit-option">Noise</li>
+                  <li class="edit-option">Pixelate</li>
+                  <li class="edit-option">Saturation</li>
+                </ul>
+              </li>
+              <li class="tool-item text-tool" id="text">Text</li>
+              <li class="tool-item border-tool" id="border">Border</li>
+              <li class="tool-item draw-tool" id="draw">Draw</li>
             </ul>
           </div>
 

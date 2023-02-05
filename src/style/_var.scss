@@ -23,3 +23,12 @@ $canvas-width: 912px;
   width: $canvas-width;
   height: 510px;
 }
+
+//calculate top parameter for options list
+$option-height: 37px;
+$list-padding-sum: 32px;
+$gap: 16px;
+
+@function list-height($n) {
+  @return -($n * $option-height + $list-padding-sum + $gap);
+}

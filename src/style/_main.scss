@@ -5,7 +5,6 @@
 .main-content {
   position: relative;
   padding-top: 32px;
-  // padding-bottom: 120px;
   background-color: $light-gray;
   border: $border;
   border-radius: $border-radius;
@@ -18,8 +17,6 @@
   justify-content: center;
   gap: 40px;
   margin: 0 auto 120px;
-  // width: 912px;
-  // height: 510px;
   text-align: center;
 }
 
@@ -181,8 +178,6 @@
 .image-canvas {
   @extend %canvas-size;
   margin: 0 auto 56px;
-  // width: 912px;
-  // height: 510px;
   background-color: $white;
   box-shadow: $shadow-small;
 }
@@ -202,6 +197,7 @@
 }
 
 .tool-item {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: end;
@@ -222,11 +218,17 @@
   transition: ease-in-out .3s;
 }
 
+.tool-item.selected {
+  color: $blue;
+  background-color: $gray-selected;
+}
+
 .transform-tool {
   background-image: url('img/transform-icon.svg');
 }
 
-.transform-tool:hover {
+.transform-tool:hover,
+.transform-tool.selected {
   background-image: url('img/transform-icon-hover.svg');
 }
 
@@ -234,7 +236,8 @@
   background-image: url('img/filters-icon.svg');
 }
 
-.filters-tool:hover {
+.filters-tool:hover,
+.filters-tool.selected {
   background-image: url('img/filters-icon-hover.svg');
 }
 
@@ -242,7 +245,8 @@
   background-image: url('img/adjustments-icon.svg');
 }
 
-.adjustments-tool:hover {
+.adjustments-tool:hover,
+.adjustments-tool.selected {
   background-image: url('img/adjustments-icon-hover.svg');
 }
 
@@ -250,7 +254,8 @@
   background-image: url('img/text-icon.svg');
 }
 
-.text-tool:hover {
+.text-tool:hover,
+.text-tool.selected {
   background-image: url('img/text-icon-hover.svg');
 }
 
@@ -258,7 +263,8 @@
   background-image: url('img/border-icon.svg');
 }
 
-.border-tool:hover {
+.border-tool:hover,
+.border-tool.selected {
   background-image: url('img/border-icon-hover.svg');
 }
 
@@ -266,6 +272,50 @@
   background-image: url('img/draw-icon.svg');
 }
 
-.draw-tool:hover {
+.draw-tool:hover,
+.draw-tool.selected {
   background-image: url('img/draw-icon-hover.svg');
+}
+
+.tool-item:hover .options-list,
+.tool-item.selected .options-list {
+  color: $black;
+}
+
+.options-list {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 8px;
+  width: calc($canvas-width / 6 + 30px);
+  line-height: 19px;
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-medium;
+}
+
+.options-list.hidden {
+  display: none;
+}
+
+.options-list.transform-list {
+  top: list-height(3);
+}
+
+.options-list.adjustments-list {
+  top: list-height(8);
+}
+
+.edit-option {
+  padding: 9px 8px;
+  width: 100%;
+  border-radius: $border-radius;
+}
+
+.edit-option:hover {
+  color: $blue;
+  background-color: $gray-selected;
 }
