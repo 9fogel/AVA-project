@@ -20,11 +20,41 @@
   <main class="main wide-container">
     <h1 class="hidden">AVAeditor - online tool for editing photos and images</h1>
     <div class="main-content">
-      <div class="image-area">
+      <div class="upload-area hidden">
         <p class="upload-slogan">Upload your photo by dragging it or clicking the Upload button</p>
         <div class="image-placeholder"></div>
         <button class="button upload-btn">Upload Image</button>
       </div>
+      <div class="edit-area">
+        <div class="undo-controls">
+          <button class="button undo-btn">Undo</button>
+          <button class="button redo-btn">Redo</button>
+        </div>
+        <div class="zoom-controls">
+          <div class="remove-zoom"></div>
+          <div class="zoom-info">
+            <span class="zoom-desc">Zoom</span>
+            <span class="zoom-value">100%</span>
+          </div>
+          <div class="add-zoom"></div>
+        </div>
+        <div class="load-controls">
+          <button class="button download-btn">Download</button>
+          <button class="button delete-btn">Delete Image</button>
+          </div>
+          <div class="image-canvas"></div>
+          <div class="edit-tools">
+            <ul class="edit-tools-list">
+              <li class="tool-item transform-tool">Transform</li>
+              <li class="tool-item filters-tool">Filters</li>
+              <li class="tool-item adjustments-tool">Adjustments</li>
+              <li class="tool-item text-tool">Text</li>
+              <li class="tool-item border-tool">Border</li>
+              <li class="tool-item draw-tool">Draw</li>
+            </ul>
+          </div>
+
+          </div>
     </div>
 
   </main>

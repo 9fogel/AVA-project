@@ -33,9 +33,14 @@
   width: 40px;
   height: 40px;
   background-image: url('img/settings-icon.svg');
+  border-radius: 50%;
 }
 
 .settings:hover {
   cursor: pointer;
+  border-radius: 50%;
+  background-color: $yellow-hover;
+  box-shadow: $shadow-medium;
+  transform: scale(0.9);
   transition: ease-in-out .3s;
 }

@@ -1,12 +1,25 @@
 .footer {
   text-align: center;
-}
+
+    .logo {
+      font-size: 36px;
+      font-weight: bold;
+      opacity: 0.8;
+    }
+
+    .logo-highlighted {
+      color: $blue;
+      opacity: 0.8;
+    }
+
+  }
 
 .footer-content {
   position: relative;
   display: flex;
   justify-content: space-between;
   margin-bottom: 32px;
+  padding: 0 32px;
 }
 
 .footer-content::after {
@@ -17,20 +30,21 @@
   height: 1px;
   content: '';
   background-color:$black;
-}
-
-.logo {
-  font-size: 36px;
-  font-weight: bold;
-}
-
-.logo-highlighted {
-  color: $blue;
+  opacity: 0.8;
 }
 
 .team-list {
   display: flex;
   gap: 12px;
+}
+
+.team-item {
+  opacity: 0.8;
+}
+
+.team-item:hover {
+  opacity: 1;
+  transition: ease-in-out .3s;
 }
 
 .github-link {
@@ -49,6 +63,12 @@
   width: 80px;
   height: 32px;
   background-image: url('img/rs-logo.svg');
+  opacity: 0.8;
+}
+
+.rs-logo:hover {
+  opacity: 1;
+  transition: ease-in-out .3s;
 }
 
 .copyright {
