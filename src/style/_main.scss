@@ -1,0 +1,44 @@
+.main {
+  margin-bottom: 88px;
+}
+
+.main-content {
+  padding-top: 32px;
+  padding-bottom: 120px;
+  background-color: $light-gray;
+  border: $border;
+  border-radius: $border-radius;
+}
+
+.image-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+  margin: 0 auto;
+  width: 912px;
+  height: 510px;
+  text-align: center;
+}
+
+.upload-slogan {
+  font-size: 24px;
+}
+
+.image-placeholder {
+  align-self: center;
+  width: 380px;
+  height: 260px;
+  background-image: url('img/image-placeholder.svg');
+}
+
+.upload-btn {
+  align-self: center;
+  padding: 21px 37px 20px 68px;
+  background-color: $blue;
+  background-image: url('img/upload-image-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+  box-shadow: $shadow-medium;
+}

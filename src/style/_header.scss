@@ -1,0 +1,41 @@
+.header {
+  margin: 8px auto 40px;
+  font-weight: bold;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 36px;
+}
+
+.logo-highlighted {
+  color: $blue;
+}
+
+.user-content {
+  display: flex;
+  gap: 117px;
+}
+
+.login-btn {
+  padding-left: 54px;
+  background-image: url('img/user-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.settings {
+  width: 40px;
+  height: 40px;
+  background-image: url('img/settings-icon.svg');
+}
+
+.settings:hover {
+  cursor: pointer;
+  transition: ease-in-out .3s;
+}
