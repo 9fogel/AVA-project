@@ -47,6 +47,10 @@
   transition: ease-in-out .3s;
 }
 
+.settings.active {
+  background-image: url('img/settings-icon-hover.svg');
+}
+
 .settings-menu {
   position: absolute;
   right: 0;
@@ -57,6 +61,7 @@
   background-color: $white;
   border-radius: $border-radius;
   box-shadow: 4px -4px 8px 0px #0000001a, -4px 4px 8px 0px #0000001a;
+  transition: ease-in-out .3s;
 }
 
 .settings-title {
@@ -100,6 +105,7 @@
 }
 
 .theme-label::after {
+  cursor: pointer;
   content: '';
   position: absolute;
   top: 3px;
