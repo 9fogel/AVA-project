@@ -1,1 +1,34 @@
 //all variables values here
+$white: #ffffff;
+$light-gray: #f4f6f7;
+$gray: #c0c0be;
+$gray-selected: #ededef;
+$black: #2d2942;
+$blue: #00d0c3;
+$blue-hover: #99ece7;
+$yellow: #ffee6b;
+$yellow-hover: #ffe51f;
+
+$border: 1px solid $gray;
+$border-radius: 5px;
+$border-radius-btn: 20px;
+
+$shadow-small: 0px 4px 8px 0px #0000001a;
+$shadow-medium: 0px 6px 12px 0px #0000001a;
+$shadow-large: 0px 10px 24px 0px #0000001a;
+
+$canvas-width: 912px;
+
+%canvas-size {
+  width: $canvas-width;
+  height: 510px;
+}
+
+//calculate top parameter for options list
+$option-height: 37px;
+$list-padding-sum: 32px;
+$gap: 16px;
+
+@function list-height($n) {
+  @return -($n * $option-height + $list-padding-sum + $gap);
+}
