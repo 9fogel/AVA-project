@@ -16,6 +16,11 @@ body {
   background-color: $white;
 }
 
+body.dark-theme {
+  color: $white;
+  background-color: $black;
+}
+
 ul {
   margin: 0;
   padding: 0;
@@ -83,4 +88,14 @@ h1 {
   background-color: $yellow-hover;
   box-shadow: none;
   transition: ease-in-out .3s;
+}
+
+.dark-theme {
+
+  .button:hover {
+    background-color: $yellow-hover;
+    box-shadow: 0px 6px 12px 0px #ffe51f1a;
+    transition: ease-in-out .3s;
+  }
+
 }
