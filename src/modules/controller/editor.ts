@@ -7,7 +7,7 @@ class Editor {
     const tools: NodeListOf<HTMLLIElement> = document.querySelectorAll('.tool-item');
     tools?.forEach((tool: HTMLLIElement) => {
       tool?.addEventListener('click', () => {
-        const toolName: string | undefined = tool.textContent?.split('\n')[0].toLowerCase();
+        const toolName = tool.id;
         if (toolName) {
           this.showToolOptions(toolName);
         }
