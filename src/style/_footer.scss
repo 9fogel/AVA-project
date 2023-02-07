@@ -1,18 +1,18 @@
 .footer {
   text-align: center;
 
-    .logo {
-      font-size: 36px;
-      font-weight: bold;
-      opacity: 0.8;
-    }
-
-    .logo-highlighted {
-      color: $blue;
-      opacity: 0.8;
-    }
-
+  .logo {
+    font-size: 36px;
+    font-weight: bold;
+    opacity: 0.8;
   }
+
+  .logo-highlighted {
+    color: $blue;
+    opacity: 0.8;
+  }
+
+}
 
 .footer-content {
   position: relative;
@@ -74,4 +74,20 @@
 .copyright {
   font-size: 12px;
   font-weight: 300;
+}
+
+//dark theme styles
+.dark-theme {
+
+  .footer-content::after {
+    background-color:$white;
+  }
+
+  .github-link {
+    background-image: url('img/dark-github-logo.svg');
+  }
+
+  .rs-logo {
+    background-image: url('img/dark-rs-logo.svg');
+  }
 }

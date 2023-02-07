@@ -13,6 +13,32 @@
       <div class="user-content">
         <button class="button login-btn">Sign In / Sign Up</button>
         <div class="settings"></div>
+        <div class="settings-menu hidden">
+          <h2 class="settings-title">Settings</h2>
+          <ul class="settings-list">
+            <li class="settings-item theme-item">
+              <span>Dark Theme</span>
+              <div class="toggle-wrap">
+                <input class="theme-checkbox" type="checkbox" id="theme">
+                <label class="theme-label" for="theme"></label>
+              </div>
+            </li>
+            <li class="settings-item lang-choice-item">
+              <span>Language</span>
+              <div class="lang-choice">
+                <label class="lang-wrap selected">
+                  <input class="radio-check" type="radio">
+                  <span class="lang-btn">English</span>
+                </label>
+                <label class="lang-wrap">
+                  <input class="radio-check" type="radio">
+                  <span class="lang-btn">Russian</span>
+                </label>
+              </div>
+            </li>
+          </ul>
+          <div class="settings-arrow"></div>
+        </div>
       </div>
     </div>
   </header>
@@ -45,16 +71,16 @@
           <div class="image-canvas"></div>
           <div class="edit-tools">
             <ul class="edit-tools-list">
-              <li class="tool-item transform-tool selected" id="transform">Transform
-                <ul class="options-list transform-list">
+              <li class="tool-item transform-tool" id="transform">Transform
+                <ul class="options-list transform-list hidden">
                   <li class="edit-option">Crop</li>
                   <li class="edit-option">Resize</li>
                   <li class="edit-option">Flip and Rotate</li>
                 </ul>
               </li>
               <li class="tool-item filters-tool" id="filters">Filters</li>
-              <li class="tool-item adjustments-tool selected" id="adjustments">Adjustments
-                <ul class="options-list adjustments-list">
+              <li class="tool-item adjustments-tool" id="adjustments">Adjustments
+                <ul class="options-list adjustments-list hidden">
                   <li class="edit-option">Blur</li>
                   <li class="edit-option">Brightness</li>
                   <li class="edit-option">Contrast</li>
