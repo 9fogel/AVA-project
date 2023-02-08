@@ -40,16 +40,14 @@ class Controller {
     const fileInput: HTMLElement | null = document.getElementById('fileInput');
 
     if (uploadArea && fileInput instanceof HTMLInputElement) {
-      let files: FileList | null = fileInput.files;
-
       uploadArea.addEventListener('drop', (event) => {
         event.preventDefault();
         const dataTransfer: DataTransfer | null = event.dataTransfer;
 
-        if (dataTransfer && files) {
+        if (dataTransfer) {
           const dropFiles: FileList = dataTransfer.files;
-          files = dropFiles;
-          fileInput.click();
+          fileInput.files = dropFiles;
+          fileInput.dispatchEvent(new Event('change'));
         }
       });
       //изменение стиля upload area при нахождении обьекта над областью, как дополнительный функционал
