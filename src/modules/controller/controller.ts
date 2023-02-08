@@ -19,16 +19,47 @@ class Controller {
     this.handleImageUpload();
     this.handleImageDeletion();
     this.editor.handleEditor();
-    this.prepareFileInput();
+    this.useFileInput();
+    this.dropToUploadArea();
   }
 
-  private prepareFileInput(): void {
+  private useFileInput(): void {
     const fileInput: HTMLElement | null = document.getElementById('fileInput');
     if (fileInput instanceof HTMLInputElement) {
-      fileInput?.addEventListener('change', () => {
+      fileInput.addEventListener('change', () => {
         this.model.uploadImage();
         this.switchWorkingAreas();
         fileInput.value = '';
+      });
+    }
+  }
+
+  private dropToUploadArea() {
+    const uploadArea: HTMLElement | null = document.getElementById('uploadArea');
+    const fileInput: HTMLElement | null = document.getElementById('fileInput');
+
+    if (uploadArea && fileInput instanceof HTMLInputElement) {
+      let files: FileList | null = fileInput.files;
+
+      uploadArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        const dataTransfer: DataTransfer | null = event.dataTransfer;
+
+        if (dataTransfer && files) {
+          const dropFiles: FileList = dataTransfer.files;
+          files = dropFiles;
+          fileInput.click();
+        }
+      });
+      //изменение стиля upload area при нахождении обьекта над областью, как дополнительный функционал
+      uploadArea?.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        console.log('over area');
+      });
+
+      uploadArea?.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        console.log('not over area');
       });
     }
   }

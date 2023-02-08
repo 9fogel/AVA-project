@@ -22,6 +22,8 @@
   gap: 40px;
   margin: 0 auto 120px;
   text-align: center;
+  border: 1px dashed $gray;
+  border-radius: $border-radius;
 }
 
 .upload-area.hidden {
