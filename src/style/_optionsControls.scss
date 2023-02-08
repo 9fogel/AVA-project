@@ -9,7 +9,7 @@
   box-shadow: $shadow-medium;
 }
 
-// .option-controls.hidden,
+//_______________________________________________RESIZE
 .resize-controls.hidden {
   display: none;
 }
@@ -124,4 +124,46 @@
   cursor: default;
   background-color: #2d294280;
   opacity: 0.7;
+}
+
+//dark theme styles
+.dark-theme {
+  .option-controls {
+    background-color: $black;
+  }
+
+  .back-arrow {
+    background-image: url('img/dark-arrow-back-icon.svg');
+  }
+
+  .option-input {
+    color-scheme: dark;
+    background-color: $black;
+    border-color: $white;
+  }
+
+  .option-input:focus {
+    border-color: $blue;
+  }
+
+  .proportions {
+    background-image: url('img/dark-unlock-proportions-icon.svg');
+  }
+
+  .proportions:hover {
+    background-image: url('img/unlock-proportions-icon-hover.svg');
+  }
+
+  .proportions.locked {
+    background-image: url('img/dark-lock-proportions-icon.svg');
+  }
+
+  .proportions.locked:hover {
+    background-image: url('img/lock-proportions-icon-hover.svg');
+  }
+
+  .done-btn:disabled {
+    background-color: $white;
+    opacity: 0.2;
+  }
 }

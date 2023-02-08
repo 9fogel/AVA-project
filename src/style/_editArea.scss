@@ -1,9 +1,3 @@
-//edit mood
-// .edit-area {
-//   position: relative;
-//   height: 100%;
-// }
-
 .undo-controls {
   position: absolute;
   left: 20px;
@@ -403,7 +397,9 @@
   }
 
   .tool-item:hover .options-list,
-  .tool-item.selected .options-list {
+  .tool-item.selected .options-list,
+  .tool-item:hover .resize-controls,
+  .tool-item.selected .resize-controls {
     color: $white;
   }
 
