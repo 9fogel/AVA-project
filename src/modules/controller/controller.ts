@@ -18,6 +18,7 @@ class Controller {
     this.settings.handleSettings();
     this.handleImageUpload();
     this.handleImageDeletion();
+    this.handleImageDownload();
     this.editor.handleEditor();
     this.useFileInput();
     this.dropToUploadArea();
@@ -77,6 +78,13 @@ class Controller {
     deleteBtn?.addEventListener('click', () => {
       this.model.deleteImage();
       this.switchWorkingAreas();
+    });
+  }
+
+  private handleImageDownload(): void {
+    const downloadeBtn: HTMLElement | null = document.querySelector('.download-btn');
+    downloadeBtn?.addEventListener('click', () => {
+      this.model.downloadImage();
     });
   }
 

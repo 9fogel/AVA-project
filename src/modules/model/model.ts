@@ -33,6 +33,18 @@ class Model {
     }
   }
 
+  public downloadImage(): void {
+    if (this.canvas) {
+      const link = document.createElement('a');
+      link.download = 'image';
+      link.href = this.canvas.toDataURL();
+      //toDataURL(type, imageQuality)
+      //type = image/png(default), image/jpeg, image/webp
+      //imageQuality = between 0 and 1
+      link.click();
+    }
+  }
+
   applyFilter(): void {
     if (this.image && this.canvas && this.context) {
       this.canvas.width = this.image.naturalWidth;
