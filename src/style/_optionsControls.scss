@@ -1,0 +1,127 @@
+.option-controls {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -58px;
+  z-index: 3;
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-medium;
+}
+
+// .option-controls.hidden,
+.resize-controls.hidden {
+  display: none;
+}
+
+.resize-controls {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px;
+}
+
+.back-arrow {
+  width: 24px;
+  height: 24px;
+  background-image: url('img/arrow-back-icon.svg');
+}
+
+.back-arrow:hover {
+  cursor: pointer;
+  background-image: url('img/arrow-back-icon-hover.svg');
+}
+
+.controls-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.option-title {
+  font-size: 14px;
+  line-height: 24px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.size-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.option-input {
+  padding: 5px 6px 4px;
+  width: 66px;
+  border-radius: $border-radius;
+  outline: 0;
+}
+
+.option-input:focus {
+  border-color: $blue;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.option-input::-webkit-outer-spin-button,
+.option-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.option-input[type=number] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.option-input::-webkit-input-placeholder {
+  color: $gray;
+}
+
+.proportions {
+  width: 24px;
+  height: 24px;
+}
+
+.proportions {
+  cursor: pointer;
+  background-image: url('img/unlock-proportions-icon.svg');
+}
+
+.proportions:hover {
+  background-image: url('img/unlock-proportions-icon-hover.svg');
+}
+
+.proportions.locked {
+  background-image: url('img/lock-proportions-icon.svg');
+}
+
+.proportions.locked:hover {
+  background-image: url('img/lock-proportions-icon-hover.svg');
+}
+
+.done-btn {
+  padding: 2px 17px;
+  width: 58px;
+  height: 28px;
+  background-color: $blue;
+  background-image: url('img/done-icon.svg');
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: $border-radius;
+}
+
+.done-btn:hover {
+  background-color: $blue-hover;
+  box-shadow: $shadow-large;
+  transition: ease-in-out 0.3s;
+}
+
+.done-btn:disabled {
+  cursor: default;
+  background-color: #2d294280;
+  opacity: 0.7;
+}

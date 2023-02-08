@@ -219,11 +219,14 @@
 }
 
 .tool-item:hover .options-list,
-.tool-item.selected .options-list {
+.tool-item.selected .options-list,
+.tool-item:hover .resize-controls,
+.tool-item.selected .resize-controls {
   color: $black;
 }
 
 .options-list {
+  cursor: default;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -257,6 +260,7 @@
 }
 
 .edit-option:hover {
+  cursor: pointer;
   color: $blue;
   background-color: $gray-selected;
 }
