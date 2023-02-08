@@ -22,8 +22,8 @@ $shadow-large: 0px 10px 24px 0px #0000001a;
 $canvas-width: 912px;
 
 %canvas-size {
-  width: $canvas-width;
-  height: 510px;
+  max-width: $canvas-width;
+  max-height: 510px;
 }
 
 //calculate top parameter for options list

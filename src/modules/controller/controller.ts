@@ -1,13 +1,16 @@
 import Settings from './settings';
 import Editor from './editor';
+import Model from '../model/model';
 
 class Controller {
   private readonly settings: Settings;
   private readonly editor: Editor;
+  private readonly model: Model;
 
   constructor() {
     this.settings = new Settings();
     this.editor = new Editor();
+    this.model = new Model();
   }
 
   public run(): void {
@@ -15,22 +18,71 @@ class Controller {
     this.settings.handleSettings();
     this.handleImageUpload();
     this.handleImageDeletion();
+    this.handleImageDownload();
     this.editor.handleEditor();
+    this.useFileInput();
+    this.dropToUploadArea();
+  }
+
+  private useFileInput(): void {
+    const fileInput: HTMLElement | null = document.getElementById('fileInput');
+    if (fileInput instanceof HTMLInputElement) {
+      fileInput.addEventListener('change', () => {
+        this.model.uploadImage();
+        this.switchWorkingAreas();
+        fileInput.value = '';
+      });
+    }
+  }
+
+  private dropToUploadArea() {
+    const uploadArea: HTMLElement | null = document.getElementById('uploadArea');
+    const fileInput: HTMLElement | null = document.getElementById('fileInput');
+
+    if (uploadArea && fileInput instanceof HTMLInputElement) {
+      uploadArea.addEventListener('drop', (event) => {
+        event.preventDefault();
+        const dataTransfer: DataTransfer | null = event.dataTransfer;
+
+        if (dataTransfer) {
+          const dropFiles: FileList = dataTransfer.files;
+          fileInput.files = dropFiles;
+          fileInput.dispatchEvent(new Event('change'));
+        }
+      });
+      //изменение стиля upload area при нахождении обьекта над областью, как дополнительный функционал
+      uploadArea?.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        console.log('over area');
+      });
+
+      uploadArea?.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        console.log('not over area');
+      });
+    }
   }
 
   private handleImageUpload(): void {
     const uploadBtn: HTMLElement | null = document.querySelector('.upload-btn');
+    const fileInput: HTMLElement | null = document.getElementById('fileInput');
     uploadBtn?.addEventListener('click', () => {
-      // TODO: функция модели, которая грузит картинку в контейнер
-      this.switchWorkingAreas();
+      fileInput?.click();
     });
   }
 
   private handleImageDeletion(): void {
     const deleteBtn: HTMLElement | null = document.querySelector('.delete-btn');
     deleteBtn?.addEventListener('click', () => {
-      // TODO: функция модели, которая убирает картинку из контейнера
+      this.model.deleteImage();
       this.switchWorkingAreas();
+    });
+  }
+
+  private handleImageDownload(): void {
+    const downloadeBtn: HTMLElement | null = document.querySelector('.download-btn');
+    downloadeBtn?.addEventListener('click', () => {
+      this.model.downloadImage();
     });
   }
 
