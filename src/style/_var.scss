@@ -23,7 +23,7 @@ $canvas-width: 912px;
 
 %canvas-size {
   max-width: $canvas-width;
-  height: 510px;
+  max-height: 510px;
 }
 
 //calculate top parameter for options list
