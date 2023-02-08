@@ -9,12 +9,8 @@
   box-shadow: $shadow-medium;
 }
 
-//_______________________________________________RESIZE
-.resize-controls.hidden {
-  display: none;
-}
-
-.resize-controls {
+.resize-controls,
+.rotate-controls {
   cursor: default;
   display: flex;
   align-items: center;
@@ -44,6 +40,11 @@
   line-height: 24px;
   text-transform: uppercase;
   vertical-align: middle;
+}
+
+//_______________________________________________RESIZE
+.resize-controls.hidden {
+  display: none;
 }
 
 .size-wrap {
@@ -125,6 +126,57 @@
   background-color: #2d294280;
   opacity: 0.7;
 }
+//_______________________________________________FLIP & ROTATE
+.rotate-controls {
+  width: 344px;
+  padding: 9px 8px;
+}
+
+.rotate-controls.hidden {
+  display: none;
+}
+
+.flip-vert,
+.flip-hor,
+.rotate-left,
+.rotate-right {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.flip-vert {
+  background-image: url('img/flip-vertically-icon.svg');
+}
+
+.flip-vert:hover {
+  background-image: url('img/flip-vertically-icon-hover.svg');
+}
+
+.flip-hor {
+  background-image: url('img/flip-horizontally-icon.svg');
+}
+
+.flip-hor:hover {
+  background-image: url('img/flip-horizontally-icon-hover.svg');
+}
+
+.rotate-left {
+  background-image: url('img/rotate-left-icon.svg');
+}
+
+.rotate-left:hover {
+  background-image: url('img/rotate-left-icon-hover.svg');
+}
+
+.rotate-right {
+  background-image: url('img/rotate-right-icon.svg');
+}
+
+.rotate-right:hover {
+  background-image: url('img/rotate-right-icon-hover.svg');
+}
+
 
 //dark theme styles
 .dark-theme {
@@ -134,6 +186,10 @@
 
   .back-arrow {
     background-image: url('img/dark-arrow-back-icon.svg');
+  }
+
+  .back-arrow:hover {
+    background-image: url('img/arrow-back-icon-hover.svg');
   }
 
   .option-input {
@@ -165,5 +221,37 @@
   .done-btn:disabled {
     background-color: $white;
     opacity: 0.2;
+  }
+
+  .flip-vert {
+    background-image: url('img/dark-flip-vertically-icon.svg');
+  }
+
+  .flip-vert:hover {
+    background-image: url('img/flip-vertically-icon-hover.svg');
+  }
+
+  .flip-hor {
+    background-image: url('img/dark-flip-horizontally-icon.svg');
+  }
+
+  .flip-hor:hover {
+    background-image: url('img/flip-horizontally-icon-hover.svg');
+  }
+
+  .rotate-left {
+    background-image: url('img/dark-rotate-left-icon.svg');
+  }
+
+  .rotate-left:hover {
+    background-image: url('img/rotate-left-icon-hover.svg');
+  }
+
+  .rotate-right {
+    background-image: url('img/dark-rotate-right-icon.svg');
+  }
+
+  .rotate-right:hover {
+    background-image: url('img/rotate-right-icon-hover.svg');
   }
 }
