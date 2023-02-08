@@ -22,7 +22,7 @@ $shadow-large: 0px 10px 24px 0px #0000001a;
 $canvas-width: 912px;
 
 %canvas-size {
-  width: $canvas-width;
+  max-width: $canvas-width;
   height: 510px;
 }
 
