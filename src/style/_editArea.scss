@@ -1,4 +1,9 @@
 //edit mood
+// .edit-area {
+//   position: relative;
+//   height: 100%;
+// }
+
 .undo-controls {
   position: absolute;
   left: 20px;
@@ -124,7 +129,12 @@
 }
 
 .edit-tools {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
   padding: 4px 0;
+  width: 100%;
   background-color: $white;
   border-bottom-left-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
