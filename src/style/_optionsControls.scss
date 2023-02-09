@@ -1,0 +1,257 @@
+.option-controls {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -58px;
+  z-index: 3;
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-medium;
+}
+
+.resize-controls,
+.rotate-controls {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px;
+}
+
+.back-arrow {
+  width: 24px;
+  height: 24px;
+  background-image: url('img/arrow-back-icon.svg');
+}
+
+.back-arrow:hover {
+  cursor: pointer;
+  background-image: url('img/arrow-back-icon-hover.svg');
+}
+
+.controls-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.option-title {
+  font-size: 14px;
+  line-height: 24px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+//_______________________________________________RESIZE
+.resize-controls.hidden {
+  display: none;
+}
+
+.size-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.option-input {
+  padding: 5px 6px 4px;
+  width: 66px;
+  border-radius: $border-radius;
+  outline: 0;
+}
+
+.option-input:focus {
+  border-color: $blue;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.option-input::-webkit-outer-spin-button,
+.option-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.option-input[type=number] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.option-input::-webkit-input-placeholder {
+  color: $gray;
+}
+
+.proportions {
+  width: 24px;
+  height: 24px;
+}
+
+.proportions {
+  cursor: pointer;
+  background-image: url('img/unlock-proportions-icon.svg');
+}
+
+.proportions:hover {
+  background-image: url('img/unlock-proportions-icon-hover.svg');
+}
+
+.proportions.locked {
+  background-image: url('img/lock-proportions-icon.svg');
+}
+
+.proportions.locked:hover {
+  background-image: url('img/lock-proportions-icon-hover.svg');
+}
+
+.done-btn {
+  padding: 2px 17px;
+  width: 58px;
+  height: 28px;
+  background-color: $blue;
+  background-image: url('img/done-icon.svg');
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: $border-radius;
+}
+
+.done-btn:hover {
+  background-color: $blue-hover;
+  box-shadow: $shadow-large;
+  transition: ease-in-out 0.3s;
+}
+
+.done-btn:disabled {
+  cursor: default;
+  background-color: #2d294280;
+  opacity: 0.7;
+}
+//_______________________________________________FLIP & ROTATE
+.rotate-controls {
+  width: 344px;
+  padding: 9px 8px;
+}
+
+.rotate-controls.hidden {
+  display: none;
+}
+
+.flip-vert,
+.flip-hor,
+.rotate-left,
+.rotate-right {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.flip-vert {
+  background-image: url('img/flip-vertically-icon.svg');
+}
+
+.flip-vert:hover {
+  background-image: url('img/flip-vertically-icon-hover.svg');
+}
+
+.flip-hor {
+  background-image: url('img/flip-horizontally-icon.svg');
+}
+
+.flip-hor:hover {
+  background-image: url('img/flip-horizontally-icon-hover.svg');
+}
+
+.rotate-left {
+  background-image: url('img/rotate-left-icon.svg');
+}
+
+.rotate-left:hover {
+  background-image: url('img/rotate-left-icon-hover.svg');
+}
+
+.rotate-right {
+  background-image: url('img/rotate-right-icon.svg');
+}
+
+.rotate-right:hover {
+  background-image: url('img/rotate-right-icon-hover.svg');
+}
+
+
+//dark theme styles
+.dark-theme {
+  .option-controls {
+    background-color: $black;
+  }
+
+  .back-arrow {
+    background-image: url('img/dark-arrow-back-icon.svg');
+  }
+
+  .back-arrow:hover {
+    background-image: url('img/arrow-back-icon-hover.svg');
+  }
+
+  .option-input {
+    color-scheme: dark;
+    background-color: $black;
+    border-color: $white;
+  }
+
+  .option-input:focus {
+    border-color: $blue;
+  }
+
+  .proportions {
+    background-image: url('img/dark-unlock-proportions-icon.svg');
+  }
+
+  .proportions:hover {
+    background-image: url('img/unlock-proportions-icon-hover.svg');
+  }
+
+  .proportions.locked {
+    background-image: url('img/dark-lock-proportions-icon.svg');
+  }
+
+  .proportions.locked:hover {
+    background-image: url('img/lock-proportions-icon-hover.svg');
+  }
+
+  .done-btn:disabled {
+    background-color: $white;
+    opacity: 0.2;
+  }
+
+  .flip-vert {
+    background-image: url('img/dark-flip-vertically-icon.svg');
+  }
+
+  .flip-vert:hover {
+    background-image: url('img/flip-vertically-icon-hover.svg');
+  }
+
+  .flip-hor {
+    background-image: url('img/dark-flip-horizontally-icon.svg');
+  }
+
+  .flip-hor:hover {
+    background-image: url('img/flip-horizontally-icon-hover.svg');
+  }
+
+  .rotate-left {
+    background-image: url('img/dark-rotate-left-icon.svg');
+  }
+
+  .rotate-left:hover {
+    background-image: url('img/rotate-left-icon-hover.svg');
+  }
+
+  .rotate-right {
+    background-image: url('img/dark-rotate-right-icon.svg');
+  }
+
+  .rotate-right:hover {
+    background-image: url('img/rotate-right-icon-hover.svg');
+  }
+}

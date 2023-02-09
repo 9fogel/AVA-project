@@ -19,9 +19,9 @@ class Controller {
     this.handleImageUpload();
     this.handleImageDeletion();
     this.handleImageDownload();
-    this.editor.handleEditor();
     this.useFileInput();
     this.dropToUploadArea();
+    this.editor.handleEditor();
   }
 
   private useFileInput(): void {
@@ -30,12 +30,13 @@ class Controller {
       fileInput.addEventListener('change', () => {
         this.model.uploadImage();
         this.switchWorkingAreas();
+        //TODO: метод класса Editor, который заполнит инпуты для resize исходя из загруженной картинки??
         fileInput.value = '';
       });
     }
   }
 
-  private dropToUploadArea() {
+  private dropToUploadArea(): void {
     const uploadArea: HTMLElement | null = document.getElementById('uploadArea');
     const fileInput: HTMLElement | null = document.getElementById('fileInput');
 

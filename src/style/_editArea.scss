@@ -1,13 +1,22 @@
-//edit mood
 .undo-controls {
   position: absolute;
   left: 20px;
   top: 16px;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reset-btn {
+  padding-left: 50px;
+  background-image: url('img/reset-changes-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
 }
 
 .undo-btn {
+  align-self: flex-start;
   padding-left: 50px;
   background-image: url('img/undo-icon.svg');
   background-repeat: no-repeat;
@@ -16,6 +25,7 @@
 }
 
 .redo-btn {
+  align-self: flex-start;
   padding-left: 50px;
   background-image: url('img/redo-icon.svg');
   background-repeat: no-repeat;
@@ -108,6 +118,7 @@
   background-position: 24px 50%;
 }
 
+.reset-btn,
 .undo-btn,
 .redo-btn,
 .delete-btn {
@@ -124,7 +135,12 @@
 }
 
 .edit-tools {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
   padding: 4px 0;
+  width: 100%;
   background-color: $white;
   border-bottom-left-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
@@ -219,11 +235,16 @@
 }
 
 .tool-item:hover .options-list,
-.tool-item.selected .options-list {
+.tool-item.selected .options-list,
+.tool-item:hover .resize-controls,
+.tool-item.selected .resize-controls,
+.tool-item:hover .rotate-controls,
+.tool-item.selected .rotate-controls {
   color: $black;
 }
 
 .options-list {
+  cursor: default;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -257,12 +278,23 @@
 }
 
 .edit-option:hover {
+  cursor: pointer;
   color: $blue;
   background-color: $gray-selected;
 }
 
 //dark theme styles
 .dark-theme {
+
+  .undo-controls .reset-btn {
+    color: $white;
+    background-image: url('img/dark-reset-changes-icon.svg');
+  }
+
+  .undo-controls .reset-btn:hover {
+    color: $black;
+    background-image: url('img/reset-changes-icon.svg');
+  }
 
   .undo-controls .undo-btn {
     color: $white;
@@ -389,7 +421,11 @@
   }
 
   .tool-item:hover .options-list,
-  .tool-item.selected .options-list {
+  .tool-item.selected .options-list,
+  .tool-item:hover .resize-controls,
+  .tool-item.selected .resize-controls,
+  .tool-item:hover .rotate-controls,
+  .tool-item.selected .rotate-controls {
     color: $white;
   }
 

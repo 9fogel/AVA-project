@@ -47,7 +47,7 @@
       <img id="sourceImage" />
       <h1 class="hidden">AVAeditor - online tool for editing photos and images</h1>
       <div class="main-content">
-        <div id="uploadArea" class="upload-area">
+        <div class="upload-area" id="uploadArea" >
           <p class="upload-slogan">Upload your photo by dragging it or clicking the Upload button</p>
           <div class="image-placeholder"></div>
           <button class="button upload-btn">Upload Image</button>
@@ -55,6 +55,7 @@
         </div>
         <div class="edit-area hidden">
           <div class="undo-controls">
+            <button class="button reset-btn">Reset All Changes</button>
             <button class="button undo-btn">Undo</button>
             <button class="button redo-btn">Redo</button>
           </div>
@@ -76,10 +77,36 @@
               <li class="tool-item transform-tool" id="transform">
                 Transform
                 <ul class="options-list transform-list hidden">
-                  <li class="edit-option">Crop</li>
-                  <li class="edit-option">Resize</li>
-                  <li class="edit-option">Flip and Rotate</li>
+                  <li class="edit-option" id="crop">Crop</li>
+                  <li class="edit-option" id="resize">Resize</li>
+                  <li class="edit-option" id="rotate">Flip and Rotate</li>
                 </ul>
+                <div class="option-controls">
+                  <div class="resize-controls hidden">
+                    <div class="back-arrow" id="resize-arrow"></div>
+                    <div class="controls-content">
+                      <span class="option-title">Resize</span>
+                      <div class="size-wrap">
+                        <input class="option-input resize-input" type="number" id="width-input" placeholder="Width" min="0"
+                          maxlength="5" value="912">
+                        <div class="proportions locked"></div>
+                        <input class="option-input resize-input" type="number" id="height-input" placeholder="Height" min="0"
+                          maxlength="5" value="510">
+                      </div>
+                      <button class="done-btn" disabled></button>
+                    </div>
+                  </div>
+                  <div class="rotate-controls hidden">
+                    <div class="back-arrow" id="rotate-arrow"></div>
+                    <div class="controls-content">
+                      <span class="option-title">Flip and Rotate</span>
+                      <div class="flip-vert" id="flip-vert"></div>
+                      <div class="flip-hor" id="flip-hor"></div>
+                      <div class="rotate-left" id="rotate-left"></div>
+                      <div class="rotate-right" id="rotate-right"></div>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li class="tool-item filters-tool" id="filters">Filters</li>
               <li class="tool-item adjustments-tool" id="adjustments">
@@ -88,11 +115,11 @@
                   <li class="edit-option">Blur</li>
                   <li class="edit-option">Brightness</li>
                   <li class="edit-option">Contrast</li>
-                  <li class="edit-option">Gamma</li>
+                  <li class="edit-option">Grayscale</li>
                   <li class="edit-option">Hue</li>
-                  <li class="edit-option">Noise</li>
                   <li class="edit-option">Pixelate</li>
                   <li class="edit-option">Saturation</li>
+                  <li class="edit-option">Sepia</li>
                 </ul>
               </li>
               <li class="tool-item text-tool" id="text">Text</li>

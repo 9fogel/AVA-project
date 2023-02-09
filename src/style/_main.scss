@@ -1,10 +1,12 @@
 .main {
   margin-bottom: 88px;
+  min-height: 70vh;
 }
 
 .main-content {
   position: relative;
   padding-top: 32px;
+  min-height: 60vh;
   background-color: $light-gray;
   border: $border;
   border-radius: $border-radius;
@@ -21,7 +23,7 @@
   justify-content: center;
   gap: 40px;
   margin: 0 auto 120px;
-  padding: 20px;
+  // padding: 20px;
   text-align: center;
   border: 1px dashed $gray;
   border-radius: $border-radius;
@@ -32,6 +34,7 @@
 }
 
 .upload-slogan {
+  margin-top: 66px;
   font-size: 24px;
 }
 
@@ -44,6 +47,7 @@
 
 .upload-btn {
   align-self: center;
+  margin-bottom: 16px;
   padding: 21px 37px 20px 68px;
   background-color: $blue;
   background-image: url('img/upload-image-icon.svg');
