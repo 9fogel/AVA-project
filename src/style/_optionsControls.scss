@@ -177,6 +177,57 @@
   background-image: url('img/rotate-right-icon-hover.svg');
 }
 
+//_______________________________________________FILTERS
+.filter-option-controls {
+  top: -108px;
+}
+
+.filters-controls {
+  cursor: default;
+  top: -108px;
+  display: flex;
+  gap: 2px;
+  padding: 8px;
+}
+
+.filters-controls.hidden {
+  display: none;
+}
+
+.filter {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 4px;
+  width: 76px;
+  height: 76px;
+  background-color: $light-black;
+}
+
+.filter:first-child {
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+}
+
+.filter:last-child {
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
+
+.filter:hover {
+  border: 2px solid $blue;
+}
+
+.filter.selected {
+  border: 2px solid $blue;
+}
+
+.filter-title {
+  font-size: 12px;
+  color: $white;
+}
+
 
 //dark theme styles
 .dark-theme {

@@ -37,6 +37,7 @@ class Editor {
   private listenToolOptions(): void {
     this.listenResize();
     this.listenFlipAndRotate();
+    this.listenFilters();
     //TODO сюда добавятся методы и на другие опции
   }
 
@@ -141,6 +142,19 @@ class Editor {
       console.log('rotate right');
       //TODO: метод модели, который разворачивает по часов стрелке
       //TODO: один клик = 90 градусов, каждый следующий клик ещё 90 градусов
+    });
+  }
+
+  //_______________________________________________FILTERS
+  private listenFilters(): void {
+    const filters = document.querySelectorAll('.filter');
+    filters.forEach((filter, index) => {
+      filter.addEventListener('click', () => {
+        document.querySelector('.filter.selected')?.classList.remove('selected');
+        filter.classList.add('selected');
+        console.log(`filter with index ${index} was chosen`);
+        //TODO: метод модели, который применяет фильтр
+      });
     });
   }
 }
