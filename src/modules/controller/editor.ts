@@ -150,6 +150,8 @@ class Editor {
     const filters = document.querySelectorAll('.filter');
     filters.forEach((filter, index) => {
       filter.addEventListener('click', () => {
+        document.querySelector('.filter.selected')?.classList.remove('selected');
+        filter.classList.add('selected');
         console.log(`filter with index ${index} was chosen`);
         //TODO: метод модели, который применяет фильтр
       });
