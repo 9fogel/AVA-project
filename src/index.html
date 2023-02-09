@@ -47,7 +47,7 @@
       <img id="sourceImage" />
       <h1 class="hidden">AVAeditor - online tool for editing photos and images</h1>
       <div class="main-content">
-        <div class="upload-area" id="uploadArea" >
+        <div class="upload-area" id="uploadArea">
           <p class="upload-slogan">Upload your photo by dragging it or clicking the Upload button</p>
           <div class="image-placeholder"></div>
           <button class="button upload-btn">Upload Image</button>
@@ -87,11 +87,25 @@
                     <div class="controls-content">
                       <span class="option-title">Resize</span>
                       <div class="size-wrap">
-                        <input class="option-input resize-input" type="number" id="width-input" placeholder="Width" min="0"
-                          maxlength="5" value="912">
+                        <input
+                          class="option-input resize-input"
+                          type="text"
+                          id="width-input"
+                          placeholder="Width"
+                          min="0"
+                          maxlength="4"
+                          value="912"
+                        />
                         <div class="proportions locked"></div>
-                        <input class="option-input resize-input" type="number" id="height-input" placeholder="Height" min="0"
-                          maxlength="5" value="510">
+                        <input
+                          class="option-input resize-input"
+                          type="text"
+                          id="height-input"
+                          placeholder="Height"
+                          min="0"
+                          maxlength="4"
+                          value="510"
+                        />
                       </div>
                       <button class="done-btn" disabled></button>
                     </div>
@@ -144,7 +158,7 @@
                     </div>
                   </div>
                 </div>
-                </li>
+              </li>
               <li class="tool-item adjustments-tool" id="adjustments">
                 Adjustments
                 <ul class="options-list adjustments-list hidden">

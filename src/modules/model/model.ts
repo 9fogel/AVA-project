@@ -1,3 +1,5 @@
+import state from './state';
+
 class Model {
   private canvas: HTMLCanvasElement | null;
   private context: CanvasRenderingContext2D | null;
@@ -9,7 +11,7 @@ class Model {
     this.image = document.getElementById('sourceImage') as HTMLImageElement | null;
   }
 
-  public uploadImage(): void {
+  public async uploadImage(): Promise<void> {
     const fileInput: HTMLElement | null = document.getElementById('fileInput');
 
     if (fileInput instanceof HTMLInputElement) {
@@ -17,10 +19,13 @@ class Model {
 
       if (files && this.image) {
         this.image.src = URL.createObjectURL(files[0]);
-
-        this.image.onload = () => {
-          this.applyFilter();
-        };
+        await this.image.decode();
+        if (this.image) {
+          state.imageWidth = this.image.naturalWidth;
+          state.imageHeight = this.image.naturalHeight;
+          state.imageProportions = this.image.naturalWidth / this.image.naturalHeight;
+          this.applyСhanges();
+        }
       }
     }
   }
@@ -28,7 +33,7 @@ class Model {
   public deleteImage(): void {
     if (this.image && this.canvas && this.context) {
       this.image.src = '';
-      this.applyFilter();
+      this.applyСhanges();
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }
@@ -45,11 +50,13 @@ class Model {
     }
   }
 
-  applyFilter(): void {
+  public applyСhanges(): void {
     if (this.image && this.canvas && this.context) {
-      this.canvas.width = this.image.naturalWidth;
-      this.canvas.height = this.image.naturalHeight;
-      this.context.drawImage(this.image, 0, 0);
+      this.canvas.width = state.imageWidth;
+      this.canvas.height = state.imageHeight;
+      console.log(this.canvas.width, this.canvas.height);
+      // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+      this.context.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height);
     }
   }
 }

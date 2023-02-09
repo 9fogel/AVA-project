@@ -1,4 +1,6 @@
 import Model from '../model/model';
+import getRightSide from '../utils/getSide';
+import state from '../model/state';
 
 class Editor {
   private readonly model: Model;
@@ -11,6 +13,15 @@ class Editor {
     this.listenTools();
     this.listenToolOptions();
     this.listenBackArrows();
+  }
+
+  public updateElements() {
+    const widthInput = document.getElementById('width-input');
+    const heightInput = document.getElementById('height-input');
+    if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
+      widthInput.value = String(state.imageWidth);
+      heightInput.value = String(state.imageHeight);
+    }
   }
 
   private listenTools(): void {
@@ -82,10 +93,23 @@ class Editor {
 
   private listenResizeInputs(): void {
     const inputs = document.querySelectorAll('.resize-input');
+    const widthInput = document.getElementById('width-input');
+    const heightInput = document.getElementById('height-input');
     inputs.forEach((input) => {
-      input.addEventListener('change', () => {
+      input.addEventListener('input', (event) => {
+        if (event.target instanceof HTMLInputElement) {
+          event.target.value = event.target.value.replace(/[^0-9 ]+/g, '');
+        }
+        if (input instanceof HTMLInputElement && state.saveProportions === true) {
+          if (input.id === 'width-input' && heightInput instanceof HTMLInputElement) {
+            heightInput.value = String(getRightSide('height', +input.value));
+          } else if (input.id === 'height-input' && widthInput instanceof HTMLInputElement) {
+            widthInput.value = String(getRightSide('width', +input.value));
+          } else {
+            return;
+          }
+        }
         console.log('Input changed!!');
-        //разлочиваем кнопку Готово, а потом по клику на кнопку пойдёт запрос на изменения в listenResizeDoneBtn()
         this.enableDoneBtn();
       });
     });
@@ -95,7 +119,8 @@ class Editor {
     const propControl = document.querySelector('.proportions');
     propControl?.addEventListener('click', () => {
       propControl.classList.toggle('locked');
-      //TODO: передать в модель инфу, что пропорции для resize разлочены/залочены
+      state.saveProportions = !state.saveProportions;
+      console.log(`lockProportions: ${state.saveProportions}`);
     });
   }
 
@@ -108,8 +133,13 @@ class Editor {
     const doneBtn = document.querySelector('.done-btn');
     doneBtn?.addEventListener('click', () => {
       console.log('resize - click done');
-      //TODO: метод модели, который применяет изменения resize
-      //TODO: отсюда передавать значения инпутов или потом в модели их тянуть?)
+      const widthInput = document.getElementById('width-input');
+      const heightInput = document.getElementById('height-input');
+      if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
+        state.imageWidth = +widthInput.value;
+        state.imageHeight = +heightInput.value;
+      }
+      this.model.applyСhanges();
       //TODO: подумать нужно ли после применения изменений закрывать все менюшки и выдавать какое-то уведомление, что Image has been resized
       //TODO: если всё закрываем, то в resize переписываем инпуты на новые размеры и лочим кнопку Готово?
     });
