@@ -26,6 +26,8 @@ class Model {
           state.imageProportions = state.imageWidth / state.imageHeight;
           this.canvas.width = state.imageWidth;
           this.canvas.height = state.imageHeight;
+          state.imageRotate = false;
+          state.imageRotateDegree = 0;
           this.applyСhanges();
         }
       }
@@ -65,36 +67,39 @@ class Model {
     console.log(`imageRotateDegree: ${state.imageRotateDegree}`);
 
     if (this.image && this.canvas && this.context) {
-      if (
-        state.imageRotateDegree == 90 ||
-        state.imageRotateDegree == 270 ||
-        state.imageRotateDegree == -90 ||
-        state.imageRotateDegree == -270
-      ) {
-        this.canvas.width = state.imageHeight;
-        this.canvas.height = state.imageWidth;
-      } else {
-        this.canvas.width = state.imageWidth;
-        this.canvas.height = state.imageHeight;
-      }
+      const currentHeight = state.imageHeight;
+      const currentWidth = state.imageWidth;
+      state.imageWidth = currentHeight;
+      state.imageHeight = currentWidth;
+      this.canvas.width = state.imageWidth;
+      this.canvas.height = state.imageHeight;
+      state.imageProportions = state.imageWidth / state.imageHeight;
+      state.imageRotate = !state.imageRotate;
       this.applyСhanges();
     }
   }
 
   private applyСhanges = (): void => {
     if (this.image && this.canvas && this.context) {
-      this.context.save();
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+      this.context.translate(state.imageWidth / 2, state.imageHeight / 2);
       this.context.rotate((state.imageRotateDegree * Math.PI) / 180);
-      this.context.drawImage(
-        this.image,
-        -state.imageWidth / 2,
-        -state.imageHeight / 2,
-        state.imageWidth,
-        state.imageHeight,
-      );
-      this.context.restore();
+      if (state.imageRotate === false) {
+        this.context.drawImage(
+          this.image,
+          -state.imageWidth / 2,
+          -state.imageHeight / 2,
+          state.imageWidth,
+          state.imageHeight,
+        );
+      } else if (state.imageRotate === true) {
+        this.context.drawImage(
+          this.image,
+          -state.imageHeight / 2,
+          -state.imageWidth / 2,
+          state.imageHeight,
+          state.imageWidth,
+        );
+      }
     }
   };
 }

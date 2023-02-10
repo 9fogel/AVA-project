@@ -4,6 +4,7 @@ const state = {
   imageProportions: 0,
   saveProportions: true,
   imageRotateDegree: 0,
+  imageRotate: false,
 };
 
 export default state;
