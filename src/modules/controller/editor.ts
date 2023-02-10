@@ -139,7 +139,7 @@ class Editor {
         state.imageWidth = +widthInput.value;
         state.imageHeight = +heightInput.value;
       }
-      this.model.applyСhanges();
+      this.model.resizeImage();
       //TODO: подумать нужно ли после применения изменений закрывать все менюшки и выдавать какое-то уведомление, что Image has been resized
       //TODO: если всё закрываем, то в resize переписываем инпуты на новые размеры и лочим кнопку Готово?
     });

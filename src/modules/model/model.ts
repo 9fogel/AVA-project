@@ -50,11 +50,18 @@ class Model {
     }
   }
 
-  public applyСhanges(): void {
+  public resizeImage(): void {
+    if (this.canvas) {
+      this.canvas.width = state.imageWidth;
+      this.canvas.height = state.imageHeight;
+    }
+    this.applyСhanges();
+  }
+
+  private applyСhanges(): void {
     if (this.image && this.canvas && this.context) {
       this.canvas.width = state.imageWidth;
       this.canvas.height = state.imageHeight;
-      console.log(this.canvas.width, this.canvas.height);
       // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
       this.context.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height);
     }
