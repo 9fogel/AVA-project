@@ -27,10 +27,10 @@ class Controller {
   private useFileInput(): void {
     const fileInput: HTMLElement | null = document.getElementById('fileInput');
     if (fileInput instanceof HTMLInputElement) {
-      fileInput.addEventListener('change', () => {
-        this.model.uploadImage();
+      fileInput.addEventListener('change', async () => {
+        await this.model.uploadImage();
+        this.editor.updateElements();
         this.switchWorkingAreas();
-        //TODO: метод класса Editor, который заполнит инпуты для resize исходя из загруженной картинки??
         fileInput.value = '';
       });
     }
