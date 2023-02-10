@@ -17,13 +17,17 @@ class Model {
     if (fileInput instanceof HTMLInputElement) {
       const files: FileList | null = fileInput.files;
 
-      if (files && this.image) {
+      if (files && this.image && this.canvas) {
         this.image.src = URL.createObjectURL(files[0]);
         await this.image.decode();
         if (this.image) {
           state.imageWidth = this.image.naturalWidth;
           state.imageHeight = this.image.naturalHeight;
-          state.imageProportions = this.image.naturalWidth / this.image.naturalHeight;
+          state.imageProportions = state.imageWidth / state.imageHeight;
+          this.canvas.width = state.imageWidth;
+          this.canvas.height = state.imageHeight;
+          state.imageRotate = false;
+          state.imageRotateDegree = 0;
           this.applyСhanges();
         }
       }
@@ -51,21 +55,53 @@ class Model {
   }
 
   public resizeImage(): void {
-    if (this.canvas) {
+    if (this.canvas && this.image) {
       this.canvas.width = state.imageWidth;
       this.canvas.height = state.imageHeight;
+      state.imageProportions = state.imageWidth / state.imageHeight;
     }
     this.applyСhanges();
   }
 
-  private applyСhanges(): void {
+  public rotateImage() {
+    console.log(`imageRotateDegree: ${state.imageRotateDegree}`);
+
     if (this.image && this.canvas && this.context) {
+      const currentHeight = state.imageHeight;
+      const currentWidth = state.imageWidth;
+      state.imageWidth = currentHeight;
+      state.imageHeight = currentWidth;
       this.canvas.width = state.imageWidth;
       this.canvas.height = state.imageHeight;
-      // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-      this.context.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height);
+      state.imageProportions = state.imageWidth / state.imageHeight;
+      state.imageRotate = !state.imageRotate;
+      this.applyСhanges();
     }
   }
+
+  private applyСhanges = (): void => {
+    if (this.image && this.canvas && this.context) {
+      this.context.translate(state.imageWidth / 2, state.imageHeight / 2);
+      this.context.rotate((state.imageRotateDegree * Math.PI) / 180);
+      if (state.imageRotate === false) {
+        this.context.drawImage(
+          this.image,
+          -state.imageWidth / 2,
+          -state.imageHeight / 2,
+          state.imageWidth,
+          state.imageHeight,
+        );
+      } else if (state.imageRotate === true) {
+        this.context.drawImage(
+          this.image,
+          -state.imageHeight / 2,
+          -state.imageWidth / 2,
+          state.imageHeight,
+          state.imageWidth,
+        );
+      }
+    }
+  };
 }
 
 export default Model;

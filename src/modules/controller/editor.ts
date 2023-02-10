@@ -35,10 +35,12 @@ class Editor {
           // console.log(toolName);
           if (e.target.classList.contains('tool-item')) {
             this.showToolOptionsList(toolName);
+            this.updateElements();
           } else {
             const optionName = e.target.id;
             // console.log(optionName);
             this.showOptionControls(optionName);
+            this.updateElements();
           }
         }
       });
@@ -164,14 +166,20 @@ class Editor {
 
     rotateLeft?.addEventListener('click', () => {
       console.log('rotate left');
-      //TODO: метод модели, который разворачивает против часов стрелки
-      //TODO: один клик = 90 градусов, каждый следующий клик ещё 90 градусов
+      state.imageRotateDegree -= 90;
+      if (state.imageRotateDegree === -360) {
+        state.imageRotateDegree = 0;
+      }
+      this.model.rotateImage();
     });
 
     rotateRight?.addEventListener('click', () => {
       console.log('rotate right');
-      //TODO: метод модели, который разворачивает по часов стрелке
-      //TODO: один клик = 90 градусов, каждый следующий клик ещё 90 градусов
+      state.imageRotateDegree += 90;
+      if (state.imageRotateDegree === 360) {
+        state.imageRotateDegree = 0;
+      }
+      this.model.rotateImage();
     });
   }
 
