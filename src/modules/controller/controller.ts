@@ -1,20 +1,24 @@
 import Settings from './settings';
 import Editor from './editor';
 import Model from '../model/model';
+import Login from './login';
 
 class Controller {
   private readonly settings: Settings;
   private readonly editor: Editor;
   private readonly model: Model;
+  private readonly login: Login;
 
   constructor() {
     this.settings = new Settings();
     this.editor = new Editor();
     this.model = new Model();
+    this.login = new Login();
   }
 
   public run(): void {
     console.log('run controller');
+    this.login.handleLogin();
     this.settings.handleSettings();
     this.handleImageUpload();
     this.handleImageDeletion();

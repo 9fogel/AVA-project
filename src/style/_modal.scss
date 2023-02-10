@@ -1,0 +1,166 @@
+.wrapper {
+  visibility: hidden;
+  transition: all 0.6s ease-in-out;
+}
+
+.wrapper.active {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  background-color: $black;
+  opacity: 0.7;
+  // transition: all 0.6s ease-in-out;
+  visibility: visible;
+}
+
+.login-modal {
+  position: absolute;
+  top: -700px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 7;
+  padding: 60px 44px;
+  width: 480px;
+  height: 500px;
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-medium;
+  transition: all 0.6s ease-in-out;
+}
+
+.login-modal.active {
+  top: 36px;
+  // transition: all 0.6s ease-in-out;
+}
+
+.close-modal {
+  cursor: pointer;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 24px;
+  height: 24px;
+  background-image: url('img/close-modal-icon.svg');
+}
+
+.close-modal:hover {
+  background-image: url('img/close-modal-icon-hover.svg');
+  transition: ease-in-out .3s;
+}
+
+.no-account {
+  margin-bottom: 32px;
+  font-size: 14px;
+  text-align: right;
+}
+
+.no-account-text {
+  color: $light-black;
+}
+
+.no-account-link {
+  font-weight: bold;
+  color: $blue;
+}
+
+.modal-title {
+  margin-bottom: 28px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modal-input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: $light-black;
+}
+
+.modal-input {
+  padding: 12px 16px;
+  width: 100%;
+  height: 60px;
+  color: $black;
+  background-color: $light-gray;
+  border: none;
+  border-radius: $border-radius;
+  outline: 0;
+}
+
+.modal-input:focus {
+  border-color: $blue;
+  // outline: none;
+}
+
+.modal-buttons-wrap {
+  display: flex;
+  gap: 24px;
+}
+
+.modal-login-btn {
+  padding: 11px 39px 10px;
+}
+
+.modal-login-google-btn {
+  padding: 11px 29px 10px 56px;
+  font-weight: normal;
+  background-color: transparent;
+  background-image: url('img/google-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+//dark theme styles
+.dark-theme {
+  .wrapper.active {
+    background-color: $white;
+  }
+
+  .login-modal {
+    background-color: $black;
+  }
+
+  .close-modal {
+    background-image: url('img/dark-close-modal-icon.svg');
+  }
+
+  .close-modal:hover {
+    background-image: url('img/close-modal-icon-hover.svg');
+  }
+
+  .no-account-text,
+  .modal-label {
+    color: $light-gray;
+  }
+
+  .modal-input {
+    color: $white;
+    background-color: $light-black;
+  }
+
+  .modal-login-google-btn {
+    color: $white;
+  }
+
+  .modal-login-google-btn:hover {
+    color: $black;
+  }
+
+}
