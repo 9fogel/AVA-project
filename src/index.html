@@ -47,13 +47,13 @@
       <img id="sourceImage" />
       <h1 class="hidden">AVAeditor - online tool for editing photos and images</h1>
       <div class="main-content">
-        <div class="upload-area" id="uploadArea">
+        <div class="upload-area hidden" id="uploadArea">
           <p class="upload-slogan">Upload your photo by dragging it or clicking the Upload button</p>
           <div class="image-placeholder"></div>
           <button class="button upload-btn">Upload Image</button>
           <input id="fileInput" type="file" accept="image/*" hidden />
         </div>
-        <div class="edit-area hidden">
+        <div class="edit-area">
           <div class="undo-controls">
             <button class="button reset-btn">Reset All Changes</button>
             <button class="button undo-btn">Undo</button>
@@ -81,7 +81,7 @@
                   <li class="edit-option" id="resize">Resize</li>
                   <li class="edit-option" id="rotate">Flip and Rotate</li>
                 </ul>
-                <div class="option-controls">
+                <div class="option-controls resize-option-controls">
                   <div class="resize-controls hidden">
                     <div class="back-arrow" id="resize-arrow"></div>
                     <div class="controls-content">
@@ -162,15 +162,30 @@
               <li class="tool-item adjustments-tool" id="adjustments">
                 Adjustments
                 <ul class="options-list adjustments-list hidden">
-                  <li class="edit-option">Blur</li>
-                  <li class="edit-option">Brightness</li>
-                  <li class="edit-option">Contrast</li>
-                  <li class="edit-option">Grayscale</li>
-                  <li class="edit-option">Hue</li>
-                  <li class="edit-option">Pixelate</li>
-                  <li class="edit-option">Saturation</li>
-                  <li class="edit-option">Sepia</li>
+                  <li class="edit-option" id="blur">Blur</li>
+                  <li class="edit-option" id="brigthness">Brightness</li>
+                  <li class="edit-option" id="contrast">Contrast</li>
+                  <li class="edit-option" id="grayscale">Grayscale</li>
+                  <li class="edit-option" id="hue">Hue</li>
+                  <li class="edit-option" id="pixelate">Pixelate</li>
+                  <li class="edit-option" id="saturation">Saturation</li>
+                  <li class="edit-option" id="sepia">Sepia</li>
                 </ul>
+                <div class="option-controls adjustments-option-controls">
+                  <div class="adjustments-controls hidden">
+                    <div class="back-arrow" id="adjustments-arrow"></div>
+                    <div class="controls-content">
+                      <span class="option-title adjust-title">Adjustments</span>
+                      <div class="range-wrapper">
+                        <input class="adjust-range-input" type="range" min="0" max="100" step="1" value="0">
+                      </div>
+                      <div class="percentage-input-wrap">
+                        <input class="option-input adjust-number-input" type="number" min="0" max="100" step="1" value="0" maxlength="3">
+                        <span class="percentage-sign">%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li class="tool-item text-tool" id="text">Text</li>
               <li class="tool-item border-tool" id="border">Border</li>

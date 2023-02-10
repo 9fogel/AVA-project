@@ -239,7 +239,9 @@
 .tool-item:hover .resize-controls,
 .tool-item.selected .resize-controls,
 .tool-item:hover .rotate-controls,
-.tool-item.selected .rotate-controls {
+.tool-item.selected .rotate-controls,
+.tool-item:hover .adjustments-controls,
+.tool-item.selected .adjustments-controls {
   color: $black;
 }
 
@@ -425,7 +427,9 @@
   .tool-item:hover .resize-controls,
   .tool-item.selected .resize-controls,
   .tool-item:hover .rotate-controls,
-  .tool-item.selected .rotate-controls {
+  .tool-item.selected .rotate-controls,
+  .tool-item:hover .adjustments-controls,
+  .tool-item.selected .adjustments-controls {
     color: $white;
   }
 

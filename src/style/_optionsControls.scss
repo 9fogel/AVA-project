@@ -37,12 +37,16 @@
 
 .option-title {
   font-size: 14px;
-  line-height: 24px;
+  line-height: 29px;
   text-transform: uppercase;
   vertical-align: middle;
 }
 
 //_______________________________________________RESIZE
+.resize-option-controls {
+  top: -62px;
+}
+
 .resize-controls.hidden {
   display: none;
 }
@@ -130,6 +134,10 @@
 .rotate-controls {
   width: 344px;
   padding: 9px 8px;
+
+  .option-title {
+    line-height: 1px;
+  }
 }
 
 .rotate-controls.hidden {
@@ -227,7 +235,70 @@
   font-size: 12px;
   color: $white;
 }
+//_______________________________________________ADJUSTMENTS
+.adjustments-option-controls {
+  top: -62px;
+}
 
+.adjustments-controls {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px;
+  width: fit-content;
+}
+
+.adjustments-controls.hidden {
+  display: none;
+}
+
+.range-wrapper {
+  cursor: pointer;
+  position: relative;
+  padding-top: 1px;
+  width: 246px;
+  min-height: 4px;
+}
+
+.adjust-range-input {
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background-color: $black;
+}
+
+.adjust-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: all;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  background-color: $blue;
+  border-radius: 50%;
+}
+
+.adjust-range-input::-webkit-slider-thumb:hover {
+  box-shadow: $shadow-large;
+}
+
+.percentage-input-wrap {
+  position: relative;
+}
+
+.adjust-number-input {
+  width: 56px;
+}
+
+.percentage-sign {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+}
 
 //dark theme styles
 .dark-theme {
@@ -304,5 +375,9 @@
 
   .rotate-right:hover {
     background-image: url('img/rotate-right-icon-hover.svg');
+  }
+
+  .adjust-range-input {
+    background-color: $white;
   }
 }
