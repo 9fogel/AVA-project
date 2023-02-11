@@ -1,4 +1,4 @@
-import Popup from '../controller/popup';
+import Popup from './popup';
 
 class Login {
   private readonly popup: Popup;
