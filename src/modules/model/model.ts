@@ -23,9 +23,6 @@ class Model {
         if (this.image) {
           state.imageWidth = this.image.naturalWidth;
           state.imageHeight = this.image.naturalHeight;
-          state.imageProportions = state.imageWidth / state.imageHeight;
-          this.canvas.width = state.imageWidth;
-          this.canvas.height = state.imageHeight;
           state.imageRotate = false;
           state.imageRotateDegree = 0;
           this.applyСhanges();
@@ -55,11 +52,6 @@ class Model {
   }
 
   public resizeImage(): void {
-    if (this.canvas && this.image) {
-      this.canvas.width = state.imageWidth;
-      this.canvas.height = state.imageHeight;
-      state.imageProportions = state.imageWidth / state.imageHeight;
-    }
     this.applyСhanges();
   }
 
@@ -79,29 +71,38 @@ class Model {
     }
   }
 
-  private applyСhanges = (): void => {
+  public flipImage() {
+    console.log(state.imageflipVertical, state.imageflipHorizontal);
+    this.applyСhanges();
+  }
+
+  private applyСhanges(): void {
     if (this.image && this.canvas && this.context) {
-      this.context.translate(state.imageWidth / 2, state.imageHeight / 2);
+      this.canvas.width = state.imageWidth;
+      this.canvas.height = state.imageHeight;
+      state.imageProportions = state.imageWidth / state.imageHeight;
+      this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+      this.context.scale(state.imageflipVertical, state.imageflipHorizontal);
       this.context.rotate((state.imageRotateDegree * Math.PI) / 180);
       if (state.imageRotate === false) {
         this.context.drawImage(
           this.image,
-          -state.imageWidth / 2,
-          -state.imageHeight / 2,
-          state.imageWidth,
-          state.imageHeight,
+          -this.canvas.width / 2,
+          -this.canvas.height / 2,
+          this.canvas.width,
+          this.canvas.height,
         );
-      } else if (state.imageRotate === true) {
+      } else {
         this.context.drawImage(
           this.image,
-          -state.imageHeight / 2,
-          -state.imageWidth / 2,
-          state.imageHeight,
-          state.imageWidth,
+          -this.canvas.height / 2,
+          -this.canvas.width / 2,
+          this.canvas.height,
+          this.canvas.width,
         );
       }
     }
-  };
+  }
 }
 
 export default Model;

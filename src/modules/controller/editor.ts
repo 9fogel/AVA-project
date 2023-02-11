@@ -225,12 +225,14 @@ class Editor {
 
     flipVert?.addEventListener('click', () => {
       console.log('flip vertically');
-      //TODO: метод модели, который отражает по вертикали
+      state.imageflipVertical = state.imageflipVertical === 1 ? -1 : 1;
+      this.model.flipImage();
     });
 
     flipHor?.addEventListener('click', () => {
       console.log('flip horizontally');
-      //TODO: метод модели, который отражает по горизонтали
+      state.imageflipHorizontal = state.imageflipHorizontal === 1 ? -1 : 1;
+      this.model.flipImage();
     });
 
     rotateLeft?.addEventListener('click', () => {
