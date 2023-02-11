@@ -33,7 +33,7 @@
 }
 
 .login-modal.active {
-  top: 36px;
+  top: 4px;
   // transition: all 0.6s ease-in-out;
 }
 
@@ -83,7 +83,7 @@
 .modal-input-wrap {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   transition: ease-in-out .3s;
 }
 
@@ -111,6 +111,12 @@
 .modal-input:focus {
   border-color: $blue;
   // outline: none;
+}
+
+.modal-message {
+  font-size: 12px;
+  font-weight: bold;
+  color: $red;
 }
 
 .modal-buttons-wrap {
