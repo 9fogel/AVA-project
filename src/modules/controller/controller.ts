@@ -1,19 +1,22 @@
 import Settings from './settings';
 import Editor from './editor';
 import Model from '../model/model';
-import Login from '../model/login';
+import Login from './login';
+import UsersControler from './authusers';
 
 class Controller {
   private readonly settings: Settings;
   private readonly editor: Editor;
   private readonly model: Model;
   private readonly login: Login;
+  private readonly users: UsersControler;
 
   constructor() {
     this.settings = new Settings();
     this.editor = new Editor();
     this.model = new Model();
     this.login = new Login();
+    this.users = new UsersControler();
   }
 
   public run(): void {
@@ -26,6 +29,7 @@ class Controller {
     this.useFileInput();
     this.dropToUploadArea();
     this.editor.handleEditor();
+    this.users.handleUsers();
   }
 
   private useFileInput(): void {
