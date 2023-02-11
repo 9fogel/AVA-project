@@ -1,7 +1,7 @@
 import Settings from './settings';
 import Editor from './editor';
 import Model from '../model/model';
-import Login from './login';
+import Login from '../model/login';
 
 class Controller {
   private readonly settings: Settings;

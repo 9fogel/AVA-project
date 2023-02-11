@@ -25,7 +25,7 @@
   z-index: 7;
   padding: 60px 44px;
   width: 480px;
-  height: 500px;
+  // height: 500px;
   background-color: $white;
   border-radius: $border-radius;
   box-shadow: $shadow-medium;
@@ -84,6 +84,11 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transition: ease-in-out .3s;
+}
+
+.modal-input-wrap.hidden {
+  display: none;
 }
 
 .modal-label {

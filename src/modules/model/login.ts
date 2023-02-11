@@ -1,4 +1,4 @@
-import Popup from './popup';
+import Popup from '../controller/popup';
 
 class Login {
   private readonly popup: Popup;
@@ -9,7 +9,7 @@ class Login {
 
   public handleLogin(): void {
     this.listenLoginBtn();
-    this.popup.handleModalclosure();
+    this.popup.handleModal();
   }
 
   private listenLoginBtn(): void {
