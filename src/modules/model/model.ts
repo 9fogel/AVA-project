@@ -52,11 +52,27 @@ class Model {
   }
 
   public resizeImage(): void {
+    const widthInput = document.getElementById('width-input');
+    const heightInput = document.getElementById('height-input');
+    if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
+      state.imageWidth = +widthInput.value;
+      state.imageHeight = +heightInput.value;
+    }
     this.applyСhanges();
   }
 
-  public rotateImage() {
-    console.log(`imageRotateDegree: ${state.imageRotateDegree}`);
+  public rotateImage(side: string) {
+    if (side === 'right') {
+      state.imageRotateDegree += 90;
+      if (state.imageRotateDegree === 360) {
+        state.imageRotateDegree = 0;
+      }
+    } else if (side === 'left') {
+      state.imageRotateDegree -= 90;
+      if (state.imageRotateDegree === -360) {
+        state.imageRotateDegree = 0;
+      }
+    }
 
     if (this.image && this.canvas && this.context) {
       const currentHeight = state.imageHeight;
@@ -71,8 +87,12 @@ class Model {
     }
   }
 
-  public flipImage() {
-    console.log(state.imageflipVertical, state.imageflipHorizontal);
+  public flipImage(flip: string) {
+    if (flip === 'vertical') {
+      state.imageflipVertical = state.imageflipVertical === 1 ? -1 : 1;
+    } else if (flip === 'horizontal') {
+      state.imageflipHorizontal = state.imageflipHorizontal === 1 ? -1 : 1;
+    }
     this.applyСhanges();
   }
 

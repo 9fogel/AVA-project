@@ -204,12 +204,6 @@ class Editor {
     const doneBtn = document.querySelector('.done-btn');
     doneBtn?.addEventListener('click', () => {
       console.log('resize - click done');
-      const widthInput = document.getElementById('width-input');
-      const heightInput = document.getElementById('height-input');
-      if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
-        state.imageWidth = +widthInput.value;
-        state.imageHeight = +heightInput.value;
-      }
       this.model.resizeImage();
       //TODO: подумать нужно ли после применения изменений закрывать все менюшки и выдавать какое-то уведомление, что Image has been resized
       //TODO: если всё закрываем, то в resize переписываем инпуты на новые размеры и лочим кнопку Готово?
@@ -225,32 +219,22 @@ class Editor {
 
     flipVert?.addEventListener('click', () => {
       console.log('flip vertically');
-      state.imageflipVertical = state.imageflipVertical === 1 ? -1 : 1;
-      this.model.flipImage();
+      this.model.flipImage('vertical');
     });
 
     flipHor?.addEventListener('click', () => {
       console.log('flip horizontally');
-      state.imageflipHorizontal = state.imageflipHorizontal === 1 ? -1 : 1;
-      this.model.flipImage();
+      this.model.flipImage('horizontal');
     });
 
     rotateLeft?.addEventListener('click', () => {
       console.log('rotate left');
-      state.imageRotateDegree -= 90;
-      if (state.imageRotateDegree === -360) {
-        state.imageRotateDegree = 0;
-      }
-      this.model.rotateImage();
+      this.model.rotateImage('left');
     });
 
     rotateRight?.addEventListener('click', () => {
       console.log('rotate right');
-      state.imageRotateDegree += 90;
-      if (state.imageRotateDegree === 360) {
-        state.imageRotateDegree = 0;
-      }
-      this.model.rotateImage();
+      this.model.rotateImage('right');
     });
   }
 
