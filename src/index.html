@@ -7,6 +7,7 @@
     <title>AVAeditor - online tool for editing photos and images</title>
   </head>
   <body>
+    <div class="wrapper"></div>
     <header class="header wide-container">
       <div class="header-content">
         <p class="logo"><span class="logo-highlighted">AVA</span>editor.</p>
@@ -44,6 +45,37 @@
     </header>
 
     <main class="main wide-container">
+      <div class="login">
+        <div class="login-modal">
+          <div class="close-modal"></div>
+          <div class="no-account">
+            <span class="no-account-text">Don’t have an account?</span>
+            <a class="no-account-link" href="#" id="login">Create Account</a>
+          </div>
+          <div class="modal-content">
+            <h2 class="modal-title">Sign in for more options</h2>
+            <div class="modal-form">
+              <div class="modal-input-wrap">
+                <label class="modal-label" for="email">Email</label>
+                <input class="modal-input" type="email" id="email">
+              </div>
+              <div class="modal-input-wrap">
+                <label class="modal-label" for="password">Password</label>
+                <input class="modal-input" type="password" id="password">
+              </div>
+              <div class="modal-input-wrap confirm-psw-wrap hidden">
+                <label class="modal-label" for="confirm-psw">Confirm Password</label>
+                <input class="modal-input" type="password" id="confirm-psw">
+              </div>
+              <div class="modal-buttons-wrap">
+                <button class="button modal-login-btn">Sign In</button>
+                <button class="button modal-login-google-btn">Sign In with Google</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
       <img id="sourceImage" />
       <h1 class="hidden">AVAeditor - online tool for editing photos and images</h1>
       <div class="main-content">
@@ -81,7 +113,7 @@
                   <li class="edit-option" id="resize">Resize</li>
                   <li class="edit-option" id="rotate">Flip and Rotate</li>
                 </ul>
-                <div class="option-controls">
+                <div class="option-controls resize-option-controls">
                   <div class="resize-controls hidden">
                     <div class="back-arrow" id="resize-arrow"></div>
                     <div class="controls-content">
@@ -162,15 +194,30 @@
               <li class="tool-item adjustments-tool" id="adjustments">
                 Adjustments
                 <ul class="options-list adjustments-list hidden">
-                  <li class="edit-option">Blur</li>
-                  <li class="edit-option">Brightness</li>
-                  <li class="edit-option">Contrast</li>
-                  <li class="edit-option">Grayscale</li>
-                  <li class="edit-option">Hue</li>
-                  <li class="edit-option">Pixelate</li>
-                  <li class="edit-option">Saturation</li>
-                  <li class="edit-option">Sepia</li>
+                  <li class="edit-option" id="blur">Blur</li>
+                  <li class="edit-option" id="brigthness">Brightness</li>
+                  <li class="edit-option" id="contrast">Contrast</li>
+                  <li class="edit-option" id="grayscale">Grayscale</li>
+                  <li class="edit-option" id="hue">Hue</li>
+                  <li class="edit-option" id="pixelate">Pixelate</li>
+                  <li class="edit-option" id="saturation">Saturation</li>
+                  <li class="edit-option" id="sepia">Sepia</li>
                 </ul>
+                <div class="option-controls adjustments-option-controls">
+                  <div class="adjustments-controls hidden">
+                    <div class="back-arrow" id="adjustments-arrow"></div>
+                    <div class="controls-content">
+                      <span class="option-title adjust-title">Adjustments</span>
+                      <div class="range-wrapper">
+                        <input class="adjust-range-input" type="range" min="0" max="100" step="1" value="0">
+                      </div>
+                      <div class="percentage-input-wrap">
+                        <input class="option-input adjust-number-input" type="number" min="0" max="100" step="1" value="0" maxlength="3">
+                        <span class="percentage-sign">%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li class="tool-item text-tool" id="text">Text</li>
               <li class="tool-item border-tool" id="border">Border</li>
