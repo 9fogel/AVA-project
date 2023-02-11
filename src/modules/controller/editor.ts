@@ -167,15 +167,26 @@ class Editor {
     const widthInput = document.getElementById('width-input');
     const heightInput = document.getElementById('height-input');
     inputs.forEach((input) => {
-      input.addEventListener('input', (event) => {
+      input.addEventListener('change', (event) => {
         if (event.target instanceof HTMLInputElement) {
           event.target.value = event.target.value.replace(/[^0-9 ]+/g, '');
+          if (event.target.value.startsWith('0')) {
+            event.target.value = '';
+          }
         }
         if (input instanceof HTMLInputElement && state.saveProportions === true) {
           if (input.id === 'width-input' && heightInput instanceof HTMLInputElement) {
-            heightInput.value = String(getRightSide('height', +input.value));
+            if (input.value.length === 0) {
+              input.value = String(state.imageWidth);
+            } else {
+              heightInput.value = String(getRightSide('height', +input.value));
+            }
           } else if (input.id === 'height-input' && widthInput instanceof HTMLInputElement) {
-            widthInput.value = String(getRightSide('width', +input.value));
+            if (input.value.length === 0) {
+              input.value = String(state.imageHeight);
+            } else {
+              widthInput.value = String(getRightSide('width', +input.value));
+            }
           } else {
             return;
           }
