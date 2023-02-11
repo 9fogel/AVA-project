@@ -14,14 +14,79 @@ class Editor {
     this.listenTools();
     this.listenToolOptions();
     this.listenBackArrows();
+    this.updateElements();
   }
 
   public updateElements(): void {
-    const widthInput = document.getElementById('width-input');
-    const heightInput = document.getElementById('height-input');
-    if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
-      widthInput.value = String(state.imageWidth);
-      heightInput.value = String(state.imageHeight);
+    const resizeWidthInput = <HTMLInputElement>document.getElementById('width-input');
+    const resizeHeightInput = <HTMLInputElement>document.getElementById('height-input');
+    const adjustRangeInput = <HTMLInputElement>document.querySelector('.adjust-range-input');
+    const adjustNumberInput = <HTMLInputElement>document.querySelector('.adjust-number-input');
+    const adjustNumberSign = <HTMLInputElement>document.querySelector('.percentage-sign');
+    resizeWidthInput.value = String(state.imageWidth);
+    resizeHeightInput.value = String(state.imageHeight);
+    switch (state.currentAdjustment) {
+      case 'blur':
+        adjustRangeInput.value = String(state.blur);
+        adjustNumberInput.value = String(state.blur);
+        adjustRangeInput.max = '100';
+        adjustNumberInput.max = '100';
+        adjustNumberSign.innerText = 'px';
+        break;
+      case 'brightness':
+        adjustRangeInput.value = String(state.brightness);
+        adjustNumberInput.value = String(state.brightness);
+        adjustRangeInput.max = '300';
+        adjustNumberInput.max = '300';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'contrast':
+        console.log('контраст');
+        adjustRangeInput.value = String(state.contrast);
+        adjustNumberInput.value = String(state.contrast);
+        adjustRangeInput.max = '200';
+        adjustNumberInput.max = '200';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'grayscale':
+        adjustRangeInput.value = String(state.grayscale);
+        adjustNumberInput.value = String(state.grayscale);
+        adjustRangeInput.max = '100';
+        adjustNumberInput.max = '100';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'hue':
+        adjustRangeInput.value = String(state.hue);
+        adjustNumberInput.value = String(state.hue);
+        adjustRangeInput.max = '360';
+        adjustNumberInput.max = '360';
+        adjustNumberSign.innerText = '°';
+        break;
+      case 'pixelate':
+        adjustRangeInput.value = String(state.pixelate);
+        adjustNumberInput.value = String(state.pixelate);
+        break;
+      case 'saturation':
+        adjustRangeInput.value = String(state.saturation);
+        adjustNumberInput.value = String(state.saturation);
+        adjustRangeInput.max = '300';
+        adjustNumberInput.max = '300';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'sepia':
+        adjustRangeInput.value = String(state.sepia);
+        adjustNumberInput.value = String(state.sepia);
+        adjustRangeInput.max = '200';
+        adjustNumberInput.max = '200';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'opacity':
+        adjustRangeInput.value = String(state.opacity);
+        adjustNumberInput.value = String(state.opacity);
+        adjustRangeInput.max = '100';
+        adjustNumberInput.max = '100';
+        adjustNumberSign.innerText = '%';
+        break;
     }
   }
 
@@ -267,6 +332,8 @@ class Editor {
     const option: HTMLElement | null = document.querySelector(`.adjust-title`);
     if (option) {
       option.innerText = optionName;
+      this.model.setAdjustment(optionName);
+      this.updateElements();
     }
     //TODO: заполнить в adjust-range-input value значение из стейта (по optionName?)
     //TODO: заполнить в adjust-number-input value значение из стейта (по optionName?)
@@ -298,7 +365,7 @@ class Editor {
     range?.addEventListener('change', () => {
       if (inputNum) {
         inputNum.value = range.value;
-        //TODO: метод модели, который применяет изменения adjustments
+        this.model.useAdjustment(range.value);
         console.log(`${adjustmentName} выставлен на уровень ${inputNum.value}`);
       }
     });
@@ -315,7 +382,7 @@ class Editor {
           inputNum.value = '100';
         }
         range.value = inputNum.value;
-        //TODO: метод модели, который применяет изменения adjustments
+        this.model.useAdjustment(range.value);
         console.log(`${adjustmentName} выставлен на уровень ${range.value}`);
       }
     });

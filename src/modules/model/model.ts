@@ -96,11 +96,54 @@ class Model {
     this.applyСhanges();
   }
 
+  public setAdjustment(option: string) {
+    state.currentAdjustment = option;
+  }
+
+  public useAdjustment(value: string) {
+    switch (state.currentAdjustment) {
+      case 'blur':
+        state.blur = +value;
+        break;
+      case 'brightness':
+        state.brightness = +value;
+        break;
+      case 'contrast':
+        state.contrast = +value;
+        break;
+      case 'grayscale':
+        state.grayscale = +value;
+        break;
+      case 'hue':
+        state.hue = +value;
+        break;
+      case 'pixelate':
+        state.pixelate = +value;
+        break;
+      case 'saturation':
+        state.saturation = +value;
+        break;
+      case 'sepia':
+        state.sepia = +value;
+        break;
+      case 'opacity':
+        state.opacity = +value;
+        break;
+    }
+    this.applyСhanges();
+  }
+
   private applyСhanges(): void {
     if (this.image && this.canvas && this.context) {
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.canvas.width = state.imageWidth;
       this.canvas.height = state.imageHeight;
       state.imageProportions = state.imageWidth / state.imageHeight;
+      this.context.filter = `blur(${state.blur}px) brightness(${state.brightness}%) contrast(${
+        state.contrast
+      }%) grayscale(${state.grayscale}%) hue-rotate(${state.hue}deg) saturate(${state.saturation}%)  sepia(${
+        state.sepia
+      }%) opacity(${state.opacity / 100})`;
       this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
       this.context.scale(state.imageflipVertical, state.imageflipHorizontal);
       this.context.rotate((state.imageRotateDegree * Math.PI) / 180);
