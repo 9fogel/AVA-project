@@ -8,6 +8,7 @@ const state = {
   imageflipHorizontal: 1,
   imageflipVertical: 1,
   currentAdjustment: '',
+  color: 'rgba(0, 0, 0, 0)',
   blur: 0,
   brightness: 100,
   contrast: 100,
@@ -16,6 +17,7 @@ const state = {
   pixelate: 50,
   saturation: 100,
   sepia: 0,
+  invert: 0,
   opacity: 100,
 };
 

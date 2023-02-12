@@ -26,6 +26,13 @@ class Model {
           state.imageRotate = false;
           state.imageRotateDegree = 0;
           this.applyСhanges();
+          const filterImage = document.querySelectorAll('.filter');
+          filterImage.forEach((image) => {
+            if (image instanceof HTMLDivElement) {
+              image.style.backgroundImage = `url(${URL.createObjectURL(files[0])})`;
+              image.style.backgroundBlendMode = 'overlay';
+            }
+          });
         }
       }
     }
@@ -126,6 +133,9 @@ class Model {
       case 'sepia':
         state.sepia = +value;
         break;
+      case 'invert':
+        state.invert = +value;
+        break;
       case 'opacity':
         state.opacity = +value;
         break;
@@ -133,9 +143,178 @@ class Model {
     this.applyСhanges();
   }
 
+  private resetAdjustments() {
+    state.color = 'rgba(0, 0, 0, 0)';
+    state.blur = 0;
+    state.brightness = 100;
+    state.contrast = 100;
+    state.grayscale = 0;
+    state.hue = 0;
+    state.pixelate = 50;
+    state.saturation = 100;
+    state.sepia = 0;
+    state.opacity = 100;
+  }
+
+  public applyFilter(index: number) {
+    switch (index) {
+      case 0:
+        this.resetAdjustments();
+        this.applyСhanges();
+        break;
+      case 1:
+        this.resetAdjustments();
+        state.brightness = 110;
+        state.contrast = 110;
+        state.saturation = 130;
+        state.color = 'rgba(243, 106, 188, 0.3)';
+        this.applyСhanges();
+        break;
+      case 2:
+        this.resetAdjustments();
+        state.brightness = 120;
+        state.contrast = 90;
+        state.saturation = 85;
+        state.hue = 20;
+        state.color = 'rgba(62, 162, 253, 0.5)';
+        this.applyСhanges();
+        break;
+      case 3:
+        this.resetAdjustments();
+        state.brightness = 110;
+        state.contrast = 90;
+        state.saturation = 150;
+        state.hue = -10;
+        state.color = 'rgba(243, 106, 188, 0.3)';
+        this.applyСhanges();
+        break;
+      case 4:
+        this.resetAdjustments();
+        state.brightness = 120;
+        state.sepia = 50;
+        state.color = 'rgba(161, 44, 199, 0.31)';
+        this.applyСhanges();
+        break;
+      case 5:
+        this.resetAdjustments();
+        state.brightness = 110;
+        state.contrast = 90;
+        state.color = 'rgba(168, 223, 193, 0.4)';
+        this.applyСhanges();
+        break;
+      case 6:
+        this.resetAdjustments();
+        state.contrast = 120;
+        state.saturation = 125;
+        state.color = 'rgba(127, 187, 227, 0.2)';
+        this.applyСhanges();
+        break;
+      case 7:
+        this.resetAdjustments();
+        state.contrast = 90;
+        state.sepia = 20;
+        state.color = 'rgba(208, 186, 142, 0.5)';
+        this.applyСhanges();
+        break;
+      case 8:
+        this.resetAdjustments();
+        state.brightness = 105;
+        state.hue = 350;
+        state.color = 'rgba(66, 10, 14, 0.2)';
+        this.applyСhanges();
+        break;
+      case 9:
+        this.resetAdjustments();
+        state.brightness = 120;
+        state.contrast = 90;
+        state.saturation = 110;
+        state.color = 'rgba(255, 177, 166, 0.5)';
+        this.applyСhanges();
+        break;
+      case 10:
+        this.resetAdjustments();
+        state.brightness = 110;
+        state.contrast = 110;
+        state.sepia = 30;
+        state.grayscale = 100;
+        state.color = 'rgba(0, 0, 0, 0)';
+        this.applyСhanges();
+        break;
+      case 11:
+        this.resetAdjustments();
+        state.contrast = 150;
+        state.saturation = 110;
+        state.color = 'rgba(255, 101, 80, 0.4)';
+        this.applyСhanges();
+        break;
+      case 12:
+        this.resetAdjustments();
+        state.brightness = 95;
+        state.contrast = 95;
+        state.saturation = 150;
+        state.sepia = 25;
+        state.color = 'rgba(3, 230, 26, 0.2)';
+        this.applyСhanges();
+        break;
+      case 13:
+        this.resetAdjustments();
+        state.color = 'rgba(86, 22, 214, 0.5)';
+        this.applyСhanges();
+        break;
+      case 14:
+        this.resetAdjustments();
+        state.brightness = 110;
+        state.contrast = 85;
+        state.saturation = 75;
+        state.sepia = 22;
+        state.color = 'rgba(173, 205, 239, 0.5)';
+        this.applyСhanges();
+        break;
+      case 15:
+        this.resetAdjustments();
+        state.brightness = 115;
+        state.contrast = 75;
+        state.saturation = 85;
+        state.color = 'rgba(240, 149, 128, 0.2)';
+        this.applyСhanges();
+        break;
+      case 16:
+        this.resetAdjustments();
+        state.brightness = 110;
+        state.contrast = 110;
+        state.sepia = 30;
+        state.color = 'rgba(125, 0, 247, 0.4)';
+        this.applyСhanges();
+        break;
+      case 17:
+        this.resetAdjustments();
+        state.brightness = 110;
+        state.sepia = 30;
+        state.saturation = 160;
+        state.hue = 350;
+        state.color = 'rgba(0, 227, 217, 0.4)';
+        this.applyСhanges();
+        break;
+      case 18:
+        this.resetAdjustments();
+        state.brightness = 108;
+        state.contrast = 108;
+        state.sepia = 8;
+        state.color = 'rgba(58, 3, 57, 0.6)';
+        this.applyСhanges();
+        break;
+      case 19:
+        this.resetAdjustments();
+        state.sepia = 30;
+        state.color = 'rgba(74, 25, 8, 0.5)';
+        this.applyСhanges();
+        break;
+    }
+  }
+
   private applyСhanges(): void {
     if (this.image && this.canvas && this.context) {
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.canvas.width = state.imageWidth;
       this.canvas.height = state.imageHeight;
       state.imageProportions = state.imageWidth / state.imageHeight;
@@ -143,7 +322,7 @@ class Model {
         state.contrast
       }%) grayscale(${state.grayscale}%) hue-rotate(${state.hue}deg) saturate(${state.saturation}%)  sepia(${
         state.sepia
-      }%) opacity(${state.opacity / 100})`;
+      }%) invert(${state.invert / 100}) opacity(${state.opacity / 100})`;
       this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
       this.context.scale(state.imageflipVertical, state.imageflipHorizontal);
       this.context.rotate((state.imageRotateDegree * Math.PI) / 180);
@@ -155,6 +334,10 @@ class Model {
           this.canvas.width,
           this.canvas.height,
         );
+        this.context.globalCompositeOperation = 'color';
+        this.context.fillStyle = state.color;
+        this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
+        this.context.globalCompositeOperation = 'source-over';
       } else {
         this.context.drawImage(
           this.image,
@@ -163,6 +346,10 @@ class Model {
           this.canvas.height,
           this.canvas.width,
         );
+        this.context.globalCompositeOperation = 'color';
+        this.context.fillStyle = state.color;
+        this.context.fillRect(-this.canvas.height / 2, -this.canvas.width / 2, this.canvas.height, this.canvas.width);
+        this.context.globalCompositeOperation = 'source-over';
       }
     }
   }

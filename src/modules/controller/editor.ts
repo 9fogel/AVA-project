@@ -80,6 +80,13 @@ class Editor {
         adjustNumberInput.max = '200';
         adjustNumberSign.innerText = '%';
         break;
+      case 'invert':
+        adjustRangeInput.value = String(state.invert);
+        adjustNumberInput.value = String(state.invert);
+        adjustRangeInput.max = '100';
+        adjustNumberInput.max = '100';
+        adjustNumberSign.innerText = '%';
+        break;
       case 'opacity':
         adjustRangeInput.value = String(state.opacity);
         adjustNumberInput.value = String(state.opacity);
@@ -322,7 +329,8 @@ class Editor {
         document.querySelector('.filter.selected')?.classList.remove('selected');
         filter.classList.add('selected');
         console.log(`filter with index ${index} was chosen`);
-        //TODO: метод модели, который применяет фильтр
+        this.model.applyFilter(index);
+        this.updateElements();
       });
     });
   }
