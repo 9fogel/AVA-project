@@ -56,20 +56,29 @@
             <h2 class="modal-title">Sign in for more options</h2>
             <div class="modal-form">
               <div class="modal-input-wrap">
-                <label class="modal-label" for="email">Email</label>
+                <label class="modal-label">User Name</label>
+                <input class="modal-input" type="text" id="user-name">
+                <!-- <p class="modal-message user-message"></p> -->
+                <p class="modal-message user-message">User with this name already exists</p>
+              </div>
+              <div class="modal-input-wrap">
+                <label class="modal-label">Email</label>
                 <input class="modal-input" type="email" id="email">
+                <p class="modal-message email-message"></p>
               </div>
               <div class="modal-input-wrap">
                 <label class="modal-label" for="password">Password</label>
                 <input class="modal-input" type="password" id="password">
+                <p class="modal-message password-message"></p>
               </div>
               <div class="modal-input-wrap confirm-psw-wrap hidden">
                 <label class="modal-label" for="confirm-psw">Confirm Password</label>
                 <input class="modal-input" type="password" id="confirm-psw">
+                <p class="modal-message confirm-password-message"></p>
               </div>
               <div class="modal-buttons-wrap">
-                <button class="button modal-login-btn">Sign In</button>
-                <button class="button modal-login-google-btn">Sign In with Google</button>
+                <button class="button modal-btn modal-login-btn" id="sign-in">Sign In</button>
+                <button class="button modal-btn modal-login-google-btn" id="sign-in-google">Sign In with Google</button>
               </div>
             </div>
 

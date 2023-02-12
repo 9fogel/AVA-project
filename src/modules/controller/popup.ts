@@ -3,18 +3,22 @@ class Popup {
   loginWrapper = document.querySelector('.wrapper');
   closeIcon = document.querySelector('.close-modal');
 
-  text: { [key: string]: { [key: string]: string } } = {
+  text: { [key: string]: { [key: string]: string | Array<string> } } = {
     create: {
       noAccText: 'Don’t have an account?',
       noAccLink: 'Create Account',
       title: 'Sign in for more options',
+      inputs: ['user-name', 'email', 'password'],
       btn: 'Sign In',
+      btnIds: ['sign-in', 'sign-in-google'],
     },
     login: {
       noAccText: 'Already have an account?',
       noAccLink: 'Sign In',
       title: 'Create Account',
+      inputs: ['create-user-name', 'create-email', 'create-password'],
       btn: 'Sign Up',
+      btnIds: ['sign-up', 'sign-up-google'],
     },
   };
 
@@ -23,7 +27,7 @@ class Popup {
     this.loginWrapper?.classList.add('active');
   }
 
-  public handleModal() {
+  public handleModal(): void {
     this.handleModalclosure();
     this.listenAccLink();
   }
@@ -43,20 +47,22 @@ class Popup {
     });
   }
 
-  private listenAccLink() {
+  private listenAccLink(): void {
     const modalLink = document.getElementsByClassName('no-account-link')[0];
-    console.log(modalLink);
     modalLink?.addEventListener('click', () => {
       this.switchModalView();
     });
   }
 
-  private switchModalView() {
+  private switchModalView(): void {
     const noAccText: HTMLElement | null = document.querySelector('.no-account-text');
     const noAccLink: HTMLElement | null = document.querySelector('.no-account-link');
     const title: HTMLElement | null = document.querySelector('.modal-title');
     const confirmPsw: HTMLElement | null = document.querySelector('.confirm-psw-wrap');
     const signInBtn: HTMLElement | null = document.querySelector('.modal-login-btn');
+    const inputs = document.getElementsByClassName('modal-input');
+    const buttons = document.getElementsByClassName('modal-btn');
+    console.log(inputs);
 
     const id = noAccLink?.id;
     const key = id;
@@ -72,11 +78,18 @@ class Popup {
     }
 
     if (key && noAccText && title && signInBtn) {
-      console.log('change text');
-      noAccText.innerText = this.text[key].noAccText;
-      noAccLink.innerText = this.text[key].noAccLink;
-      title.innerText = this.text[key].title;
-      signInBtn.innerText = this.text[key].btn;
+      noAccText.innerText = this.text[key].noAccText.toString();
+      noAccLink.innerText = this.text[key].noAccLink.toString();
+      title.innerText = this.text[key].title.toString();
+      signInBtn.innerText = this.text[key].btn.toString();
+
+      Array.from(inputs).forEach((input, i) => {
+        input.id = this.text[key].inputs[i];
+      });
+
+      Array.from(buttons).forEach((btn, i) => {
+        btn.id = this.text[key].btnIds[i];
+      });
     }
   }
 }
