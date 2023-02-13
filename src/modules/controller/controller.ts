@@ -39,8 +39,16 @@ class Controller {
         await this.model.uploadImage();
         this.editor.updateElements();
         this.switchWorkingAreas();
+        this.highlightUploadArea('#c0c0be');
         fileInput.value = '';
       });
+    }
+  }
+
+  private highlightUploadArea(color: string) {
+    const area: HTMLElement | null = document.querySelector('.upload-area');
+    if (area) {
+      area.style.borderColor = color;
     }
   }
 
@@ -59,13 +67,15 @@ class Controller {
           fileInput.dispatchEvent(new Event('change'));
         }
       });
-      //изменение стиля upload area при нахождении обьекта над областью, как дополнительный функционал
+
       uploadArea?.addEventListener('dragover', (event) => {
+        this.highlightUploadArea('#00d0c3');
         event.preventDefault();
         console.log('over area');
       });
 
       uploadArea?.addEventListener('dragleave', (event) => {
+        this.highlightUploadArea('#c0c0be');
         event.preventDefault();
         console.log('not over area');
       });
@@ -83,6 +93,8 @@ class Controller {
   private handleImageDeletion(): void {
     const deleteBtn: HTMLElement | null = document.querySelector('.delete-btn');
     deleteBtn?.addEventListener('click', () => {
+      this.editor.hideOpenedToolMenus();
+      this.editor.hideOpenedOptionControls();
       this.model.deleteImage();
       this.switchWorkingAreas();
     });
@@ -91,6 +103,8 @@ class Controller {
   private handleImageDownload(): void {
     const downloadeBtn: HTMLElement | null = document.querySelector('.download-btn');
     downloadeBtn?.addEventListener('click', () => {
+      this.editor.hideOpenedToolMenus();
+      this.editor.hideOpenedOptionControls();
       this.model.downloadImage();
     });
   }

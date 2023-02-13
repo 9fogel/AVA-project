@@ -26,8 +26,9 @@
   margin: 0 auto 120px;
   // padding: 20px;
   text-align: center;
-  border: 1px dashed $gray;
+  border: 2px dashed $gray;
   border-radius: $border-radius;
+  transition: ease-in-out 0.3s;
 }
 
 .upload-area.hidden {
