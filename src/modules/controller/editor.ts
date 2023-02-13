@@ -41,7 +41,6 @@ class Editor {
         adjustNumberSign.innerText = '%';
         break;
       case 'contrast':
-        console.log('контраст');
         adjustRangeInput.value = String(state.contrast);
         adjustNumberInput.value = String(state.contrast);
         adjustRangeInput.max = '200';
