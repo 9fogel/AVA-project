@@ -1,4 +1,4 @@
-import state from './state';
+import CanvasState from './canvasState';
 import Presets from './presets';
 
 class Model {
@@ -24,10 +24,9 @@ class Model {
         this.image.src = URL.createObjectURL(files[0]);
         await this.image.decode();
         if (this.image) {
-          state.imageWidth = this.image.naturalWidth;
-          state.imageHeight = this.image.naturalHeight;
-          state.imageRotate = false;
-          state.imageRotateDegree = 0;
+          CanvasState.resetState();
+          CanvasState.parameters.imageWidth = this.image.naturalWidth;
+          CanvasState.parameters.imageHeight = this.image.naturalHeight;
           this.applyСhanges();
           const filterImage = document.querySelectorAll('.filter');
           filterImage.forEach((image) => {
@@ -65,103 +64,103 @@ class Model {
     const widthInput = document.getElementById('width-input');
     const heightInput = document.getElementById('height-input');
     if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
-      state.imageWidth = +widthInput.value;
-      state.imageHeight = +heightInput.value;
+      CanvasState.parameters.imageWidth = +widthInput.value;
+      CanvasState.parameters.imageHeight = +heightInput.value;
     }
     this.applyСhanges();
   }
 
   public rotateImage(side: string) {
-    if (state.imageflipVertical == -1 && state.imageflipHorizontal == 1) {
+    if (CanvasState.parameters.imageflipVertical == -1 && CanvasState.parameters.imageflipHorizontal == 1) {
       side === 'right' ? (side = 'left') : (side = 'right');
-    } else if (state.imageflipVertical == 1 && state.imageflipHorizontal == -1) {
+    } else if (CanvasState.parameters.imageflipVertical == 1 && CanvasState.parameters.imageflipHorizontal == -1) {
       side === 'right' ? (side = 'left') : (side = 'right');
     }
     if (side === 'right') {
-      state.imageRotateDegree += 90;
-      if (state.imageRotateDegree === 360) {
-        state.imageRotateDegree = 0;
+      CanvasState.parameters.imageRotateDegree += 90;
+      if (CanvasState.parameters.imageRotateDegree === 360) {
+        CanvasState.parameters.imageRotateDegree = 0;
       }
     } else if (side === 'left') {
-      state.imageRotateDegree -= 90;
-      if (state.imageRotateDegree === -360) {
-        state.imageRotateDegree = 0;
+      CanvasState.parameters.imageRotateDegree -= 90;
+      if (CanvasState.parameters.imageRotateDegree === -360) {
+        CanvasState.parameters.imageRotateDegree = 0;
       }
     }
 
     if (this.image && this.canvas && this.context) {
-      const currentHeight = state.imageHeight;
-      const currentWidth = state.imageWidth;
-      state.imageWidth = currentHeight;
-      state.imageHeight = currentWidth;
-      this.canvas.width = state.imageWidth;
-      this.canvas.height = state.imageHeight;
-      state.imageProportions = state.imageWidth / state.imageHeight;
-      state.imageRotate = !state.imageRotate;
+      const currentHeight = CanvasState.parameters.imageHeight;
+      const currentWidth = CanvasState.parameters.imageWidth;
+      CanvasState.parameters.imageWidth = currentHeight;
+      CanvasState.parameters.imageHeight = currentWidth;
+      this.canvas.width = CanvasState.parameters.imageWidth;
+      this.canvas.height = CanvasState.parameters.imageHeight;
+      CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+      CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
       this.applyСhanges();
     }
   }
 
   public flipImage(flip: string) {
     if (flip === 'vertical') {
-      state.imageflipVertical = state.imageflipVertical === 1 ? -1 : 1;
+      CanvasState.parameters.imageflipVertical = CanvasState.parameters.imageflipVertical === 1 ? -1 : 1;
     } else if (flip === 'horizontal') {
-      state.imageflipHorizontal = state.imageflipHorizontal === 1 ? -1 : 1;
+      CanvasState.parameters.imageflipHorizontal = CanvasState.parameters.imageflipHorizontal === 1 ? -1 : 1;
     }
     this.applyСhanges();
   }
 
   public setAdjustment(option: string) {
-    state.currentAdjustment = option;
+    CanvasState.parameters.currentAdjustment = option;
   }
 
   public useAdjustment(value: string) {
-    switch (state.currentAdjustment) {
+    switch (CanvasState.parameters.currentAdjustment) {
       case 'blur':
-        state.blur = +value;
+        CanvasState.parameters.blur = +value;
         break;
       case 'brightness':
-        state.brightness = +value;
+        CanvasState.parameters.brightness = +value;
         break;
       case 'contrast':
-        state.contrast = +value;
+        CanvasState.parameters.contrast = +value;
         break;
       case 'grayscale':
-        state.grayscale = +value;
+        CanvasState.parameters.grayscale = +value;
         break;
       case 'hue':
-        state.hue = +value;
+        CanvasState.parameters.hue = +value;
         break;
       case 'pixelate':
-        state.pixelate = +value;
+        CanvasState.parameters.pixelate = +value;
         break;
       case 'saturation':
-        state.saturation = +value;
+        CanvasState.parameters.saturation = +value;
         break;
       case 'sepia':
-        state.sepia = +value;
+        CanvasState.parameters.sepia = +value;
         break;
       case 'invert':
-        state.invert = +value;
+        CanvasState.parameters.invert = +value;
         break;
       case 'opacity':
-        state.opacity = +value;
+        CanvasState.parameters.opacity = +value;
         break;
     }
     this.applyСhanges();
   }
 
   private resetAdjustments() {
-    state.color = 'rgba(0, 0, 0, 0)';
-    state.blur = 0;
-    state.brightness = 100;
-    state.contrast = 100;
-    state.grayscale = 0;
-    state.hue = 0;
-    state.pixelate = 50;
-    state.saturation = 100;
-    state.sepia = 0;
-    state.opacity = 100;
+    CanvasState.parameters.color = 'rgba(0, 0, 0, 0)';
+    CanvasState.parameters.blur = 0;
+    CanvasState.parameters.brightness = 100;
+    CanvasState.parameters.contrast = 100;
+    CanvasState.parameters.grayscale = 0;
+    CanvasState.parameters.hue = 0;
+    CanvasState.parameters.pixelate = 50;
+    CanvasState.parameters.saturation = 100;
+    CanvasState.parameters.sepia = 0;
+    CanvasState.parameters.opacity = 100;
   }
 
   public applyFilter(index: number) {
@@ -173,18 +172,20 @@ class Model {
   private applyСhanges(): void {
     if (this.image && this.canvas && this.context) {
       // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.canvas.width = state.imageWidth;
-      this.canvas.height = state.imageHeight;
-      state.imageProportions = state.imageWidth / state.imageHeight;
-      this.context.filter = `blur(${state.blur}px) brightness(${state.brightness}%) contrast(${
-        state.contrast
-      }%) grayscale(${state.grayscale}%) hue-rotate(${state.hue}deg) saturate(${state.saturation}%)  sepia(${
-        state.sepia
-      }%) invert(${state.invert / 100}) opacity(${state.opacity / 100})`;
+      this.canvas.width = CanvasState.parameters.imageWidth;
+      this.canvas.height = CanvasState.parameters.imageHeight;
+      CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+      this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
+        CanvasState.parameters.brightness
+      }%) contrast(${CanvasState.parameters.contrast}%) grayscale(${CanvasState.parameters.grayscale}%) hue-rotate(${
+        CanvasState.parameters.hue
+      }deg) saturate(${CanvasState.parameters.saturation}%)  sepia(${CanvasState.parameters.sepia}%) invert(${
+        CanvasState.parameters.invert / 100
+      }) opacity(${CanvasState.parameters.opacity / 100})`;
       this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
-      this.context.scale(state.imageflipVertical, state.imageflipHorizontal);
-      this.context.rotate((state.imageRotateDegree * Math.PI) / 180);
-      if (state.imageRotate === false) {
+      this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+      this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+      if (CanvasState.parameters.imageRotate === false) {
         this.context.drawImage(
           this.image,
           -this.canvas.width / 2,
@@ -193,7 +194,7 @@ class Model {
           this.canvas.height,
         );
         this.context.globalCompositeOperation = 'color';
-        this.context.fillStyle = state.color;
+        this.context.fillStyle = CanvasState.parameters.color;
         this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
         this.context.globalCompositeOperation = 'source-over';
       } else {
@@ -205,7 +206,7 @@ class Model {
           this.canvas.width,
         );
         this.context.globalCompositeOperation = 'color';
-        this.context.fillStyle = state.color;
+        this.context.fillStyle = CanvasState.parameters.color;
         this.context.fillRect(-this.canvas.height / 2, -this.canvas.width / 2, this.canvas.height, this.canvas.width);
         this.context.globalCompositeOperation = 'source-over';
       }
