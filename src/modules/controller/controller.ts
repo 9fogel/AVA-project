@@ -83,6 +83,8 @@ class Controller {
   private handleImageDeletion(): void {
     const deleteBtn: HTMLElement | null = document.querySelector('.delete-btn');
     deleteBtn?.addEventListener('click', () => {
+      this.editor.hideOpenedToolMenus();
+      this.editor.hideOpenedOptionControls();
       this.model.deleteImage();
       this.switchWorkingAreas();
     });
@@ -91,6 +93,8 @@ class Controller {
   private handleImageDownload(): void {
     const downloadeBtn: HTMLElement | null = document.querySelector('.download-btn');
     downloadeBtn?.addEventListener('click', () => {
+      this.editor.hideOpenedToolMenus();
+      this.editor.hideOpenedOptionControls();
       this.model.downloadImage();
     });
   }

@@ -25,6 +25,41 @@ class Editor {
     }
   }
 
+  public hideOpenedToolMenus(): void {
+    const tools = Object.keys(State.tools);
+
+    Object.values(State.tools).forEach((isOpened, index) => {
+      if (isOpened) {
+        const toolName = tools[index];
+        const toolItem = document.querySelector(`.${toolName}-tool`);
+        const optionsList = document.querySelector(`.${toolName}-list`);
+        toolItem?.classList.remove('selected');
+        optionsList?.classList.add('hidden');
+        State.tools[toolName] = !State.tools[toolName];
+      }
+    });
+  }
+
+  public hideOpenedOptionControls(): void {
+    const controls = Object.keys(State.controls);
+
+    Object.values(State.controls).forEach((isOpened, index) => {
+      if (isOpened) {
+        const controlsName = controls[index];
+        const controlsMenu = document.querySelector(`.${controlsName}-controls`);
+        controlsMenu?.classList.add('hidden');
+        State.controls[controlsName] = !State.controls[controlsName];
+        if (controlsName === 'adjustments') {
+          State.tools.adjustments = false;
+          document.querySelector('.adjustments-tool')?.classList.remove('selected');
+        } else if (controlsName === 'crop' || controlsName === 'resize' || controlsName === 'rotate') {
+          State.tools.transform = false;
+          document.querySelector('.transform-tool')?.classList.remove('selected');
+        }
+      }
+    });
+  }
+
   private listenTools(): void {
     const tools: NodeListOf<HTMLLIElement> = document.querySelectorAll('.tool-item');
     tools?.forEach((tool: HTMLLIElement) => {
@@ -56,41 +91,6 @@ class Editor {
     this.listenFilters();
     this.listenAdjustments();
     //TODO сюда добавятся методы и на другие опции
-  }
-
-  private hideOpenedToolMenus(): void {
-    const tools = Object.keys(State.tools);
-
-    Object.values(State.tools).forEach((isOpened, index) => {
-      if (isOpened) {
-        const toolName = tools[index];
-        const toolItem = document.querySelector(`.${toolName}-tool`);
-        const optionsList = document.querySelector(`.${toolName}-list`);
-        toolItem?.classList.remove('selected');
-        optionsList?.classList.add('hidden');
-        State.tools[toolName] = !State.tools[toolName];
-      }
-    });
-  }
-
-  private hideOpenedOptionControls(): void {
-    const controls = Object.keys(State.controls);
-
-    Object.values(State.controls).forEach((isOpened, index) => {
-      if (isOpened) {
-        const controlsName = controls[index];
-        const controlsMenu = document.querySelector(`.${controlsName}-controls`);
-        controlsMenu?.classList.add('hidden');
-        State.controls[controlsName] = !State.controls[controlsName];
-        if (controlsName === 'adjustments') {
-          State.tools.adjustments = false;
-          document.querySelector('.adjustments-tool')?.classList.remove('selected');
-        } else if (controlsName === 'crop' || controlsName === 'resize' || controlsName === 'rotate') {
-          State.tools.transform = false;
-          document.querySelector('.transform-tool')?.classList.remove('selected');
-        }
-      }
-    });
   }
 
   private showToolOptionsList(toolName: string): void {
