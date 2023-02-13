@@ -1,6 +1,7 @@
 import Model from '../model/model';
 import getRightSide from '../utils/getSide';
 import state from '../model/state';
+import State from '../state.ts/editorState';
 
 class Editor {
   private readonly model: Model;
@@ -15,7 +16,7 @@ class Editor {
     this.listenBackArrows();
   }
 
-  public updateElements() {
+  public updateElements(): void {
     const widthInput = document.getElementById('width-input');
     const heightInput = document.getElementById('height-input');
     if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
@@ -57,11 +58,61 @@ class Editor {
     //TODO сюда добавятся методы и на другие опции
   }
 
+  private hideOpenedToolMenus(): void {
+    const tools = Object.keys(State.tools);
+
+    Object.values(State.tools).forEach((isOpened, index) => {
+      if (isOpened) {
+        const toolName = tools[index];
+        const toolItem = document.querySelector(`.${toolName}-tool`);
+        const optionsList = document.querySelector(`.${toolName}-list`);
+        toolItem?.classList.remove('selected');
+        optionsList?.classList.add('hidden');
+        State.tools[toolName] = !State.tools[toolName];
+      }
+    });
+  }
+
+  private hideOpenedOptionControls(): void {
+    const controls = Object.keys(State.controls);
+
+    Object.values(State.controls).forEach((isOpened, index) => {
+      if (isOpened) {
+        const controlsName = controls[index];
+        const controlsMenu = document.querySelector(`.${controlsName}-controls`);
+        controlsMenu?.classList.add('hidden');
+        State.controls[controlsName] = !State.controls[controlsName];
+        if (controlsName === 'adjustments') {
+          State.tools.adjustments = false;
+          document.querySelector('.adjustments-tool')?.classList.remove('selected');
+        } else if (controlsName === 'crop' || controlsName === 'resize' || controlsName === 'rotate') {
+          State.tools.transform = false;
+          document.querySelector('.transform-tool')?.classList.remove('selected');
+        }
+      }
+    });
+  }
+
   private showToolOptionsList(toolName: string): void {
-    const options = document.querySelector(`.${toolName}-list`);
-    const toolItem = document.querySelector(`.${toolName}-tool`);
-    options?.classList.toggle('hidden');
-    toolItem?.classList.toggle('selected');
+    const options: HTMLElement | null = document.querySelector(`.${toolName}-list`);
+    const toolItem: HTMLElement | null = document.querySelector(`.${toolName}-tool`);
+
+    if (State.tools[toolName]) {
+      options?.classList.add('hidden');
+      toolItem?.classList.remove('selected');
+      State.tools[toolName] = !State.tools[toolName];
+    } else {
+      if (toolName === 'adjustments' && State.controls.adjustments) {
+        const adjustBackArr = document.getElementById('adjustments-arrow');
+        adjustBackArr?.click();
+      } else {
+        this.hideOpenedToolMenus();
+        this.hideOpenedOptionControls();
+        options?.classList.remove('hidden');
+        toolItem?.classList.add('selected');
+        State.tools[toolName] = !State.tools[toolName];
+      }
+    }
   }
 
   private showOptionControls(optionName: string, toolName: string): void {
@@ -74,6 +125,8 @@ class Editor {
       const toolOptionsList: Element | null | undefined = controls?.parentElement?.previousElementSibling;
       controls?.classList.remove('hidden');
       toolOptionsList?.classList.add('hidden');
+      State.controls[optionName] = true;
+      State.tools[toolName] = false;
     }
   }
 
@@ -82,11 +135,18 @@ class Editor {
     const toolOptionsList: Element | null | undefined = controls?.parentElement?.previousElementSibling;
     controls?.classList.add('hidden');
     toolOptionsList?.classList.remove('hidden');
+    State.controls[optionName] = false;
+
+    if (optionName === 'adjustments') {
+      State.tools.adjustments = true;
+    } else {
+      State.tools.transform = true;
+    }
   }
 
   private listenBackArrows(): void {
     const backArrows = document.querySelectorAll('.back-arrow');
-    // console.log(backArrows);
+
     backArrows.forEach((arrow) => {
       arrow.addEventListener('click', () => {
         const optionName: string = arrow.id.slice(0, -6);
@@ -206,7 +266,7 @@ class Editor {
   }
 
   //_______________________________________________ADJUSTMENTS
-  private updateAgjustControls(optionName: string) {
+  private updateAgjustControls(optionName: string): void {
     const option: HTMLElement | null = document.querySelector(`.adjust-title`);
     if (option) {
       option.innerText = optionName;
@@ -219,17 +279,19 @@ class Editor {
     console.log(inputRange?.value, inputPercentage?.value);
   }
 
-  private showAdjustControls() {
+  private showAdjustControls(): void {
     const adjustControls = document.querySelector('.adjustments-controls');
     adjustControls?.classList.remove('hidden');
+    State.controls.adjustments = true;
   }
 
-  private hideAdjustOptionsList() {
+  private hideAdjustOptionsList(): void {
     const toolOptionsList = document.querySelector('.adjustments-list');
     toolOptionsList?.classList.add('hidden');
+    State.tools.adjustments = false;
   }
 
-  private listenAdjustments() {
+  private listenAdjustments(): void {
     const range: HTMLInputElement | null = document.querySelector('.adjust-range-input');
     const inputNum: HTMLInputElement | null = document.querySelector('.adjust-number-input');
     const adjustmentTitle: HTMLElement | null = document.querySelector('.adjust-title');
