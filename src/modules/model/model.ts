@@ -72,6 +72,11 @@ class Model {
   }
 
   public rotateImage(side: string) {
+    if (state.imageflipVertical == -1 && state.imageflipHorizontal == 1) {
+      side === 'right' ? (side = 'left') : (side = 'right');
+    } else if (state.imageflipVertical == 1 && state.imageflipHorizontal == -1) {
+      side === 'right' ? (side = 'left') : (side = 'right');
+    }
     if (side === 'right') {
       state.imageRotateDegree += 90;
       if (state.imageRotateDegree === 360) {
