@@ -33,7 +33,6 @@ class AuthModel {
 
     const data = await response.json();
     if (!response.ok) {
-      //throw Error(`Памылка ${response.status}`);
       console.error(`Erros:${response.status}`, data);
       const messageUser = document.querySelector('.user-message');
       const messageEmail = document.querySelector('.email-message');
