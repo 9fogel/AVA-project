@@ -153,6 +153,7 @@ class Model {
     CanvasState.parameters.hue = 0;
     CanvasState.parameters.pixelate = 50;
     CanvasState.parameters.saturation = 100;
+    CanvasState.parameters.invert = 0;
     CanvasState.parameters.sepia = 0;
     CanvasState.parameters.opacity = 100;
   }
