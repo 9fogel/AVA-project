@@ -165,6 +165,7 @@ class Model {
 
   public applyFilter(index: number) {
     this.resetAdjustments();
+    CanvasState.parameters.currentPreset = index;
     this.presets.usePreset(index);
     this.applyСhanges();
   }

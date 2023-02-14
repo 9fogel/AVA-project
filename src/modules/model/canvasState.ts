@@ -20,6 +20,7 @@ class CanvasState {
     sepia: 0,
     invert: 0,
     opacity: 100,
+    currentPreset: 0,
   };
 
   static resetState() {
@@ -42,7 +43,8 @@ class CanvasState {
       (this.parameters.saturation = 100),
       (this.parameters.sepia = 0),
       (this.parameters.invert = 0),
-      (this.parameters.opacity = 100);
+      (this.parameters.opacity = 100),
+      (this.parameters.currentPreset = 0);
   }
 }
 

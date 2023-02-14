@@ -25,6 +25,14 @@ class Editor {
     const adjustNumberSign = <HTMLInputElement>document.querySelector('.percentage-sign');
     resizeWidthInput.value = String(CanvasState.parameters.imageWidth);
     resizeHeightInput.value = String(CanvasState.parameters.imageHeight);
+    const filters = document.querySelectorAll('.filter');
+    document.querySelector('.filter.selected')?.classList.remove('selected');
+    filters.forEach((filter, index) => {
+      if (index === CanvasState.parameters.currentPreset) {
+        filter.classList.add('selected');
+      }
+    });
+
     switch (CanvasState.parameters.currentAdjustment) {
       case 'blur':
         adjustRangeInput.value = String(CanvasState.parameters.blur);
