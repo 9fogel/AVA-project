@@ -111,6 +111,51 @@
           </div>
           <div class="load-controls">
             <button class="button download-btn">Download</button>
+            <div class="download-menu hidden">
+              <h2 class="download-title">Download Options</h2>
+              <ul class="download-list">
+                <li class="download-item format-choice-item">
+                  <div class="format-choice">
+                    <label class="format-wrap selected" id="png">
+                      <input class="format-check" type="radio" />
+                      <span class="format-btn">Png</span>
+                    </label>
+                    <label class="format-wrap" id="jpeg">
+                      <input class="format-check" type="radio" />
+                      <span class="format-btn">Jpeg</span>
+                    </label>
+                    <label class="format-wrap" id="webp">
+                      <input class="format-check" type="radio" />
+                      <span class="format-btn">Webp</span>
+                    </label>
+                  </div>
+                </li>
+                <li class="download-item quality-item disabled">
+                  <p class="quality-text">Image Quality<span class="quality-note">Available for JPEG only</span></p>
+                  <div class="quality-content">
+                    <div class="quality-range-wrapper">
+                      <input class="quality-range-input" disabled type="range" min="1" step="1" value="100" />
+                    </div>
+                    <div class="quality-input-wrap">
+                      <input
+                        class="quality-number-input"
+                        type="number"
+                        min="1"
+                        step="1"
+                        value="100"
+                        maxlength="3" disabled
+                      />
+                      <span class="quality-percentage-sign">%</span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="download-buttons-wrap">
+                <button class="reset-download-btn">Reset</button>
+                <button class="apply-download-btn">Apply</button>
+              </div>
+              <div class="download-arrow"></div>
+            </div>
             <button class="button delete-btn">Delete Image</button>
           </div>
           <canvas id="canvas" height="0" class="image-canvas" crossorigin="anonymous"></canvas>
