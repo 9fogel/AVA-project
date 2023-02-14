@@ -28,13 +28,7 @@ class Model {
           CanvasState.parameters.imageWidth = this.image.naturalWidth;
           CanvasState.parameters.imageHeight = this.image.naturalHeight;
           this.applyСhanges();
-          const filterImage = document.querySelectorAll('.filter');
-          filterImage.forEach((image) => {
-            if (image instanceof HTMLDivElement) {
-              image.style.backgroundImage = `url(${URL.createObjectURL(files[0])})`;
-              image.style.backgroundBlendMode = 'overlay';
-            }
-          });
+          this.setFilterPreviews();
         }
       }
     }
@@ -168,6 +162,18 @@ class Model {
     CanvasState.parameters.currentPreset = index;
     this.presets.usePreset(index);
     this.applyСhanges();
+  }
+
+  private setFilterPreviews(): void {
+    const filterImage = document.querySelectorAll('.filter');
+    filterImage.forEach((image) => {
+      if (image instanceof HTMLDivElement) {
+        image.style.backgroundImage = `url(${this.image?.src})`;
+        image.style.backgroundBlendMode = 'overlay';
+        image.style.backgroundPosition = 'center';
+        image.style.backgroundSize = 'cover';
+      }
+    });
   }
 
   private applyСhanges(): void {
