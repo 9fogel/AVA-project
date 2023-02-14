@@ -64,7 +64,7 @@ class Model {
     this.applyСhanges();
   }
 
-  public rotateImage(side: string) {
+  public rotateImage(side: string): void {
     if (CanvasState.parameters.imageflipVertical == -1 && CanvasState.parameters.imageflipHorizontal == 1) {
       side === 'right' ? (side = 'left') : (side = 'right');
     } else if (CanvasState.parameters.imageflipVertical == 1 && CanvasState.parameters.imageflipHorizontal == -1) {
@@ -95,7 +95,7 @@ class Model {
     }
   }
 
-  public flipImage(flip: string) {
+  public flipImage(flip: string): void {
     if (flip === 'vertical') {
       CanvasState.parameters.imageflipVertical = CanvasState.parameters.imageflipVertical === 1 ? -1 : 1;
     } else if (flip === 'horizontal') {
@@ -104,11 +104,11 @@ class Model {
     this.applyСhanges();
   }
 
-  public setAdjustment(option: string) {
+  public setAdjustment(option: string): void {
     CanvasState.parameters.currentAdjustment = option;
   }
 
-  public useAdjustment(value: string) {
+  public useAdjustment(value: string): void {
     switch (CanvasState.parameters.currentAdjustment) {
       case 'blur':
         CanvasState.parameters.blur = +value;
@@ -144,7 +144,7 @@ class Model {
     this.applyСhanges();
   }
 
-  private resetAdjustments() {
+  private resetAdjustments(): void {
     CanvasState.parameters.color = 'rgba(0, 0, 0, 0)';
     CanvasState.parameters.blur = 0;
     CanvasState.parameters.brightness = 100;
@@ -157,7 +157,7 @@ class Model {
     CanvasState.parameters.opacity = 100;
   }
 
-  public applyFilter(index: number) {
+  public applyFilter(index: number): void {
     this.resetAdjustments();
     CanvasState.parameters.currentPreset = index;
     this.presets.usePreset(index);

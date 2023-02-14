@@ -1,7 +1,7 @@
 import CanvasState from './canvasState';
 
 class Presets {
-  public usePreset(index: number) {
+  public usePreset(index: number): void {
     switch (index) {
       case 0:
         break;
