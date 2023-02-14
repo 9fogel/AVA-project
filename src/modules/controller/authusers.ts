@@ -21,42 +21,51 @@ class UsersControler {
     const userName = document.querySelector('#user-name') as HTMLInputElement;
     const userEmail = document.querySelector('#email') as HTMLInputElement;
     const password = document.querySelector('#password') as HTMLInputElement;
-    const repeatPassword = document.querySelector('#undefined') as HTMLInputElement;
+    const repeatPassword = document.querySelector('#confirm-psw') as HTMLInputElement;
 
-    password.addEventListener('input', () => {
-      const messagePassword = document.querySelector('.confirm-password-message');
-      if (messagePassword) {
-        if (password.value !== repeatPassword.value) {
-          messagePassword.textContent = 'Password mismatch';
-        } else {
-          messagePassword.textContent = 'Password match';
-        }
+    const regUs = async () => {
+      const data = await this.users.registrationUser(userName.value, userEmail.value, password.value);
+
+      if (data.token) {
+        this.logIn(userName.value, '.login-btn');
+
+        localStorage.JWT = data.token;
       }
-    });
+    };
 
-    if (password.value === repeatPassword.value) {
-      document.getElementById('sign-in-google')?.addEventListener('click', async () => {
-        //await this.users.registrationUser(userName.value, userEmail.value, password.value);
-        const data = await this.users.registrationUser(userName.value, userEmail.value, password.value);
-
-        if (data.token) {
-          this.logIn(userName.value, '.login-btn');
+    [password, repeatPassword].forEach((el) => {
+      el.addEventListener('input', () => {
+        const messagePassword: HTMLElement | null = document.querySelector('.confirm-password-message');
+        if (messagePassword) {
+          if (password.value !== repeatPassword.value) {
+            messagePassword.textContent = 'Password mismatch';
+            messagePassword.style.color = 'red';
+            document.getElementById('sign-up-google')?.setAttribute('disabled', '');
+          } else if (password.value === repeatPassword.value) {
+            messagePassword.textContent = 'Password match';
+            messagePassword.style.color = 'green';
+            document.getElementById('sign-up-google')?.removeAttribute('disabled');
+          }
         }
       });
-    }
-    // document.getElementById('sign-in-google')?.addEventListener('click', async () => {
-    //   const data = await this.users.registrationUser(userName.value, userEmail.value, password.value);
+    });
 
-    //   if (data.token) {
-    //     this.logIn(userName.value, '.login-btn');
-    //   }
-    // });
+    document.getElementById('sign-in-google')?.addEventListener('click', regUs);
   }
 
   async handleLoginUser() {
-    document.getElementById('sign-in')?.addEventListener('click', () => {
+    const userEmail = document.querySelector('#email') as HTMLInputElement;
+    const password = document.querySelector('#password') as HTMLInputElement;
+
+    document.getElementById('sign-in')?.addEventListener('click', async () => {
       console.log('click');
-      this.users.logInUser('Anjjfg367', 'Anjjfg3', 'admin');
+      const data = await this.users.logInUser(userEmail.value, userEmail.value, password.value);
+      console.log(data);
+      if (data.token) {
+        this.logIn(data.username1, '.login-btn');
+
+        localStorage.JWT = data.token;
+      }
     });
   }
 
@@ -66,6 +75,7 @@ class UsersControler {
       buttonName.textContent = userName;
     }
     document.querySelector('.login-modal')?.classList.remove('active');
+    document.querySelector('.wrapper')?.classList.remove('active');
   }
 
   private logOut() {

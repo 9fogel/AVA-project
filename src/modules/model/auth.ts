@@ -11,26 +11,13 @@ function findIndexError(error: ValidError, value: string): number {
 
 class AuthModel {
   async getUsers() {
-    const response = await fetch('http://localhost:5000/auth/users/', {
-      // method: 'GET',
-      // headers: {
-      //   Accept: 'applications/json',
-      //   'Content-Type': 'application/json',
-      // 'Access-Control-Allow-Origin': '*',
-      //'Content-Type': 'application/json',
-      //`Authorization`: 'Bearer',
-      // 'Access-Control-Allow-Origin': 'origin-list',
-      //},
-      //body: JSON.stringify({ name, color }),
-    });
+    const response = await fetch('http://localhost:5000/auth/users/', {});
 
     const data = await response.json();
     if (!response.ok) {
-      //throw Error(`Памылка ${response.status}`);
       console.error(`Erros:${response.status}`);
     }
     console.log(data[0]._id);
-    //return;
   }
 
   async registrationUser(username: string, userEmail: string, password: string) {
@@ -43,8 +30,6 @@ class AuthModel {
       },
       body: JSON.stringify({ username, userEmail, password }),
     });
-
-    //userName, password,
 
     const data = await response.json();
     if (!response.ok) {
@@ -90,9 +75,9 @@ class AuthModel {
     const data = await response.json();
     if (!response.ok) {
       console.error(`Erros:${response.status}`, data);
-      const messageUser = document.querySelector('.user-message');
+      const messageUser = document.querySelector('.email-message');
       if (messageUser) {
-        messageUser.textContent = String(JSON.stringify(data.message || data.message.errors.errors.msg));
+        messageUser.textContent = String(JSON.stringify(data.message));
       }
     }
     console.log(JSON.stringify(data));
