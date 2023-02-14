@@ -253,21 +253,19 @@ class Editor {
             event.target.value = '';
           }
         }
-        if (input instanceof HTMLInputElement && CanvasState.parameters.saveProportions === true) {
+        if (input instanceof HTMLInputElement) {
           if (input.id === 'width-input' && heightInput instanceof HTMLInputElement) {
             if (input.value.length === 0) {
               input.value = String(CanvasState.parameters.imageWidth);
-            } else {
+            } else if (input.value.length !== 0 && CanvasState.parameters.saveProportions === true) {
               heightInput.value = String(getRightSide('height', +input.value));
             }
           } else if (input.id === 'height-input' && widthInput instanceof HTMLInputElement) {
             if (input.value.length === 0) {
               input.value = String(CanvasState.parameters.imageHeight);
-            } else {
+            } else if (input.value.length !== 0 && CanvasState.parameters.saveProportions === true) {
               widthInput.value = String(getRightSide('width', +input.value));
             }
-          } else {
-            return;
           }
         }
         console.log('Input changed!!');
