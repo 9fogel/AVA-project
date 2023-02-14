@@ -187,13 +187,15 @@
 
 //_______________________________________________FILTERS
 .filter-option-controls {
-  top: -108px;
+  top: -185px;
 }
 
 .filters-controls {
   cursor: default;
+  width: 795px;
   top: -108px;
   display: flex;
+  flex-wrap: wrap;
   gap: 2px;
   padding: 8px;
 }
@@ -210,18 +212,18 @@
   padding-bottom: 4px;
   width: 76px;
   height: 76px;
-  background-color: $light-black;
+  border-radius: $border-radius;
 }
 
-.filter:first-child {
-  border-top-left-radius: $border-radius;
-  border-bottom-left-radius: $border-radius;
-}
+// .filter:first-child {
+//   border-top-left-radius: $border-radius;
+//   border-bottom-left-radius: $border-radius;
+// }
 
-.filter:last-child {
-  border-top-right-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;
-}
+// .filter:last-child {
+//   border-top-right-radius: $border-radius;
+//   border-bottom-right-radius: $border-radius;
+// }
 
 .filter:hover {
   border: 2px solid $blue;

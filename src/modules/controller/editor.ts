@@ -1,6 +1,6 @@
 import Model from '../model/model';
 import getRightSide from '../utils/getSide';
-import state from '../model/state';
+import CanvasState from '../model/canvasState';
 import State from '../state.ts/editorState';
 
 class Editor {
@@ -14,14 +14,93 @@ class Editor {
     this.listenTools();
     this.listenToolOptions();
     this.listenBackArrows();
+    this.updateElements();
   }
 
   public updateElements(): void {
-    const widthInput = document.getElementById('width-input');
-    const heightInput = document.getElementById('height-input');
-    if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
-      widthInput.value = String(state.imageWidth);
-      heightInput.value = String(state.imageHeight);
+    const resizeWidthInput = <HTMLInputElement>document.getElementById('width-input');
+    const resizeHeightInput = <HTMLInputElement>document.getElementById('height-input');
+    const adjustRangeInput = <HTMLInputElement>document.querySelector('.adjust-range-input');
+    const adjustNumberInput = <HTMLInputElement>document.querySelector('.adjust-number-input');
+    const adjustNumberSign = <HTMLInputElement>document.querySelector('.percentage-sign');
+    resizeWidthInput.value = String(CanvasState.parameters.imageWidth);
+    resizeHeightInput.value = String(CanvasState.parameters.imageHeight);
+    const filters = document.querySelectorAll('.filter');
+    document.querySelector('.filter.selected')?.classList.remove('selected');
+    filters.forEach((filter, index) => {
+      if (index === CanvasState.parameters.currentPreset) {
+        filter.classList.add('selected');
+      }
+    });
+
+    switch (CanvasState.parameters.currentAdjustment) {
+      case 'blur':
+        adjustRangeInput.value = String(CanvasState.parameters.blur);
+        adjustNumberInput.value = String(CanvasState.parameters.blur);
+        adjustRangeInput.max = '100';
+        adjustNumberInput.max = '100';
+        adjustNumberSign.innerText = 'px';
+        break;
+      case 'brightness':
+        adjustRangeInput.value = String(CanvasState.parameters.brightness);
+        adjustNumberInput.value = String(CanvasState.parameters.brightness);
+        adjustRangeInput.max = '300';
+        adjustNumberInput.max = '300';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'contrast':
+        adjustRangeInput.value = String(CanvasState.parameters.contrast);
+        adjustNumberInput.value = String(CanvasState.parameters.contrast);
+        adjustRangeInput.max = '200';
+        adjustNumberInput.max = '200';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'grayscale':
+        adjustRangeInput.value = String(CanvasState.parameters.grayscale);
+        adjustNumberInput.value = String(CanvasState.parameters.grayscale);
+        adjustRangeInput.max = '100';
+        adjustNumberInput.max = '100';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'hue':
+        adjustRangeInput.value = String(CanvasState.parameters.hue);
+        adjustNumberInput.value = String(CanvasState.parameters.hue);
+        adjustRangeInput.max = '360';
+        adjustNumberInput.max = '360';
+        adjustNumberSign.innerText = '°';
+        break;
+      case 'pixelate':
+        adjustRangeInput.value = String(CanvasState.parameters.pixelate);
+        adjustNumberInput.value = String(CanvasState.parameters.pixelate);
+        break;
+      case 'saturation':
+        adjustRangeInput.value = String(CanvasState.parameters.saturation);
+        adjustNumberInput.value = String(CanvasState.parameters.saturation);
+        adjustRangeInput.max = '300';
+        adjustNumberInput.max = '300';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'sepia':
+        adjustRangeInput.value = String(CanvasState.parameters.sepia);
+        adjustNumberInput.value = String(CanvasState.parameters.sepia);
+        adjustRangeInput.max = '200';
+        adjustNumberInput.max = '200';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'invert':
+        adjustRangeInput.value = String(CanvasState.parameters.invert);
+        adjustNumberInput.value = String(CanvasState.parameters.invert);
+        adjustRangeInput.max = '100';
+        adjustNumberInput.max = '100';
+        adjustNumberSign.innerText = '%';
+        break;
+      case 'opacity':
+        adjustRangeInput.value = String(CanvasState.parameters.opacity);
+        adjustNumberInput.value = String(CanvasState.parameters.opacity);
+        adjustRangeInput.max = '100';
+        adjustNumberInput.max = '100';
+        adjustNumberSign.innerText = '%';
+        break;
     }
   }
 
@@ -167,17 +246,26 @@ class Editor {
     const widthInput = document.getElementById('width-input');
     const heightInput = document.getElementById('height-input');
     inputs.forEach((input) => {
-      input.addEventListener('input', (event) => {
+      input.addEventListener('change', (event) => {
         if (event.target instanceof HTMLInputElement) {
           event.target.value = event.target.value.replace(/[^0-9 ]+/g, '');
+          if (event.target.value.startsWith('0')) {
+            event.target.value = '';
+          }
         }
-        if (input instanceof HTMLInputElement && state.saveProportions === true) {
+        if (input instanceof HTMLInputElement) {
           if (input.id === 'width-input' && heightInput instanceof HTMLInputElement) {
-            heightInput.value = String(getRightSide('height', +input.value));
+            if (input.value.length === 0) {
+              input.value = String(CanvasState.parameters.imageWidth);
+            } else if (input.value.length !== 0 && CanvasState.parameters.saveProportions === true) {
+              heightInput.value = String(getRightSide('height', +input.value));
+            }
           } else if (input.id === 'height-input' && widthInput instanceof HTMLInputElement) {
-            widthInput.value = String(getRightSide('width', +input.value));
-          } else {
-            return;
+            if (input.value.length === 0) {
+              input.value = String(CanvasState.parameters.imageHeight);
+            } else if (input.value.length !== 0 && CanvasState.parameters.saveProportions === true) {
+              widthInput.value = String(getRightSide('width', +input.value));
+            }
           }
         }
         console.log('Input changed!!');
@@ -190,8 +278,8 @@ class Editor {
     const propControl = document.querySelector('.proportions');
     propControl?.addEventListener('click', () => {
       propControl.classList.toggle('locked');
-      state.saveProportions = !state.saveProportions;
-      console.log(`lockProportions: ${state.saveProportions}`);
+      CanvasState.parameters.saveProportions = !CanvasState.parameters.saveProportions;
+      console.log(`lockProportions: ${CanvasState.parameters.saveProportions}`);
     });
   }
 
@@ -204,12 +292,6 @@ class Editor {
     const doneBtn = document.querySelector('.done-btn');
     doneBtn?.addEventListener('click', () => {
       console.log('resize - click done');
-      const widthInput = document.getElementById('width-input');
-      const heightInput = document.getElementById('height-input');
-      if (widthInput instanceof HTMLInputElement && heightInput instanceof HTMLInputElement) {
-        state.imageWidth = +widthInput.value;
-        state.imageHeight = +heightInput.value;
-      }
       this.model.resizeImage();
       //TODO: подумать нужно ли после применения изменений закрывать все менюшки и выдавать какое-то уведомление, что Image has been resized
       //TODO: если всё закрываем, то в resize переписываем инпуты на новые размеры и лочим кнопку Готово?
@@ -225,30 +307,22 @@ class Editor {
 
     flipVert?.addEventListener('click', () => {
       console.log('flip vertically');
-      //TODO: метод модели, который отражает по вертикали
+      this.model.flipImage('vertical');
     });
 
     flipHor?.addEventListener('click', () => {
       console.log('flip horizontally');
-      //TODO: метод модели, который отражает по горизонтали
+      this.model.flipImage('horizontal');
     });
 
     rotateLeft?.addEventListener('click', () => {
       console.log('rotate left');
-      state.imageRotateDegree -= 90;
-      if (state.imageRotateDegree === -360) {
-        state.imageRotateDegree = 0;
-      }
-      this.model.rotateImage();
+      this.model.rotateImage('left');
     });
 
     rotateRight?.addEventListener('click', () => {
       console.log('rotate right');
-      state.imageRotateDegree += 90;
-      if (state.imageRotateDegree === 360) {
-        state.imageRotateDegree = 0;
-      }
-      this.model.rotateImage();
+      this.model.rotateImage('right');
     });
   }
 
@@ -260,7 +334,8 @@ class Editor {
         document.querySelector('.filter.selected')?.classList.remove('selected');
         filter.classList.add('selected');
         console.log(`filter with index ${index} was chosen`);
-        //TODO: метод модели, который применяет фильтр
+        this.model.applyFilter(index);
+        this.updateElements();
       });
     });
   }
@@ -270,6 +345,8 @@ class Editor {
     const option: HTMLElement | null = document.querySelector(`.adjust-title`);
     if (option) {
       option.innerText = optionName;
+      this.model.setAdjustment(optionName);
+      this.updateElements();
     }
     //TODO: заполнить в adjust-range-input value значение из стейта (по optionName?)
     //TODO: заполнить в adjust-number-input value значение из стейта (по optionName?)
@@ -301,7 +378,7 @@ class Editor {
     range?.addEventListener('change', () => {
       if (inputNum) {
         inputNum.value = range.value;
-        //TODO: метод модели, который применяет изменения adjustments
+        this.model.useAdjustment(range.value);
         console.log(`${adjustmentName} выставлен на уровень ${inputNum.value}`);
       }
     });
@@ -318,7 +395,7 @@ class Editor {
           inputNum.value = '100';
         }
         range.value = inputNum.value;
-        //TODO: метод модели, который применяет изменения adjustments
+        this.model.useAdjustment(range.value);
         console.log(`${adjustmentName} выставлен на уровень ${range.value}`);
       }
     });
