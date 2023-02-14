@@ -27,6 +27,7 @@ class Controller {
     this.settings.handleSettings();
     this.handleImageUpload();
     this.handleImageDeletion();
+    this.handleDownloadOptions();
     this.handleImageDownload();
     this.useFileInput();
     this.dropToUploadArea();
@@ -108,7 +109,7 @@ class Controller {
       this.editor.hideOpenedToolMenus();
       this.editor.hideOpenedOptionControls();
       this.showDownloadOptions();
-      this.handleDownloadOptions();
+      // this.handleDownloadOptions();
       // this.model.downloadImage();
     });
   }
