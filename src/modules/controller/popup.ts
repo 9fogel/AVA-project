@@ -8,17 +8,15 @@ class Popup {
       noAccText: 'Don’t have an account?',
       noAccLink: 'Create Account',
       title: 'Sign in for more options',
+      emailLabel: 'Email / User Name',
       inputs: ['user-name', 'email', 'password'],
-      btn: 'Sign In',
-      btnIds: ['sign-in', 'sign-in-google'],
     },
     login: {
       noAccText: 'Already have an account?',
       noAccLink: 'Sign In',
       title: 'Create Account',
+      emailLabel: 'Email',
       inputs: ['create-user-name', 'create-email', 'create-password'],
-      btn: 'Sign Up',
-      btnIds: ['sign-up', 'sign-up-google'],
     },
   };
 
@@ -58,10 +56,12 @@ class Popup {
     const noAccText: HTMLElement | null = document.querySelector('.no-account-text');
     const noAccLink: HTMLElement | null = document.querySelector('.no-account-link');
     const title: HTMLElement | null = document.querySelector('.modal-title');
+    const emailLabel: HTMLElement | null = document.querySelector('.modal-email-label');
+    const userInput: HTMLElement | null = document.querySelector('.user-name-wrap');
     const confirmPsw: HTMLElement | null = document.querySelector('.confirm-psw-wrap');
     const signInBtn: HTMLElement | null = document.querySelector('.modal-login-btn');
+    const signUpBtn: HTMLElement | null = document.querySelector('.modal-create-btn');
     const inputs = document.getElementsByClassName('modal-input');
-    const buttons = document.getElementsByClassName('modal-btn');
     console.log(inputs);
 
     const id = noAccLink?.id;
@@ -70,25 +70,27 @@ class Popup {
     if (noAccLink) {
       if (id === 'login') {
         noAccLink.id = 'create';
+        userInput?.classList.remove('hidden');
         confirmPsw?.classList.remove('hidden');
+        signInBtn?.classList.add('hidden');
+        signUpBtn?.classList.remove('hidden');
       } else if (id === 'create') {
         noAccLink.id = 'login';
+        userInput?.classList.add('hidden');
         confirmPsw?.classList.add('hidden');
+        signUpBtn?.classList.add('hidden');
+        signInBtn?.classList.remove('hidden');
       }
     }
 
-    if (key && noAccText && title && signInBtn) {
+    if (key && noAccText && title && signInBtn && emailLabel) {
       noAccText.innerText = this.text[key].noAccText.toString();
       noAccLink.innerText = this.text[key].noAccLink.toString();
       title.innerText = this.text[key].title.toString();
-      signInBtn.innerText = this.text[key].btn.toString();
+      emailLabel.innerText = this.text[key].emailLabel.toString();
 
       Array.from(inputs).forEach((input, i) => {
         input.id = this.text[key].inputs[i];
-      });
-
-      Array.from(buttons).forEach((btn, i) => {
-        btn.id = this.text[key].btnIds[i];
       });
     }
   }
