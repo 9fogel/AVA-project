@@ -3,6 +3,7 @@ import Editor from './editor';
 import Model from '../model/model';
 import Login from './login';
 import UsersControler from './authusers';
+import UserPage from './userPage';
 
 class Controller {
   quality = 1;
@@ -12,6 +13,7 @@ class Controller {
   private readonly model: Model;
   private readonly login: Login;
   private readonly users: UsersControler;
+  private readonly userPage: UserPage;
 
   constructor() {
     this.settings = new Settings();
@@ -19,6 +21,7 @@ class Controller {
     this.model = new Model();
     this.login = new Login();
     this.users = new UsersControler();
+    this.userPage = new UserPage();
   }
 
   public run(): void {
@@ -33,6 +36,7 @@ class Controller {
     this.dropToUploadArea();
     this.editor.handleEditor();
     this.users.handleUsers();
+    this.userPage.handlePage();
   }
 
   private useFileInput(): void {
