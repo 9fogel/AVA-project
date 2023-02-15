@@ -2,7 +2,7 @@ import AuthModel from '../model/auth';
 
 class UsersControler {
   users: AuthModel;
-  JWT = localStorage.setItem('JWT', '');
+  JWT = localStorage.getItem('JWT') || localStorage.setItem('JWT', '');
   constructor() {
     this.users = new AuthModel();
   }
@@ -11,6 +11,7 @@ class UsersControler {
     this.handleRegistrationUser();
     this.handleGetUsers();
     this.handleLoginUser();
+    this.handlegetUserName();
   }
 
   handleGetUsers() {
@@ -30,6 +31,8 @@ class UsersControler {
         this.logIn(userName.value, '.login-btn');
 
         localStorage.JWT = data.token;
+        document.cookie = `user = ${data.username}; SameSite=None; HTTPOnly`;
+        document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
       }
     };
 
@@ -65,23 +68,40 @@ class UsersControler {
         this.logIn(data.username1, '.login-btn');
 
         localStorage.JWT = data.token;
+        document.cookie = `user = ${data.username1}; SameSite=None; HTTPOnly`;
+        document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
       }
     });
   }
 
   private logIn(userName: string, button: string) {
-    const buttonName = document.querySelector(button);
-    if (buttonName) {
+    const buttonLogin = document.querySelector(button);
+    const buttonName = document.querySelector('.profile-btn');
+    if (buttonLogin && buttonName) {
+      buttonLogin.classList.add('hidden');
+      buttonName.classList.remove('hidden');
       buttonName.textContent = userName;
     }
     document.querySelector('.login-modal')?.classList.remove('active');
     document.querySelector('.wrapper')?.classList.remove('active');
   }
 
+  private async handlegetUserName() {
+    const data = await this.users.getUserName();
+    if (data.username) {
+      this.logIn(data.username, '.login-btn');
+    } else {
+      this.logOut();
+    }
+  }
+
   private logOut() {
-    const buttonName = document.querySelector('.login-btn');
-    if (buttonName) {
-      buttonName.textContent = 'Sign In / Sign Up';
+    const buttonLogin = document.querySelector('.login-btn');
+    const buttonName = document.querySelector('.profile-btn');
+    if (buttonName && buttonLogin) {
+      buttonLogin.classList.remove('hidden');
+      buttonName.classList.add('hidden');
+      buttonName.textContent = 'User';
       this.JWT = localStorage.setItem('JWT', '');
     }
   }
