@@ -19,13 +19,12 @@
 
 .login-modal {
   position: absolute;
-  top: -700px;
+  top: -900px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 7;
   padding: 60px 44px;
   width: 480px;
-  // height: 500px;
   background-color: $white;
   border-radius: $border-radius;
   box-shadow: $shadow-medium;
@@ -34,7 +33,6 @@
 
 .login-modal.active {
   top: 4px;
-  // transition: all 0.6s ease-in-out;
 }
 
 .close-modal {

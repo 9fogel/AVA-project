@@ -13,6 +13,7 @@
         <p class="logo"><span class="logo-highlighted">AVA</span>editor.</p>
         <div class="user-content">
           <button class="button login-btn">Sign In / Sign Up</button>
+          <button class="button profile-btn hidden">User Profile</button>
           <div class="settings"></div>
           <div class="settings-menu hidden">
             <h2 class="settings-title">Settings</h2>
@@ -81,7 +82,7 @@
                 <button class="button modal-btn modal-login-google-btn" id="sign-in-google">Sign In with Google</button>
               </div>
             </div>
-            
+
           </div>
         </div>
       </div>
@@ -110,6 +111,51 @@
           </div>
           <div class="load-controls">
             <button class="button download-btn">Download</button>
+            <div class="download-menu hidden">
+              <h2 class="download-title">Download Options</h2>
+              <ul class="download-list">
+                <li class="download-item format-choice-item">
+                  <div class="format-choice">
+                    <label class="format-wrap selected" id="png">
+                      <input class="format-check" type="radio" />
+                      <span class="format-btn">Png</span>
+                    </label>
+                    <label class="format-wrap" id="jpeg">
+                      <input class="format-check" type="radio" />
+                      <span class="format-btn">Jpeg</span>
+                    </label>
+                    <label class="format-wrap" id="webp">
+                      <input class="format-check" type="radio" />
+                      <span class="format-btn">Webp</span>
+                    </label>
+                  </div>
+                </li>
+                <li class="download-item quality-item disabled">
+                  <p class="quality-text">Image Quality<span class="quality-note">Available for JPEG only</span></p>
+                  <div class="quality-content">
+                    <div class="quality-range-wrapper">
+                      <input class="quality-range-input" disabled type="range" min="1" step="1" value="100" />
+                    </div>
+                    <div class="quality-input-wrap">
+                      <input
+                        class="quality-number-input"
+                        type="number"
+                        min="1"
+                        step="1"
+                        value="100"
+                        maxlength="3" disabled
+                      />
+                      <span class="quality-percentage-sign">%</span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="download-buttons-wrap">
+                <button class="reset-download-btn">Reset</button>
+                <button class="apply-download-btn">Apply</button>
+              </div>
+              <div class="download-arrow"></div>
+            </div>
             <button class="button delete-btn">Delete Image</button>
           </div>
           <canvas id="canvas" height="0" class="image-canvas" crossorigin="anonymous"></canvas>
@@ -322,11 +368,11 @@
                   <li class="edit-option" id="contrast">Contrast</li>
                   <li class="edit-option" id="grayscale">Grayscale</li>
                   <li class="edit-option" id="hue">Hue</li>
+                  <li class="edit-option" id="invert">Invert</li>
+                  <li class="edit-option" id="opacity">Opacity</li>
                   <!-- <li class="edit-option" id="pixelate">Pixelate</li> -->
                   <li class="edit-option" id="saturation">Saturation</li>
                   <li class="edit-option" id="sepia">Sepia</li>
-                  <li class="edit-option" id="invert">Invert</li>
-                  <li class="edit-option" id="opacity">Opacity</li>
                 </ul>
                 <div class="option-controls adjustments-option-controls">
                   <div class="adjustments-controls hidden">

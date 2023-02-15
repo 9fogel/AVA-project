@@ -5,6 +5,8 @@ import Login from './login';
 import UsersControler from './authusers';
 
 class Controller {
+  quality = 1;
+  format = 'png';
   private readonly settings: Settings;
   private readonly editor: Editor;
   private readonly model: Model;
@@ -25,6 +27,7 @@ class Controller {
     this.settings.handleSettings();
     this.handleImageUpload();
     this.handleImageDeletion();
+    this.handleDownloadOptions();
     this.handleImageDownload();
     this.useFileInput();
     this.dropToUploadArea();
@@ -105,7 +108,9 @@ class Controller {
     downloadeBtn?.addEventListener('click', () => {
       this.editor.hideOpenedToolMenus();
       this.editor.hideOpenedOptionControls();
-      this.model.downloadImage();
+      this.showDownloadOptions();
+      // this.handleDownloadOptions();
+      // this.model.downloadImage();
     });
   }
 
@@ -114,6 +119,112 @@ class Controller {
     const uploadArea: HTMLElement | null = document.querySelector('.upload-area');
     editArea?.classList.toggle('hidden');
     uploadArea?.classList.toggle('hidden');
+  }
+
+  //_______________________________________________DOWNLOAD OPTIONS
+  private showDownloadOptions(): void {
+    const downloadMenu = document.querySelector('.download-menu');
+    downloadMenu?.classList.toggle('hidden');
+  }
+
+  private handleDownloadOptions(): void {
+    this.listenQualityChoise();
+    const formatBtns = document.querySelectorAll('.format-wrap');
+
+    formatBtns.forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelector('.format-wrap.selected')?.classList.remove('selected');
+        button.classList.add('selected');
+        this.format = button.id;
+        if (this.format === 'jpeg') {
+          this.enableQualityChoise();
+        } else {
+          this.disableQualityChoise();
+        }
+      });
+    });
+
+    this.saveDownloadOptions();
+  }
+
+  private enableQualityChoise(): void {
+    const qualityWrap = document.querySelector('.quality-item');
+    const qualityRange = document.querySelector('.quality-range-input');
+    const qualityNumInput = document.querySelector('.quality-number-input');
+    qualityWrap?.classList.remove('disabled');
+    qualityRange?.removeAttribute('disabled');
+    qualityNumInput?.removeAttribute('disabled');
+  }
+
+  private disableQualityChoise(): void {
+    const qualityWrap = document.querySelector('.quality-item');
+    const qualityRange = document.querySelector('.quality-range-input');
+    const qualityNumInput = document.querySelector('.quality-number-input');
+    qualityWrap?.classList.add('disabled');
+    qualityRange?.setAttribute('disabled', 'true');
+    qualityNumInput?.setAttribute('disabled', 'true');
+  }
+
+  private listenQualityChoise(): void {
+    const qualityRange: HTMLInputElement | null = document.querySelector('.quality-range-input');
+    const qualityNumInput: HTMLInputElement | null = document.querySelector('.quality-number-input');
+
+    qualityRange?.addEventListener('input', () => {
+      if (qualityNumInput) {
+        qualityNumInput.value = qualityRange.value;
+        this.quality = +qualityNumInput.value / 100;
+      }
+    });
+
+    qualityNumInput?.addEventListener('input', () => {
+      if (qualityRange) {
+        if (+qualityNumInput.value < 0) {
+          qualityNumInput.value = qualityNumInput.value.replace(/[^0-9 ]+/g, '');
+        }
+        if (qualityNumInput.value.startsWith('00') || qualityNumInput.value.startsWith('-0')) {
+          qualityNumInput.value = '0';
+        }
+        if (+qualityNumInput.value > 100) {
+          qualityNumInput.value = '100';
+        }
+        qualityRange.value = qualityNumInput.value;
+        this.quality = +qualityRange.value / 100;
+      }
+    });
+  }
+
+  private saveDownloadOptions(): void {
+    const resetOptions = document.querySelector('.reset-download-btn');
+    const applyOptions = document.querySelector('.apply-download-btn');
+
+    resetOptions?.addEventListener('click', () => {
+      this.resetOptions();
+    });
+
+    applyOptions?.addEventListener('click', () => {
+      console.log(`Download format - ${this.format}, quality - ${this.quality}`);
+      //TODO: передать в модель опции - формат и качество (если не jpeg, то качество не учитывать);
+      this.model.downloadImage();
+    });
+  }
+
+  private resetOptions(): void {
+    const qualityRange: HTMLInputElement | null = document.querySelector('.quality-range-input');
+    const qualityNumInput: HTMLInputElement | null = document.querySelector('.quality-number-input');
+    const selectedFormat = document.querySelector('.format-wrap.selected');
+
+    if (selectedFormat && selectedFormat.id === 'jpeg') {
+      this.disableQualityChoise();
+    }
+
+    document.querySelector('.format-wrap.selected')?.classList.remove('selected');
+    document.getElementById('png')?.classList.add('selected');
+    this.format = 'png';
+    if (qualityRange && qualityNumInput) {
+      qualityRange.value = '100';
+      qualityNumInput.value = qualityRange.value;
+      this.quality = 1;
+    }
   }
 }
 
