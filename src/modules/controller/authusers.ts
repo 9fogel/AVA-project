@@ -75,8 +75,11 @@ class UsersControler {
   }
 
   private logIn(userName: string, button: string) {
-    const buttonName = document.querySelector(button);
-    if (buttonName) {
+    const buttonLogin = document.querySelector(button);
+    const buttonName = document.querySelector('.profile-btn');
+    if (buttonLogin && buttonName) {
+      buttonLogin.classList.add('hidden');
+      buttonName.classList.remove('hidden');
       buttonName.textContent = userName;
     }
     document.querySelector('.login-modal')?.classList.remove('active');
@@ -93,9 +96,12 @@ class UsersControler {
   }
 
   private logOut() {
-    const buttonName = document.querySelector('.login-btn');
-    if (buttonName) {
-      buttonName.textContent = 'Sign In / Sign Up';
+    const buttonLogin = document.querySelector('.login-btn');
+    const buttonName = document.querySelector('.profile-btn');
+    if (buttonName && buttonLogin) {
+      buttonLogin.classList.remove('hidden');
+      buttonName.classList.add('hidden');
+      buttonName.textContent = 'User';
       this.JWT = localStorage.setItem('JWT', '');
     }
   }
