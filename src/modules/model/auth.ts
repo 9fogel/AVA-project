@@ -1,3 +1,5 @@
+const Baseurl = 'http://localhost:5000';
+
 interface ValidError {
   errors: {
     errors: Array<{ value?: string; msg: string; param: string; location: string }>;
@@ -11,7 +13,7 @@ function findIndexError(error: ValidError, value: string): number {
 
 class AuthModel {
   async getUsers() {
-    const response = await fetch('http://localhost:5000/auth/users/', {});
+    const response = await fetch(`${Baseurl}/auth/users/`, {});
 
     const data = await response.json();
     if (!response.ok) {
@@ -21,7 +23,7 @@ class AuthModel {
   }
 
   async registrationUser(username: string, userEmail: string, password: string) {
-    const response = await fetch('http://localhost:5000/auth/registration/', {
+    const response = await fetch(`${Baseurl}/auth/registration/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +63,7 @@ class AuthModel {
   }
 
   async logInUser(username: string, userEmail: string, password: string) {
-    const response = await fetch('http://localhost:5000/auth/login/', {
+    const response = await fetch(`${Baseurl}/auth/login/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +81,26 @@ class AuthModel {
         messageUser.textContent = String(JSON.stringify(data.message));
       }
     }
-    console.log(JSON.stringify(data));
+    //console.log(JSON.stringify(data));
+    return data;
+  }
+
+  async getUserName() {
+    const response = await fetch(`${Baseurl}/auth/username/`, {
+      method: 'GET',
+      headers: {
+        //'Content-Type': 'application/json',
+
+        //Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('JWT')}`,
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(`Erros:${response.status}`);
+    }
+    console.log(data);
     return data;
   }
 }

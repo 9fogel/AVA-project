@@ -2,7 +2,7 @@ import AuthModel from '../model/auth';
 
 class UsersControler {
   users: AuthModel;
-  JWT = localStorage.setItem('JWT', '');
+  JWT = localStorage.getItem('JWT') || localStorage.setItem('JWT', '');
   constructor() {
     this.users = new AuthModel();
   }
@@ -11,6 +11,7 @@ class UsersControler {
     this.handleRegistrationUser();
     this.handleGetUsers();
     this.handleLoginUser();
+    this.handlegetUserName();
   }
 
   handleGetUsers() {
@@ -30,6 +31,8 @@ class UsersControler {
         this.logIn(userName.value, '.login-btn');
 
         localStorage.JWT = data.token;
+        document.cookie = `user = ${data.username}; SameSite=None; HTTPOnly`;
+        document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
       }
     };
 
@@ -65,6 +68,8 @@ class UsersControler {
         this.logIn(data.username1, '.login-btn');
 
         localStorage.JWT = data.token;
+        document.cookie = `user = ${data.username1}; SameSite=None; HTTPOnly`;
+        document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
       }
     });
   }
@@ -76,6 +81,15 @@ class UsersControler {
     }
     document.querySelector('.login-modal')?.classList.remove('active');
     document.querySelector('.wrapper')?.classList.remove('active');
+  }
+
+  private async handlegetUserName() {
+    const data = await this.users.getUserName();
+    if (data.username) {
+      this.logIn(data.username, '.login-btn');
+    } else {
+      this.logOut();
+    }
   }
 
   private logOut() {
