@@ -236,19 +236,19 @@ class Editor {
   }
 
   //________________________________________________CROP
-  private listenCrop() {
+  private listenCrop(): void {
     this.listenCropArea();
     this.listenCropDone();
   }
 
-  private listenCropArea() {
+  private listenCropArea(): void {
     document.getElementById('crop')?.addEventListener('click', () => {
       this.model.alignImage();
       this.model.selectCropArea();
     });
   }
 
-  private listenCropDone() {
+  private listenCropDone(): void {
     document.getElementById('crop-done')?.addEventListener('click', () => {
       this.model.cropImage();
     });

@@ -5,12 +5,14 @@ class Model {
   private canvas: HTMLCanvasElement | null;
   private context: CanvasRenderingContext2D | null;
   private image: HTMLImageElement | null;
+  private defaultImage: HTMLImageElement | null;
   private readonly presets: Presets;
 
   constructor() {
     this.canvas = document.getElementById('canvas') as HTMLCanvasElement | null;
     this.context = this.canvas?.getContext('2d') as CanvasRenderingContext2D | null;
     this.image = document.getElementById('sourceImage') as HTMLImageElement | null;
+    this.defaultImage = document.getElementById('defaultImage') as HTMLImageElement | null;
     this.presets = new Presets();
   }
 
@@ -20,8 +22,9 @@ class Model {
     if (fileInput instanceof HTMLInputElement) {
       const files: FileList | null = fileInput.files;
 
-      if (files && this.image && this.canvas) {
+      if (files && this.image && this.canvas && this.defaultImage) {
         this.image.src = URL.createObjectURL(files[0]);
+        this.defaultImage.src = URL.createObjectURL(files[0]);
         await this.image.decode();
         if (this.image) {
           CanvasState.resetState();
@@ -175,7 +178,7 @@ class Model {
   }
 
   private mouseEvents = {
-    mouseover() {
+    mouseover(): void {
       if (CanvasState.parameters.selection) {
         const canvas = document.getElementById('canvas') as HTMLCanvasElement | null;
         if (canvas) {
@@ -184,7 +187,7 @@ class Model {
       }
     },
 
-    mousedown() {
+    mousedown(): void {
       const { clientX, clientY, offsetX, offsetY } = event as MouseEvent;
       CanvasState.parameters.startX = clientX;
       CanvasState.parameters.startY = clientY;
@@ -193,7 +196,7 @@ class Model {
       CanvasState.parameters.startSelection = true;
     },
 
-    mousemove() {
+    mousemove(): void {
       const { clientX, clientY } = event as MouseEvent;
 
       CanvasState.parameters.endX = clientX;
@@ -228,7 +231,7 @@ class Model {
       }
     },
 
-    mouseup() {
+    mouseup(): void {
       CanvasState.parameters.startSelection = false;
       const { offsetX, offsetY } = event as MouseEvent;
       CanvasState.parameters.relativeEndX = offsetX;
@@ -236,7 +239,7 @@ class Model {
     },
   };
 
-  public selectCropArea() {
+  public selectCropArea(): void {
     CanvasState.parameters.startSelection = false;
     if (this.canvas) {
       this.canvas.addEventListener('mouseover', this.mouseEvents.mouseover);
@@ -247,7 +250,7 @@ class Model {
     CanvasState.parameters.imageCrop = true;
   }
 
-  public removeCropArea() {
+  public removeCropArea(): void {
     if (this.canvas && CanvasState.parameters.selection) {
       this.canvas.removeEventListener('mouseover', this.mouseEvents.mouseover);
       this.canvas.removeEventListener('mousedown', this.mouseEvents.mousedown);
@@ -258,7 +261,7 @@ class Model {
     }
   }
 
-  public cropImage() {
+  public cropImage(): void {
     if (this.canvas && this.context && CanvasState.parameters.selection) {
       const widthFactor = this.canvas.width / this.canvas.offsetWidth;
       const heightFactor = this.canvas.height / this.canvas.offsetHeight;
@@ -277,7 +280,7 @@ class Model {
     }
   }
 
-  public alignImage() {
+  public alignImage(): void {
     if (this.context && this.canvas && this.image) {
       CanvasState.parameters.imageRotate = false;
       CanvasState.parameters.imageCrop = false;
@@ -289,6 +292,17 @@ class Model {
       CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
       this.applyСhanges();
     }
+  }
+
+  public resetChanges(): void {
+    CanvasState.resetState();
+    if (this.image && this.defaultImage) {
+      CanvasState.parameters.imageWidth = this.defaultImage.naturalWidth;
+      CanvasState.parameters.imageHeight = this.defaultImage.naturalHeight;
+      this.image.src = this.defaultImage.src;
+    }
+
+    this.applyСhanges();
   }
 
   private applyСhanges(): void {
@@ -307,11 +321,7 @@ class Model {
       }) opacity(${CanvasState.parameters.opacity / 100})`;
 
       if (CanvasState.parameters.imageRotate === false) {
-        if (
-          CanvasState.parameters.imageCrop === false ||
-          (CanvasState.parameters.imageCrop === true &&
-            (CanvasState.parameters.croppedWidth === 0 || CanvasState.parameters.croppedHeight === 0))
-        ) {
+        if (CanvasState.parameters.imageCrop === false) {
           this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
           this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
           this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
@@ -343,6 +353,10 @@ class Model {
             this.canvas.width,
             this.canvas.height,
           );
+          this.context.globalCompositeOperation = 'color';
+          this.context.fillStyle = CanvasState.parameters.color;
+          this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
+          this.context.globalCompositeOperation = 'source-over';
           this.image.src = this.canvas.toDataURL();
           CanvasState.parameters.imageCrop = false;
         }

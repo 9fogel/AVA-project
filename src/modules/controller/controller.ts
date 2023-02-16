@@ -37,6 +37,7 @@ class Controller {
     this.editor.handleEditor();
     this.users.handleUsers();
     this.userPage.handlePage();
+    this.handleResetChanges();
   }
 
   private useFileInput(): void {
@@ -228,6 +229,14 @@ class Controller {
       qualityNumInput.value = qualityRange.value;
       this.quality = 1;
     }
+  }
+
+  //__________________________________________RESET ALL CHANGES
+  private handleResetChanges(): void {
+    const resetBtn: HTMLElement | null = document.querySelector('.reset-btn');
+    resetBtn?.addEventListener('click', () => {
+      this.model.resetChanges();
+    });
   }
 }
 
