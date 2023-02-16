@@ -384,6 +384,30 @@
   box-shadow: $shadow-small;
 }
 
+#selection-tool {
+  position: fixed;
+  display: none;
+  border: 2px dashed greenyellow;
+}
+
+#selection-tool-height {
+  font-size: 14px;
+  position: absolute;
+  right: 0;
+  bottom: -25px;
+  margin: 1px;
+  color: greenyellow;
+}
+#selection-tool-width {
+  font-size: 14px;
+  writing-mode: vertical-rl;
+  position: absolute;
+  right: -25px;
+  bottom: 0;
+  margin: 1px;
+  color: greenyellow;
+}
+
 .edit-tools {
   position: absolute;
   left: 50%;

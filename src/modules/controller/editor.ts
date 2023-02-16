@@ -18,6 +18,7 @@ class Editor {
   }
 
   public updateElements(): void {
+    // this.model.removeCropArea();
     const resizeWidthInput = <HTMLInputElement>document.getElementById('width-input');
     const resizeHeightInput = <HTMLInputElement>document.getElementById('height-input');
     const adjustRangeInput = <HTMLInputElement>document.querySelector('.adjust-range-input');
@@ -147,7 +148,6 @@ class Editor {
         // console.log('current target', e.currentTarget);
         const toolName = tool.id;
         if (toolName && e.target instanceof HTMLLIElement) {
-          // console.log(toolName);
           if (e.target.classList.contains('tool-item')) {
             //TODO: спрятать другие открытые менюхи и убрать .selected с.tool-item с открытым меню
             //TODO: если открыты подменю, то закрывать их
@@ -169,6 +169,7 @@ class Editor {
     this.listenFlipAndRotate();
     this.listenFilters();
     this.listenAdjustments();
+    this.listenCrop();
     //TODO сюда добавятся методы и на другие опции
   }
 
@@ -231,6 +232,25 @@ class Editor {
         const optionName: string = arrow.id.slice(0, -6);
         this.hideOptionControls(optionName);
       });
+    });
+  }
+
+  //________________________________________________CROP
+  private listenCrop() {
+    this.listenCropArea();
+    this.listenCropDone();
+  }
+
+  private listenCropArea() {
+    document.getElementById('crop')?.addEventListener('click', () => {
+      this.model.alignImage();
+      this.model.selectCropArea();
+    });
+  }
+
+  private listenCropDone() {
+    document.getElementById('crop-done')?.addEventListener('click', () => {
+      this.model.cropImage();
     });
   }
 

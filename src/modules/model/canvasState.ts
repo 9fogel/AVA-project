@@ -21,6 +21,22 @@ class CanvasState {
     invert: 0,
     opacity: 100,
     currentPreset: 0,
+    imageCrop: false,
+    selection: document.getElementById('selection-tool'),
+    startSelection: false,
+    startX: 0,
+    startY: 0,
+    relativeStartX: 0,
+    relativeStartY: 0,
+    endX: 0,
+    endY: 0,
+    relativeEndX: 0,
+    relativeEndY: 0,
+    event: { string: 0 },
+    croppedWidth: 0,
+    croppedHeight: 0,
+    actualX: 0,
+    actualY: 0,
   };
 
   static resetState() {
@@ -44,7 +60,20 @@ class CanvasState {
       (this.parameters.sepia = 0),
       (this.parameters.invert = 0),
       (this.parameters.opacity = 100),
-      (this.parameters.currentPreset = 0);
+      (this.parameters.currentPreset = 0),
+      (this.parameters.imageCrop = false),
+      (this.parameters.startSelection = false),
+      (this.parameters.relativeStartX = 0),
+      (this.parameters.relativeStartY = 0),
+      (this.parameters.endX = 0),
+      (this.parameters.endY = 0),
+      (this.parameters.relativeEndX = 0),
+      (this.parameters.relativeEndY = 0),
+      (this.parameters.event = { string: 0 }),
+      (this.parameters.croppedWidth = 0),
+      (this.parameters.croppedHeight = 0),
+      (this.parameters.actualX = 0),
+      (this.parameters.actualY = 0);
   }
 }
 
