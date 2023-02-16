@@ -1,0 +1,273 @@
+.profile-page-wrapper {
+  display: grid;
+  grid-template-columns: 3fr 9fr;
+  min-height: 65vh;
+  background-color: $light-gray;
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  transition: ease-in-out .3s;
+}
+
+.profile-page-wrapper.hidden {
+  display: none;
+}
+
+.profile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  width: 439px;
+  font-size: 20px;
+  background-color: $white;
+}
+
+.user-account-content,
+.get-premium-content {
+  position: relative;
+  padding: 42px 20px 32px 32px;
+}
+
+.return-btn {
+  position: absolute;
+  right: 20px;
+  top: 16px;
+  padding-left: 52px;
+  font-weight: 400;
+  background-color: transparent;
+  background-image: url('img/back-to-editor-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.nav-item {
+  cursor: pointer;
+  padding: 14px 56px;
+  border-radius: $border-radius;
+}
+
+.nav-item.selected {
+  padding: 14px 56px;
+  font-weight: bold;
+  background-color: $light-gray;
+}
+
+.nav-item:hover {
+  color: $blue;
+  transition: ease-in-out .3s;
+}
+
+.account-item {
+  background-image: url('img/user-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.premium-item {
+  background-image: url('img/premium-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.sign-out-item {
+  background-image: url('img/sign-out-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.account-item:hover {
+  background-image: url('img/user-icon-hover.svg');
+}
+
+.premium-item:hover {
+  background-image: url('img/premium-icon-hover.svg');
+}
+
+.sign-out-item:hover {
+  background-image: url('img/sign-out-icon-hover.svg');
+}
+
+.profile-title {
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.user-info {
+  margin-bottom: 64px;
+}
+
+.info-title {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-input-wrap {
+  display: flex;
+  gap: 16px;
+}
+
+.info-input-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: $light-black;
+}
+
+.info-input {
+  padding: 12px 16px;
+  width: 389px;
+  height: 60px;
+  color: $black;
+  background-color: $white;
+  background-image: url('img/edit-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: calc(100% - 16px) 50%;
+  border: 1px solid $black;
+  border-radius: $border-radius;
+  outline: 0;
+}
+
+.info-input:focus {
+  border-color: $blue;
+}
+
+.info-message {
+  font-size: 12px;
+  font-weight: bold;
+  color: $red;
+}
+
+.save-changes-btn {
+  // justify-self: flex-start;
+  align-self: self-start;
+  margin-top: 22px;
+  padding: 18px 33px 18px 68px;
+  font-weight: bold;
+  color: $black;
+  background-color: $blue;
+  background-image: url('img/save-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+  border-radius: $border-radius-btn;
+  box-shadow: $shadow-medium;
+}
+
+.save-changes-btn:hover {
+  background-color: $blue-hover;
+}
+
+.manage-text {
+  margin-bottom: 16px;
+}
+
+.delete-account-btn,
+.get-premium-btn {
+  margin-bottom: 32px;
+  padding: 11px 24px 10px 51px;
+  background-color: $blue;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+  border-radius: $border-radius-btn;
+  box-shadow: $shadow-medium;
+}
+
+.delete-account-btn {
+  background-image: url('img/delete-icon.svg');
+}
+
+.get-premium-btn {
+  background-image: url('img/premium-icon.svg');
+}
+
+.delete-account-btn:hover,
+.get-premium-btn:hover {
+  cursor: pointer;
+  background-color: $blue-hover;
+  transition: ease-in-out .3s;
+}
+
+//dark theme styles
+.dark-theme {
+  .profile-page-wrapper {
+    background-color: $light-black;
+  }
+
+  .profile-nav-list {
+    background-color: $black;
+  }
+
+  .nav-item.selected {
+    background-color: $light-black;
+  }
+
+  .account-item {
+    background-image: url('img/dark-user-icon.svg');
+  }
+
+  .premium-item {
+    background-image: url('img/dark-premium-icon.svg');
+  }
+
+  .sign-out-item {
+    background-image: url('img/dark-sign-out-icon.svg');
+  }
+
+  .account-item:hover {
+    background-image: url('img/user-icon-hover.svg');
+  }
+
+  .premium-item:hover {
+    background-image: url('img/premium-icon-hover.svg');
+  }
+
+  .sign-out-item:hover {
+    background-image: url('img/sign-out-icon-hover.svg');
+  }
+
+  .return-btn {
+    color: $white;
+    background-image: url('img/dark-back-to-editor-icon.svg');
+  }
+
+  .return-btn:hover {
+    color: $black;
+    background-image: url('img/back-to-editor-icon.svg');
+  }
+
+  .info-label {
+    color: $light-gray;
+  }
+
+  .info-input {
+    color: $white;
+    border: 1px solid $white;
+    background-color: $light-black;
+    background-image: url('img/dark-edit-icon.svg');
+  }
+
+  .info-input:focus {
+    border-color: $blue;
+    transition: ease-in-out .3s;
+  }
+
+}
