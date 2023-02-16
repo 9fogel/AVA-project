@@ -339,6 +339,15 @@ class Model {
         } else if (CanvasState.parameters.imageCrop === true) {
           CanvasState.parameters.imageWidth = this.canvas.width = Math.round(CanvasState.parameters.croppedWidth);
           CanvasState.parameters.imageHeight = this.canvas.height = Math.round(CanvasState.parameters.croppedHeight);
+
+          this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
+            CanvasState.parameters.brightness
+          }%) contrast(${CanvasState.parameters.contrast}%) grayscale(${
+            CanvasState.parameters.grayscale
+          }%) hue-rotate(${CanvasState.parameters.hue}deg) saturate(${CanvasState.parameters.saturation}%)  sepia(${
+            CanvasState.parameters.sepia
+          }%) invert(${CanvasState.parameters.invert / 100}) opacity(${CanvasState.parameters.opacity / 100})`;
+
           this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
           this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
           this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
