@@ -37,6 +37,7 @@ class Controller {
     this.editor.handleEditor();
     this.users.handleUsers();
     this.userPage.handlePage();
+    this.handleResetChanges();
   }
 
   private useFileInput(): void {
@@ -103,6 +104,7 @@ class Controller {
       this.editor.hideOpenedToolMenus();
       this.editor.hideOpenedOptionControls();
       this.model.deleteImage();
+      document.getElementById('crop-done')?.click();
       this.switchWorkingAreas();
     });
   }
@@ -207,8 +209,7 @@ class Controller {
 
     applyOptions?.addEventListener('click', () => {
       console.log(`Download format - ${this.format}, quality - ${this.quality}`);
-      //TODO: передать в модель опции - формат и качество (если не jpeg, то качество не учитывать);
-      this.model.downloadImage();
+      this.model.downloadImage(this.format, this.quality);
     });
   }
 
@@ -229,6 +230,14 @@ class Controller {
       qualityNumInput.value = qualityRange.value;
       this.quality = 1;
     }
+  }
+
+  //__________________________________________RESET ALL CHANGES
+  private handleResetChanges(): void {
+    const resetBtn: HTMLElement | null = document.querySelector('.reset-btn');
+    resetBtn?.addEventListener('click', () => {
+      this.model.resetChanges();
+    });
   }
 }
 
