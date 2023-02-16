@@ -207,8 +207,7 @@ class Controller {
 
     applyOptions?.addEventListener('click', () => {
       console.log(`Download format - ${this.format}, quality - ${this.quality}`);
-      //TODO: передать в модель опции - формат и качество (если не jpeg, то качество не учитывать);
-      this.model.downloadImage();
+      this.model.downloadImage(this.format, this.quality);
     });
   }
 
