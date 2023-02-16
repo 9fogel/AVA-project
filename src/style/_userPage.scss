@@ -17,7 +17,6 @@
   flex-direction: column;
   gap: 16px;
   padding: 32px;
-  width: 439px;
   font-size: 20px;
   background-color: $white;
 }
@@ -98,11 +97,23 @@
 }
 
 .user-info {
+  position: relative;
   margin-bottom: 64px;
 }
 
+.user-info::after {
+  position: absolute;
+  left: 0;
+  bottom: -32px;
+  width: 100%;
+  height: 1px;
+  content: '';
+  background-color: $gray;
+  // opacity: 0.8;
+}
+
 .info-title {
-  margin-bottom: 20px;
+  margin-bottom: 32px;
   font-size: 20px;
   font-weight: bold;
 }
@@ -122,6 +133,22 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-top: -20px;
+}
+
+.info-password-content {
+  display: flex;
+  gap: 16px;
+}
+
+.info-password-content.hidden {
+  display: none;
+}
+
+.change-password-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 
 .info-label {
@@ -130,13 +157,14 @@
   color: $light-black;
 }
 
-.info-input {
+.info-input,
+.change-password-input,
+.confirm-deletion-input,
+.promo-input {
   padding: 12px 16px;
-  width: 389px;
   height: 60px;
   color: $black;
   background-color: $white;
-  background-image: url('img/edit-icon.svg');
   background-repeat: no-repeat;
   background-size: 24px 24px;
   background-position: calc(100% - 16px) 50%;
@@ -145,21 +173,40 @@
   outline: 0;
 }
 
-.info-input:focus {
+.info-input {
+  width: 389px;
+  background-image: url('img/edit-icon.svg');
+}
+
+.change-password-input,
+.promo-input {
+  width: 267px;
+}
+
+.confirm-deletion-input {
+  width: 389px;
+}
+
+.change-password-input:focus,
+.info-input:focus,
+.confirm-deletion-input:focus {
   border-color: $blue;
 }
 
 .info-message {
+  padding-bottom: 12px;
   font-size: 12px;
   font-weight: bold;
   color: $red;
 }
 
-.save-changes-btn {
+.save-changes-btn,
+.update-password-btn,
+.confirm-deletion-btn {
   // justify-self: flex-start;
   align-self: self-start;
-  margin-top: 22px;
-  padding: 18px 33px 18px 68px;
+  margin-top: 2px;
+  padding: 18px 33px 18px 54px;
   font-weight: bold;
   color: $black;
   background-color: $blue;
@@ -171,7 +218,12 @@
   box-shadow: $shadow-medium;
 }
 
-.save-changes-btn:hover {
+.update-password-btn {
+  background-image: url('img/change-password-icon.svg');
+}
+
+.save-changes-btn:hover,
+.update-password-btn:hover {
   background-color: $blue-hover;
 }
 
@@ -179,6 +231,7 @@
   margin-bottom: 16px;
 }
 
+.change-password-btn,
 .delete-account-btn,
 .get-premium-btn {
   margin-bottom: 32px;
@@ -191,7 +244,13 @@
   box-shadow: $shadow-medium;
 }
 
-.delete-account-btn {
+.change-password-btn {
+  margin-bottom: 0;
+  background-image: url('img/change-password-icon.svg');
+}
+
+.delete-account-btn,
+.confirm-deletion-btn {
   background-image: url('img/delete-icon.svg');
 }
 
@@ -199,11 +258,53 @@
   background-image: url('img/premium-icon.svg');
 }
 
+.change-password-btn:hover,
 .delete-account-btn:hover,
 .get-premium-btn:hover {
   cursor: pointer;
   background-color: $blue-hover;
   transition: ease-in-out .3s;
+}
+
+.confirm-deletion-wrap {
+  margin-top: 32px;
+}
+
+.confirm-deletion-wrap.hidden {
+  display: none;
+}
+
+.premium-banner {
+  margin-bottom: 24px;
+  width: 500px;
+  height: 350px;
+  background-image: url('img/premium-banner.jpg');
+  background-size: cover;
+  border-radius: $border-radius;
+  box-shadow: $shadow-medium;
+}
+
+.premium-text {
+  margin-bottom: 24px;
+}
+
+.premium-text.highlighted {
+  font-weight: bold;
+  color: $blue;
+}
+
+.premium-text.uppercase {
+  text-transform: uppercase;
+}
+
+.promo-input-wrap {
+  margin-top: 32px;
+}
+
+.get-premium-btn:disabled {
+  cursor: default;
+  background-color: #2d294280;
+  opacity: 0.8;
 }
 
 //dark theme styles
@@ -265,9 +366,29 @@
     background-image: url('img/dark-edit-icon.svg');
   }
 
-  .info-input:focus {
+  .change-password-input,
+  .confirm-deletion-input,
+  .promo-input {
+    color: $white;
+    border: 1px solid $white;
+    background-color: $light-black;
+  }
+
+  .info-input:focus,
+  .change-password-input:focus,
+  .confirm-deletion-input:focus,
+  .promo-input:focus {
     border-color: $blue;
     transition: ease-in-out .3s;
+  }
+
+  .confirm-deletion-input::placeholder {
+    color: $black;
+  }
+
+  .get-premium-btn:disabled {
+    background-color: $white;
+    opacity: 0.4;
   }
 
 }

@@ -13,7 +13,7 @@
         <p class="logo"><span class="logo-highlighted">AVA</span>editor.</p>
         <div class="user-content">
           <button class="button login-btn">Sign In / Sign Up</button>
-          <button class="button profile-btn">User Profile</button>
+          <button class="button profile-btn hidden">User Profile</button>
           <div class="settings"></div>
           <div class="settings-menu hidden">
             <h3 class="settings-title">Settings</h3>
@@ -356,7 +356,7 @@
                     <input class="info-input" type="text" id="info-user-name">
                     <p class="info-message info-user-message">Some message here</p>
                   </div>
-                  <button class="save-changes-btn hidden">Save Changes</button>
+                  <button class="save-changes-btn hidden" id="save-username">Save Changes</button>
                 </div>
                 <div class="info-input-wrap">
                   <div class="info-input-content">
@@ -364,25 +364,64 @@
                     <input class="info-input" type="email" id="info-email">
                     <p class="info-message info-email-message"> </p>
                   </div>
-                  <button class="save-changes-btn hidden">Save Changes</button>
-                </div>
-                <div class="info-input-content">
-                  <label class="info-label">Password</label>
-                  <input class="info-input" type="password" id="info-password">
-                  <p class="info-message info-password-message"> </p>
-                </div>
-              </div>
+                  <button class="save-changes-btn hidden" id="save-email">Save Changes</button>
+                  </div>
+                  <div class="change-password-wrap">
+                    <button class="change-password-btn" id="change-password">Change Password</button>
+                    <h3 class="change-password-title hidden">Change Password</h3>
+                  </div>
+                  <div class="info-password-content hidden">
+                    <div class="info-input-content">
+                      <label class="info-label">Old Password</label>
+                      <input class="change-password-input" type="password" id="old-password">
+                      <p class="info-message info-password-message"> </p>
+                    </div>
+                    <div class="info-input-content">
+                      <label class="info-label">New Password</label>
+                      <input class="change-password-input" type="password" id="new-password">
+                      <p class="info-message info-password-message"> </p>
+                    </div>
+                    <div class="info-input-content">
+                      <label class="info-label">Confirm New Password</label>
+                      <input class="change-password-input" type="password" id="confirm-new-password">
+                      <p class="info-message info-password-message"> </p>
+                    </div>
+                    <button class="update-password-btn hidden">Update Password</button>
+                  </div>
+                  </div>
             </div>
             <div class="manage-account">
               <h3 class="info-title">Manage Account</h3>
               <p class="manage-text">Here you can delete all user data and your account</p>
               <button class="delete-account-btn" id="delete-account">Delete Account</button>
+              <div class="info-input-wrap confirm-deletion-wrap hidden">
+                <div class="info-input-content">
+                  <label class="info-label">Password</label>
+                  <input class="confirm-deletion-input" type="password" placeholder="Please enter your password to confirm deletion">
+                  <p class="info-message delete-account-message"> </p>
+                </div>
+                <button class="confirm-deletion-btn" id="confirm-deletion">Delete Account</button>
+                </div>
             </div>
           </div>
           <div class="get-premium-content">
             <button class="button return-btn">Back to Editor</button>
             <h2 class="profile-title">Get Premium</h2>
-            <button class="get-premium-btn" id="get-premium">Get Premium</button>
+            <div class="premium-banner"></div>
+            <div class="buy-premium-content">
+              <p class="premium-text">Enter <span class="premium-text highlighted">RSSchool</span> promo and get your <span class="premium-text uppercase">premium</span> for free!</p>
+              <div class="info-input-wrap promo-input-wrap">
+                <div class="info-input-content">
+                  <label class="info-label">Promo</label>
+                  <input class="promo-input" type="text" id="promo">
+                  <p class="info-message promo-user-message">Promo is not valid</p>
+                </div>
+                <button class="get-premium-btn" id="get-premium" disabled>Get Premium</button>
+              </div>
+            </div>
+            <div class="already-premium-content hidden">
+              <p><span class="premium-text uppercase">premium</span> access is already available for you. Enjoy!</p>
+            </div>
           </div>
         </div>
       </div>
