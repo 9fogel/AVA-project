@@ -11,6 +11,12 @@ class UsersControler {
   saveEmail: HTMLButtonElement | null = document.querySelector('#save-email');
   userMessage: HTMLElement | null = document.querySelector('.info-user-message');
   emailMessage: HTMLElement | null = document.querySelector('.info-email-message');
+
+  inputOldPasswors: HTMLInputElement | null = document.querySelector('#old-password');
+  inputNewPassword: HTMLInputElement | null = document.querySelector('#new-password');
+  inputConfirmNewPassword: HTMLInputElement | null = document.querySelector('#confirm-new-password');
+  updatePasswordBtn: HTMLButtonElement | null = document.querySelector('.update-password-btn');
+
   JWT = localStorage.getItem('JWT') || localStorage.setItem('JWT', '');
   constructor() {
     this.users = new AuthModel();
@@ -31,6 +37,8 @@ class UsersControler {
     }
 
     this.handleDeleteUser();
+
+    this.handleUpdatePassword();
   }
 
   handleGetUsers() {
@@ -130,7 +138,7 @@ class UsersControler {
       buttonName.classList.add('hidden');
       buttonName.textContent = 'User Profil';
       this.JWT = localStorage.setItem('JWT', '');
-      console.log('logout');
+      //console.log('logout');
     }
   }
 
@@ -208,6 +216,83 @@ class UsersControler {
         }
       });
     }
+  }
+
+  private listenInputs() {
+    //
+    const messageNewPassword = document.querySelectorAll('.info-password-message')[1] as HTMLElement;
+
+    //   inputOldPasswors:
+    // inputNewPassword:
+    // inputConfirmNewPassword:
+    // updatePasswordBtn:
+    if (
+      this.inputOldPasswors &&
+      this.inputNewPassword &&
+      this.inputConfirmNewPassword &&
+      this.updatePasswordBtn &&
+      messageNewPassword
+    ) {
+      [this.inputNewPassword, this.inputConfirmNewPassword].forEach((el) => {
+        el.addEventListener('input', () => {
+          if (
+            this.inputNewPassword?.value === this.inputConfirmNewPassword?.value &&
+            String(this.inputOldPasswors?.value).length > 0
+          ) {
+            this.updatePasswordBtn?.classList.remove('hidden');
+            messageNewPassword.textContent = 'Password match';
+            messageNewPassword.style.color = 'green';
+          } else {
+            this.updatePasswordBtn?.classList.add('hidden');
+            messageNewPassword.textContent = 'Password mismatch';
+            messageNewPassword.style.color = 'red';
+          }
+        });
+      });
+    }
+  }
+
+  private handleUpdatePassword() {
+    this.listenInputs();
+
+    const messageOldPassword = document.querySelectorAll('.info-password-message')[0] as HTMLElement;
+    const messageNewPassword = document.querySelectorAll('.info-password-message')[1] as HTMLElement;
+
+    this.updatePasswordBtn?.addEventListener('click', async () => {
+      if (this.inputOldPasswors) {
+        const data = await this.users.checkPassword(this.inputOldPasswors.value);
+        console.log(data);
+
+        if (data.messageLog || data.message) {
+          this.nonLogIn();
+        }
+
+        if (data.messageNo) {
+          messageOldPassword.textContent = JSON.stringify(data.messageNo);
+          messageOldPassword.style.color = 'red';
+        }
+
+        if (data.messageOK && this.inputNewPassword) {
+          messageOldPassword.textContent = JSON.stringify(data.messageOK);
+          messageOldPassword.style.color = 'green';
+
+          const newData = await this.users.updatePassword(data.username, this.inputNewPassword.value);
+          if (newData.errors) {
+            messageNewPassword.textContent = 'Password length must be between 4 and 10 characters';
+            messageNewPassword.style.color = 'red';
+          }
+
+          if (newData.messageOK) {
+            messageOldPassword.textContent = JSON.stringify(newData.messageOK);
+            messageOldPassword.style.color = 'green';
+          }
+
+          if (newData.message) {
+            this.nonLogIn();
+          }
+        }
+      }
+    });
   }
 
   private nonLogIn() {

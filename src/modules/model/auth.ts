@@ -106,7 +106,7 @@ class AuthModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`);
     }
-    console.log(data);
+    //console.log(data);
     return data;
   }
 
@@ -155,6 +155,45 @@ class AuthModel {
       //}
     }
     //console.log(JSON.stringify(data));
+    return data;
+  }
+
+  async checkPassword(password: string) {
+    const response = await fetch(`${Baseurl}/auth/checkpassword`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+
+        //Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('JWT')}`,
+      },
+      body: JSON.stringify({ password }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(`Erros:${response.status}`);
+    }
+    //console.log(data);
+    return data;
+  }
+
+  async updatePassword(username: string, password: string) {
+    const response = await fetch(`${Baseurl}/auth/updatepassword`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+
+        //Accept: 'application/json',
+        //Authorization: `Bearer ${localStorage.getItem('JWT')}`,
+      },
+      body: JSON.stringify({ username, password }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(`Erros:${response.status}`);
+    }
+    //console.log(data);
     return data;
   }
 }
