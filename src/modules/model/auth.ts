@@ -196,6 +196,25 @@ class AuthModel {
     //console.log(data);
     return data;
   }
+
+  async updatePremium(key: string) {
+    const response = await fetch(`${Baseurl}/auth/updaterole`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+
+        //Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('JWT')}`,
+      },
+      body: JSON.stringify({ key }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(`Erros:${response.status}`);
+    }
+    //console.log(data);
+    return data;
+  }
 }
 
 export default AuthModel;

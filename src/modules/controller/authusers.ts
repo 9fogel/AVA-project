@@ -1,8 +1,10 @@
 import AuthModel from '../model/auth';
 import { user } from '../model/auth';
 import UserPage from './userPage';
+import State from '../state.ts/editorState';
 
 class UsersControler {
+  static State: State;
   users: AuthModel;
   userPage: UserPage;
   inputName = document.querySelector('#info-user-name') as HTMLInputElement;
@@ -39,6 +41,8 @@ class UsersControler {
     this.handleDeleteUser();
 
     this.handleUpdatePassword();
+
+    this.handeUpdatePremium();
   }
 
   handleGetUsers() {
@@ -56,6 +60,7 @@ class UsersControler {
 
       if (data.token) {
         this.logIn(data.username, data.username, data.userEmail);
+        this.updateState(data.roles);
 
         localStorage.JWT = data.token;
         // document.cookie = `user = ${data.username}; SameSite=None; HTTPOnly`;
@@ -93,6 +98,7 @@ class UsersControler {
       console.log(data);
       if (data.token) {
         this.logIn(data.username1, data.username1, data.userEmail1);
+        this.updateState(data.roles);
 
         localStorage.JWT = data.token;
         // document.cookie = `user = ${data.username1}; SameSite=None; HTTPOnly`;
@@ -125,6 +131,8 @@ class UsersControler {
     //console.log(data);
     if (data.username) {
       this.logIn(data.username, data.username, data.userEmail);
+      this.updateState(data.roles);
+      console.log('f', State.userState);
     } else {
       this.logOut();
     }
@@ -138,6 +146,8 @@ class UsersControler {
       buttonName.classList.add('hidden');
       buttonName.textContent = 'User Profil';
       this.JWT = localStorage.setItem('JWT', '');
+
+      State.userState = 'default';
       //console.log('logout');
     }
   }
@@ -309,6 +319,46 @@ class UsersControler {
 
     //}
     alert('You log out earlier. ');
+  }
+
+  private updateState(array: Array<string>) {
+    if (array.includes('USER') && !array.includes('PREMIUM')) {
+      State.userState = 'user';
+    } else if (array.includes('PREMIUM')) {
+      State.userState = 'premium';
+    } else {
+      State.userState = 'default';
+    }
+  }
+
+  private handeUpdatePremium() {
+    const inputPremium: HTMLInputElement | null = document.querySelector('#promo');
+    const buttonPremium: HTMLButtonElement | null = document.querySelector('#get-premium');
+    const messgePremium: HTMLElement | null = document.querySelector('.promo-user-message');
+    if (inputPremium && messgePremium) {
+      buttonPremium?.addEventListener('click', async () => {
+        const data = await this.users.updatePremium(inputPremium.value);
+
+        if (data.messageLog || data.message) {
+          this.nonLogIn();
+        }
+
+        if (data.messageNo) {
+          messgePremium.textContent = JSON.stringify(data.messageNo);
+          messgePremium.style.color = 'red';
+
+          console.log('Premium no');
+        }
+
+        if (data.messageOK) {
+          messgePremium.textContent = JSON.stringify(data.messageOK);
+          messgePremium.style.color = 'green';
+
+          State.userState = 'premium';
+          console.log('Premium yes');
+        }
+      });
+    }
   }
 
   private clearText(container: HTMLElement) {
