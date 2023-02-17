@@ -227,6 +227,13 @@
   background-color: $blue-hover;
 }
 
+.update-password-btn:disabled,
+.confirm-deletion-btn:disabled {
+  cursor: default;
+  background-color: #2d294280;
+  opacity: 0.8;
+}
+
 .manage-text {
   margin-bottom: 16px;
 }
@@ -255,6 +262,8 @@
 }
 
 .get-premium-btn {
+  color: $black;
+  font-weight: bold;
   background-image: url('img/premium-icon.svg');
 }
 
@@ -386,6 +395,8 @@
     color: $black;
   }
 
+  .update-password-btn:disabled,
+  .confirm-deletion-btn:disabled,
   .get-premium-btn:disabled {
     background-color: $white;
     opacity: 0.4;

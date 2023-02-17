@@ -9,6 +9,7 @@
   box-shadow: $shadow-medium;
 }
 
+.crop-controls,
 .resize-controls,
 .rotate-controls {
   cursor: default;
@@ -40,6 +41,49 @@
   line-height: 29px;
   text-transform: uppercase;
   vertical-align: middle;
+}
+//_______________________________________________CROP
+.crop-controls.hidden {
+  display: none;
+}
+
+.crop-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.crop-input {
+  padding: 0px 2px;
+}
+
+.crop-input:hover {
+  cursor: pointer;
+}
+
+.custom-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.custom-wrap:hover {
+  cursor: pointer;
+  color: $blue;
+
+  .crop-icon {
+    background-image: url('img/crop-icon-hover.svg');
+  }
+}
+
+.crop-text {
+  font-size: 14px;
+}
+
+.crop-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('img/crop-icon.svg');
 }
 
 //_______________________________________________RESIZE
@@ -107,6 +151,7 @@
   background-image: url('img/lock-proportions-icon-hover.svg');
 }
 
+.crop-done-btn,
 .done-btn {
   padding: 2px 17px;
   width: 58px;
@@ -119,12 +164,14 @@
   border-radius: $border-radius;
 }
 
+.crop-done-btn:hover,
 .done-btn:hover {
   background-color: $blue-hover;
   box-shadow: $shadow-large;
   transition: ease-in-out 0.3s;
 }
 
+.crop-done-btn:disabled,
 .done-btn:disabled {
   cursor: default;
   background-color: #2d294280;
@@ -187,7 +234,30 @@
 
 //_______________________________________________FILTERS
 .filter-option-controls {
+  // position: relative;
   top: -185px;
+}
+
+.filters-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items:flex-start;
+  padding-top: 40px;
+  width: 100%;
+  height: 170px;
+  font-weight: bold;
+  color: $white;
+  background-color: $black;
+  border-radius: $border-radius;
+  opacity: 0.7;
+}
+
+.filters-message.hidden {
+  display: none;
 }
 
 .filters-controls {
@@ -202,6 +272,41 @@
 
 .filters-controls.hidden {
   display: none;
+}
+
+.filter-wrap {
+  position: relative;
+}
+
+// .filter-wrap:hover {
+//   border: 2px solid $blue;
+//   border-radius: $border-radius;
+// }
+
+// .filter-wrap:after:nth-child(-n+5) {
+.user-filter:after,
+.premium-filter:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  width: 24px;
+  height: 24px;
+  background-color: $yellow;
+
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-position: 50%;
+  border-radius: 50%;
+  content: '';
+}
+
+.user-filter:after {
+  background-image: url('img/user-icon.svg');
+}
+
+.premium-filter:after {
+  background-image: url('img/premium-icon.svg');
 }
 
 .filter {
@@ -313,6 +418,14 @@
     background-image: url('img/arrow-back-icon-hover.svg');
   }
 
+  .crop-input {
+    color-scheme: dark;
+  }
+
+  .crop-icon {
+    background-image: url('img/dark-crop-icon.svg');
+  }
+
   .option-input {
     color-scheme: dark;
     background-color: $black;
@@ -339,6 +452,7 @@
     background-image: url('img/lock-proportions-icon-hover.svg');
   }
 
+  .crop-done-btn:disabled,
   .done-btn:disabled {
     background-color: $white;
     opacity: 0.2;
@@ -379,4 +493,11 @@
   .adjust-range-input {
     background-color: $white;
   }
+
+  // .filters-message {
+    // color: $black;
+    // background-color: $white;
+    // background-color: $light-gray;
+    // opacity: 0.75;
+  // }
 }

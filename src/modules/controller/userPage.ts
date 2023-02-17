@@ -1,3 +1,5 @@
+import Editor from './editor';
+
 class UserPage {
   editorView = document.querySelector('.main-content');
   userPageView = document.querySelector('.profile-page-wrapper');
@@ -22,6 +24,12 @@ class UserPage {
   buyPremiumContent = document.querySelector('.buy-premium-content');
   alreadyPremiumContent = document.querySelector('.already-premium-content');
 
+  private readonly editor: Editor;
+
+  constructor() {
+    this.editor = new Editor();
+  }
+
   public handlePage() {
     this.listenProfileBtn();
     this.listenReturnBtns();
@@ -37,6 +45,8 @@ class UserPage {
 
   public showUserPage(): void {
     this.editorView?.classList.add('hidden');
+    this.editor.hideOpenedToolMenus();
+    this.editor.hideOpenedOptionControls();
     this.userPageView?.classList.remove('hidden');
     this.setDefaultState();
   }

@@ -193,108 +193,163 @@
                       <div class="rotate-right" id="rotate-right"></div>
                     </div>
                   </div>
+                  <div class="crop-controls hidden">
+                    <div class="back-arrow" id="crop-arrow"></div>
+                    <div class="controls-content">
+                      <span class="option-title">Crop</span>
+                      <div class="crop-wrap">
+                        <input class="crop-input" type="color" id="crop-color-input" value="#00d0c3" />
+                        <div class="custom-wrap">
+                          <span class="crop-text">Custom</span>
+                          <div class="crop-icon"></div>
+                        </div>
+                      </div>
+                      <button class="crop-done-btn" disabled></button>
+
+                    </div>
+                  </div>
                 </div>
               </li>
               <li class="tool-item filters-tool" id="filters">
                 Filters
                 <div class="option-controls filter-option-controls">
+                  <div class="filters-message hidden"></div>
                   <div class="filters-controls filters-list hidden" id="filters-list">
-                    <div class="filter no-filter selected">
-                      <span class="filter-title">No Filter</span>
+                    <div class="filter-wrap">
+                      <div class="filter no-filter selected">
+                        <span class="filter-title">No Filter</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(243, 106, 188, 0.3);
-                              filter: brightness(110%) contrast(110%) saturate(130%);
-                            " class="filter filter-one">
-                      <span class="filter-title">1977</span>
+                    <div class="filter-wrap">
+                      <div style="
+                                                  background-color: rgba(243, 106, 188, 0.3);
+                                                  filter: brightness(110%) contrast(110%) saturate(130%);
+                                                " class="filter filter-one">
+                        <span class="filter-title">1977</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(62, 162, 253, 0.5);
-                              filter: brightness(120%) contrast(90%) saturate(85%) hue-rotate(20deg);
-                            " class="filter filter-two">
-                      <span class="filter-title">Aden</span>
+                    <div class="filter-wrap">
+                      <div style="
+                                                  background-color: rgba(62, 162, 253, 0.5);
+                                                  filter: brightness(120%) contrast(90%) saturate(85%) hue-rotate(20deg);
+                                                " class="filter filter-two">
+                        <span class="filter-title">Aden</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(243, 106, 188, 0.3);
-                              filter: brightness(110%) contrast(90%) saturate(150%) hue-rotate(-10deg);
-                            " class="filter filter-three">
-                      <span class="filter-title">Amaro</span>
+                    <div class="filter-wrap">
+                      <div style="
+                                                  background-color: rgba(243, 106, 188, 0.3);
+                                                  filter: brightness(110%) contrast(90%) saturate(150%) hue-rotate(-10deg);
+                                                " class="filter filter-three">
+                        <span class="filter-title">Amaro</span>
+                      </div>
                     </div>
-                    <div style="background-color: rgba(161, 44, 199, 0.31); filter: brightness(120%) sepia(50%)"
-                      class="filter filter-four">
-                      <span class="filter-title">Brannan</span>
+                    <div class="filter-wrap">
+                      <div style="background-color: rgba(161, 44, 199, 0.31); filter: brightness(120%) sepia(50%)"
+                        class="filter filter-four">
+                        <span class="filter-title">Brannan</span>
+                      </div>
                     </div>
-                    <div style="background-color: rgba(168, 223, 193, 0.4); filter: brightness(110%) contrast(90%)"
-                      class="filter filter-five">
-                      <span class="filter-title">Brooklyn</span>
+                    <div class="filter-wrap user-filter">
+                      <div style="background-color: rgba(168, 223, 193, 0.4); filter: brightness(110%) contrast(90%)"
+                        class="filter filter-five">
+                        <span class="filter-title">Brooklyn</span>
+                      </div>
                     </div>
-                    <div style="background-color: rgba(127, 187, 227, 0.2); filter: contrast(120%) saturate(125%)"
-                      class="filter filter-six">
-                      <span class="filter-title">Clarendon</span>
+                    <div class="filter-wrap user-filter">
+                      <div style="background-color: rgba(127, 187, 227, 0.2); filter: contrast(120%) saturate(125%)"
+                        class="filter filter-six">
+                        <span class="filter-title">Clarendon</span>
+                      </div>
                     </div>
-                    <div style="background: rgba(208, 186, 142, 0.5); filter: contrast(90%) sepia(20%)"
-                      class="filter filter-seven">
-                      <span class="filter-title">Earlybird</span>
+                    <div class="filter-wrap user-filter">
+                      <div style="background: rgba(208, 186, 142, 0.5); filter: contrast(90%) sepia(20%)" class="filter filter-seven">
+                        <span class="filter-title">Earlybird</span>
+                      </div>
                     </div>
-                    <div style="background-color: rgba(66, 10, 14, 0.2); filter: brightness(105%) hue-rotate(350deg)"
-                      class="filter filter-eight">
-                      <span class="filter-title">Gingham</span>
+                    <div class="filter-wrap user-filter">
+                      <div style="background-color: rgba(66, 10, 14, 0.2); filter: brightness(105%) hue-rotate(350deg)"
+                        class="filter filter-eight">
+                        <span class="filter-title">Gingham</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(255, 177, 166, 0.5);
-                              filter: brightness(120%) contrast(90%) saturate(110%);
-                            " class="filter filter-nine">
-                      <span class="filter-title">Hudson</span>
+                    <div class="filter-wrap user-filter">
+                      <div style="
+                                                  background-color: rgba(255, 177, 166, 0.5);
+                                                  filter: brightness(120%) contrast(90%) saturate(110%);
+                                                " class="filter filter-nine">
+                        <span class="filter-title">Hudson</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(0, 0, 0, 0);
-                              filter: brightness(110%) contrast(110%) sepia(30%) grayscale(100%);
-                            " class="filter filter-ten">
-                      <span class="filter-title">Inkwell</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="
+                                                  background-color: rgba(0, 0, 0, 0);
+                                                  filter: brightness(110%) contrast(110%) sepia(30%) grayscale(100%);
+                                                " class="filter filter-ten">
+                        <span class="filter-title">Inkwell</span>
+                      </div>
                     </div>
-                    <div style="background-color: rgba(255, 101, 80, 0.4); filter: contrast(150%) saturate(110%)"
-                      class="filter filter-eleven">
-                      <span class="filter-title">Lofi</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="background-color: rgba(255, 101, 80, 0.4); filter: contrast(150%) saturate(110%)"
+                        class="filter filter-eleven">
+                        <span class="filter-title">Lofi</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(3, 230, 26, 0.2);
-                              filter: brightness(95%) contrast(95%) sepia(25%) saturate(150%);
-                            " class="filter filter-twelve">
-                      <span class="filter-title">Maven</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="
+                                                  background-color: rgba(3, 230, 26, 0.2);
+                                                  filter: brightness(95%) contrast(95%) sepia(25%) saturate(150%);
+                                                " class="filter filter-twelve">
+                        <span class="filter-title">Maven</span>
+                      </div>
                     </div>
-                    <div style="background-color: rgba(86, 22, 214, 0.5)" class="filter filter-thirteen">
-                      <span class="filter-title">Perpetua</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="background-color: rgba(86, 22, 214, 0.5)" class="filter filter-thirteen">
+                        <span class="filter-title">Perpetua</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(173, 205, 239, 0.5);
-                              filter: brightness(110%) contrast(85%) sepia(22%) saturate(75%);
-                            " class="filter filter-fourteen">
-                      <span class="filter-title">Reyes</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="
+                                                  background-color: rgba(173, 205, 239, 0.5);
+                                                  filter: brightness(110%) contrast(85%) sepia(22%) saturate(75%);
+                                                " class="filter filter-fourteen">
+                        <span class="filter-title">Reyes</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(240, 149, 128, 0.2);
-                              filter: brightness(115%) contrast(75%) saturate(85%);
-                            " class="filter filter-fifteen">
-                      <span class="filter-title">Stinson</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="
+                                                  background-color: rgba(240, 149, 128, 0.2);
+                                                  filter: brightness(115%) contrast(75%) saturate(85%);
+                                                " class="filter filter-fifteen">
+                        <span class="filter-title">Stinson</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(125, 0, 247, 0.4);
-                              filter: brightness(110%) contrast(110%) sepia(30%);
-                            " class="filter filter-sixteen">
-                      <span class="filter-title">Toaster</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="
+                                                  background-color: rgba(125, 0, 247, 0.4);
+                                                  filter: brightness(110%) contrast(110%) sepia(30%);
+                                                " class="filter filter-sixteen">
+                        <span class="filter-title">Toaster</span>
+                      </div>
                     </div>
-                    <div style="
-                              background-color: rgba(0, 227, 217, 0.4);
-                              filter: brightness(110%) saturate(160%) sepia(30%) hue-rotate(350);
-                            " class="filter filter-seventeen">
-                      <span class="filter-title">Walden</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="
+                                                  background-color: rgba(0, 227, 217, 0.4);
+                                                  filter: brightness(110%) saturate(160%) sepia(30%) hue-rotate(350);
+                                                " class="filter filter-seventeen">
+                        <span class="filter-title">Walden</span>
+                      </div>
                     </div>
-                    <div style="background-color: rgba(58, 3, 57, 0.6); filter: brightness(108%) contrast(108%) sepia(8%)"
-                      class="filter filter-eighteen">
-                      <span class="filter-title">Valencia</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="background-color: rgba(58, 3, 57, 0.6); filter: brightness(108%) contrast(108%) sepia(8%)"
+                        class="filter filter-eighteen">
+                        <span class="filter-title">Valencia</span>
+                      </div>
                     </div>
-                    <div style="background-color: rgba(74, 25, 8, 0.5); filter: sepia(30%)" class="filter filter-nineteen">
-                      <span class="filter-title">Xpro2</span>
+                    <div class="filter-wrap premium-filter">
+                      <div style="background-color: rgba(74, 25, 8, 0.5); filter: sepia(30%)" class="filter filter-nineteen">
+                        <span class="filter-title">Xpro2</span>
+                      </div>
                     </div>
                   </div>
                 </div>

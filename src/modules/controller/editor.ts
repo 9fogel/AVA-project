@@ -118,6 +118,7 @@ class Editor {
         State.tools[toolName] = !State.tools[toolName];
       }
     });
+    this.hideMessageWrap();
   }
 
   public hideOpenedOptionControls(): void {
@@ -138,6 +139,7 @@ class Editor {
         }
       }
     });
+    this.hideMessageWrap();
   }
 
   private listenTools(): void {
@@ -155,7 +157,7 @@ class Editor {
             this.updateElements();
           } else {
             const optionName = e.target.id;
-            // console.log(optionName, toolName);
+            console.log(optionName, toolName);
             this.showOptionControls(optionName, toolName);
             this.updateElements();
           }
@@ -181,6 +183,7 @@ class Editor {
       options?.classList.add('hidden');
       toolItem?.classList.remove('selected');
       State.tools[toolName] = !State.tools[toolName];
+      this.hideMessageWrap();
     } else {
       if (toolName === 'adjustments' && State.controls.adjustments) {
         const adjustBackArr = document.getElementById('adjustments-arrow');
@@ -349,15 +352,61 @@ class Editor {
   //_______________________________________________FILTERS
   private listenFilters(): void {
     const filters = document.querySelectorAll('.filter');
+    const messageWrap: HTMLElement | null = document.querySelector('.filters-message');
     filters.forEach((filter, index) => {
       filter.addEventListener('click', () => {
-        document.querySelector('.filter.selected')?.classList.remove('selected');
-        filter.classList.add('selected');
-        console.log(`filter with index ${index} was chosen`);
-        this.model.applyFilter(index);
-        this.updateElements();
+        // document.querySelector('.filter.selected')?.classList.remove('selected');
+        // filter.classList.add('selected');
+        // console.log(`filter with index ${index} was chosen`);
+        // console.log(State.userState);
+        // this.model.applyFilter(index);
+        // this.updateElements();
+        if (
+          index < 5 ||
+          (index >= 5 && index < 10 && (State.userState === 'user' || State.userState === 'premium')) ||
+          (index >= 10 && State.userState === 'premium')
+        ) {
+          document.querySelector('.filter.selected')?.classList.remove('selected');
+          filter.classList.add('selected');
+          this.model.applyFilter(index);
+          this.updateElements();
+          // } else if (index >= 5 && index < 10 && (State.userState === 'user' || State.userState === 'premium')) {
+          //   document.querySelector('.filter.selected')?.classList.remove('selected');
+          //   filter.classList.add('selected');
+          //   this.model.applyFilter(index);
+          //   this.updateElements();
+          // } else if (index >= 10 && State.userState === 'premium') {
+          //   document.querySelector('.filter.selected')?.classList.remove('selected');
+          //   filter.classList.add('selected');
+          //   this.model.applyFilter(index);
+          //   this.updateElements();
+        } else {
+          console.log(`NO ACCESS TO Filter ${index}`);
+          messageWrap?.classList.remove('hidden');
+          this.listenMessageWrap();
+          if (messageWrap && index >= 5 && index < 10) {
+            messageWrap.innerText = 'Sorry, this filter is available for registed users only';
+          }
+
+          if (messageWrap && index >= 10) {
+            messageWrap.innerText = 'Sorry, this filter is available only for users with premium access';
+          }
+        }
       });
     });
+  }
+
+  private listenMessageWrap() {
+    const messageWrap = document.querySelector('.filters-message');
+    messageWrap?.addEventListener('click', () => {
+      this.hideMessageWrap();
+      //TODO: прятать, когда закрываются все менюшки
+    });
+  }
+
+  private hideMessageWrap() {
+    const messageWrap = document.querySelector('.filters-message');
+    messageWrap?.classList.add('hidden');
   }
 
   //_______________________________________________ADJUSTMENTS

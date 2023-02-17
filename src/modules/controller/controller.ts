@@ -236,6 +236,8 @@ class Controller {
   private handleResetChanges(): void {
     const resetBtn: HTMLElement | null = document.querySelector('.reset-btn');
     resetBtn?.addEventListener('click', () => {
+      this.editor.hideOpenedToolMenus();
+      this.editor.hideOpenedOptionControls();
       this.model.resetChanges();
     });
   }
