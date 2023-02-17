@@ -155,7 +155,7 @@ class Editor {
             this.updateElements();
           } else {
             const optionName = e.target.id;
-            // console.log(optionName, toolName);
+            console.log(optionName, toolName);
             this.showOptionControls(optionName, toolName);
             this.updateElements();
           }
