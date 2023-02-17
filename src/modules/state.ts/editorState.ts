@@ -1,6 +1,6 @@
-// import { IStateEditor } from './editorState-i';
-
 class State {
+  static userState = 'default';
+
   static tools: { [key: string]: boolean } = {
     transform: false,
     filters: false,
@@ -17,11 +17,6 @@ class State {
     filters: false,
     adjustments: false,
   };
-  // static editor: IStateEditor = {
-  //   selectedTool: [],
-  //   openedList: [],
-  //   openedOption: [],
-  // };
 }
 
 export default State;
