@@ -6,6 +6,8 @@ interface ValidError {
   };
 }
 
+export type user = { username: string } | { userEmail: string };
+
 function findIndexError(error: ValidError, value: string): number {
   const arr1 = error.errors.errors;
   return arr1.findIndex((el) => el.param === value);
@@ -93,7 +95,7 @@ class AuthModel {
     const response = await fetch(`${Baseurl}/auth/username/`, {
       method: 'GET',
       headers: {
-        //'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
 
         //Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('JWT')}`,
@@ -105,6 +107,30 @@ class AuthModel {
       console.error(`Erros:${response.status}`);
     }
     console.log(data);
+    return data;
+  }
+
+  async updateUser(path: string, name: user) {
+    const response = await fetch(`${Baseurl}/auth/${path}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+
+        //Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('JWT')}`,
+      },
+      body: JSON.stringify(name),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(`Erros:${response.status}`, data);
+      // const messageUser = document.querySelector('.email-message');
+      // if (messageUser) {
+      //   messageUser.textContent = String(JSON.stringify(data.message));
+      //}
+    }
+    console.log(JSON.stringify(data));
     return data;
   }
 }

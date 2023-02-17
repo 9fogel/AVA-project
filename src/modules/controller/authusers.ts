@@ -1,7 +1,14 @@
 import AuthModel from '../model/auth';
+import { user } from '../model/auth';
 
 class UsersControler {
   users: AuthModel;
+  inputName = document.querySelector('#info-user-name') as HTMLInputElement;
+  inputEmail: HTMLInputElement | null = document.querySelector('#info-email');
+  saveName: HTMLButtonElement | null = document.querySelector('#save-username');
+  saveEmail: HTMLButtonElement | null = document.querySelector('#save-email');
+  userMessage: HTMLElement | null = document.querySelector('.info-user-message');
+  emailMessage: HTMLElement | null = document.querySelector('.info-email-message');
   JWT = localStorage.getItem('JWT') || localStorage.setItem('JWT', '');
   constructor() {
     this.users = new AuthModel();
@@ -12,6 +19,13 @@ class UsersControler {
     this.handleGetUsers();
     this.handleLoginUser();
     this.handlegetUserName();
+    this.clickLogOut();
+
+    this.updateUser(this.inputName, 'updateusername', this.saveName, this.userMessage, 1);
+    //&& this.inputEmail instanceof HTMLInputElement
+    if (this.inputEmail) {
+      this.updateUser(this.inputEmail, 'updateuseremail', this.saveEmail, this.emailMessage, 2);
+    }
   }
 
   handleGetUsers() {
@@ -28,7 +42,7 @@ class UsersControler {
       const data = await this.users.registrationUser(userName.value, userEmail.value, password.value);
 
       if (data.token) {
-        this.logIn(userName.value, data.username, data.userEmail);
+        this.logIn(data.username, data.username, data.userEmail);
 
         localStorage.JWT = data.token;
         // document.cookie = `user = ${data.username}; SameSite=None; HTTPOnly`;
@@ -85,11 +99,11 @@ class UsersControler {
     document.querySelector('.login-modal')?.classList.remove('active');
     document.querySelector('.wrapper')?.classList.remove('active');
 
-    const inputName: HTMLElement | null = document.getElementById('info-user-name');
-    const inputEmail: HTMLElement | null = document.getElementById('info-email');
-    if (inputName && inputEmail && inputName instanceof HTMLInputElement && inputEmail instanceof HTMLInputElement) {
-      inputName.value = name;
-      inputEmail.value = email;
+    // const inputName: HTMLElement | null = document.getElementById('info-user-name');
+    // const inputEmail: HTMLElement | null = document.getElementById('info-email');
+    if (this.inputName && this.inputEmail) {
+      this.inputName.value = name;
+      this.inputEmail.value = email;
     }
   }
 
@@ -109,10 +123,71 @@ class UsersControler {
     if (buttonName && buttonLogin) {
       buttonLogin.classList.remove('hidden');
       buttonName.classList.add('hidden');
-      buttonName.textContent = 'User Pr';
+      buttonName.textContent = 'User Profil';
       this.JWT = localStorage.setItem('JWT', '');
       console.log('logout');
     }
+  }
+
+  private clickLogOut() {
+    document.querySelector('.sign-out-item')?.addEventListener('click', this.logOut);
+  }
+
+  private updateUser(
+    name: HTMLInputElement,
+    path: string,
+    button: HTMLButtonElement | null,
+    textMessage: HTMLElement | null,
+    flag: number,
+  ) {
+    if (button && textMessage) {
+      button.addEventListener('click', async () => {
+        const user: user = flag === 1 ? { username: name.value } : { userEmail: name.value };
+        const data = await this.users.updateUser(path, user);
+        console.log(`update: ${JSON.stringify(data)}`, name.value, path);
+
+        if (data.messageLog || data.message) {
+          this.nonLogIn();
+        }
+        if (data.messageNo) {
+          textMessage.textContent = 'It looks like this name is already in use. Try entering something else.';
+          textMessage.style.color = 'red';
+        }
+        if (data.messageOK) {
+          textMessage.textContent = 'Name was updated.';
+          textMessage.style.color = 'green';
+          const buttonName = document.querySelector('.profile-btn');
+          if (buttonName) {
+            buttonName.textContent = data.newUserName;
+          }
+        }
+
+        if (data.errors) {
+          if (flag === 1) {
+            textMessage.textContent = 'Name is not be empty';
+          }
+          if (flag === 2) {
+            textMessage.textContent = "It's not valid Email";
+          }
+          textMessage.style.color = 'red';
+        }
+      });
+    }
+  }
+
+  private nonLogIn() {
+    this.logOut();
+    //message: string
+    //const messageText = document.querySelector('#');
+    document.querySelector('.profile-page-wrapper')?.classList.add('hidden');
+    // if (messageText) {
+    //   messageText.textContent = message;
+    //   setTimeout(() => {
+    //     messageText.textContent = '';
+    //   }, 6000);
+
+    //}
+    alert('You log out earlier. ');
   }
 }
 
