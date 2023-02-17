@@ -1,8 +1,10 @@
 import AuthModel from '../model/auth';
 import { user } from '../model/auth';
+import UserPage from './userPage';
 
 class UsersControler {
   users: AuthModel;
+  userPage: UserPage;
   inputName = document.querySelector('#info-user-name') as HTMLInputElement;
   inputEmail: HTMLInputElement | null = document.querySelector('#info-email');
   saveName: HTMLButtonElement | null = document.querySelector('#save-username');
@@ -12,6 +14,7 @@ class UsersControler {
   JWT = localStorage.getItem('JWT') || localStorage.setItem('JWT', '');
   constructor() {
     this.users = new AuthModel();
+    this.userPage = new UserPage();
   }
 
   handleUsers() {
@@ -21,11 +24,13 @@ class UsersControler {
     this.handlegetUserName();
     this.clickLogOut();
 
-    this.updateUser(this.inputName, 'updateusername', this.saveName, this.userMessage, 1);
+    this.handleUpdateUser(this.inputName, 'updateusername', this.saveName, this.userMessage, 1);
     //&& this.inputEmail instanceof HTMLInputElement
     if (this.inputEmail) {
-      this.updateUser(this.inputEmail, 'updateuseremail', this.saveEmail, this.emailMessage, 2);
+      this.handleUpdateUser(this.inputEmail, 'updateuseremail', this.saveEmail, this.emailMessage, 2);
     }
+
+    this.handleDeleteUser();
   }
 
   handleGetUsers() {
@@ -133,7 +138,7 @@ class UsersControler {
     document.querySelector('.sign-out-item')?.addEventListener('click', this.logOut);
   }
 
-  private updateUser(
+  private handleUpdateUser(
     name: HTMLInputElement,
     path: string,
     button: HTMLButtonElement | null,
@@ -175,11 +180,42 @@ class UsersControler {
     }
   }
 
+  private handleDeleteUser() {
+    const inputDelete: HTMLInputElement | null = document.querySelector('.confirm-deletion-input');
+    const buttonDelete: HTMLButtonElement | null = document.querySelector('#confirm-deletion');
+    const deleteMessage: HTMLElement | null = document.querySelector('.delete-account-message');
+
+    if (inputDelete && buttonDelete && deleteMessage) {
+      buttonDelete.addEventListener('click', async () => {
+        const data = await this.users.deleteUser(inputDelete.value);
+
+        if (data.message || data.messageLog) {
+          this.nonLogIn();
+        }
+
+        if (data.messageNo) {
+          deleteMessage.textContent = JSON.stringify(data.messageNo);
+          deleteMessage.style.color = 'red';
+        }
+        if (data.messageOK) {
+          deleteMessage.textContent = JSON.stringify(data.messageOK);
+          deleteMessage.style.color = 'green';
+
+          setTimeout(() => {
+            this.logOut();
+            this.userPage.hideUserPage();
+          }, 2000);
+        }
+      });
+    }
+  }
+
   private nonLogIn() {
     this.logOut();
     //message: string
     //const messageText = document.querySelector('#');
-    document.querySelector('.profile-page-wrapper')?.classList.add('hidden');
+    // document.querySelector('.profile-page-wrapper')?.classList.add('hidden');
+    this.userPage.hideUserPage();
     // if (messageText) {
     //   messageText.textContent = message;
     //   setTimeout(() => {
@@ -188,6 +224,12 @@ class UsersControler {
 
     //}
     alert('You log out earlier. ');
+  }
+
+  private clearText(container: HTMLElement) {
+    setTimeout(() => {
+      container.textContent = '';
+    }, 1000);
   }
 }
 

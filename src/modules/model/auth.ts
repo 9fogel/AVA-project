@@ -133,6 +133,30 @@ class AuthModel {
     console.log(JSON.stringify(data));
     return data;
   }
+
+  async deleteUser(password: string) {
+    const response = await fetch(`${Baseurl}/auth/delete`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+
+        //Accept: 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('JWT')}`,
+      },
+      body: JSON.stringify({ password }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      console.error(`Erros:${response.status}`, data);
+      // const messageUser = document.querySelector('.email-message');
+      // if (messageUser) {
+      //   messageUser.textContent = String(JSON.stringify(data.message));
+      //}
+    }
+    //console.log(JSON.stringify(data));
+    return data;
+  }
 }
 
 export default AuthModel;
