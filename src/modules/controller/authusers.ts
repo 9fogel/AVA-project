@@ -28,11 +28,11 @@ class UsersControler {
       const data = await this.users.registrationUser(userName.value, userEmail.value, password.value);
 
       if (data.token) {
-        this.logIn(userName.value, '.login-btn');
+        this.logIn(userName.value, data.username, data.userEmail);
 
         localStorage.JWT = data.token;
-        document.cookie = `user = ${data.username}; SameSite=None; HTTPOnly`;
-        document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
+        // document.cookie = `user = ${data.username}; SameSite=None; HTTPOnly`;
+        // document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
       }
     };
 
@@ -43,17 +43,17 @@ class UsersControler {
           if (password.value !== repeatPassword.value) {
             messagePassword.textContent = 'Password mismatch';
             messagePassword.style.color = 'red';
-            document.getElementById('sign-up-google')?.setAttribute('disabled', '');
+            document.getElementById('sign-up')?.setAttribute('disabled', '');
           } else if (password.value === repeatPassword.value) {
             messagePassword.textContent = 'Password match';
             messagePassword.style.color = 'green';
-            document.getElementById('sign-up-google')?.removeAttribute('disabled');
+            document.getElementById('sign-up')?.removeAttribute('disabled');
           }
         }
       });
     });
 
-    document.getElementById('sign-in-google')?.addEventListener('click', regUs);
+    document.getElementById('sign-up')?.addEventListener('click', regUs);
   }
 
   async handleLoginUser() {
@@ -65,17 +65,17 @@ class UsersControler {
       const data = await this.users.logInUser(userEmail.value, userEmail.value, password.value);
       console.log(data);
       if (data.token) {
-        this.logIn(data.username1, '.login-btn');
+        this.logIn(data.username1, data.username1, data.userEmail1);
 
         localStorage.JWT = data.token;
-        document.cookie = `user = ${data.username1}; SameSite=None; HTTPOnly`;
-        document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
+        // document.cookie = `user = ${data.username1}; SameSite=None; HTTPOnly`;
+        // document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
       }
     });
   }
 
-  private logIn(userName: string, button: string) {
-    const buttonLogin = document.querySelector(button);
+  private logIn(userName: string, name: string, email: string) {
+    const buttonLogin = document.querySelector('.login-btn');
     const buttonName = document.querySelector('.profile-btn');
     if (buttonLogin && buttonName) {
       buttonLogin.classList.add('hidden');
@@ -84,12 +84,20 @@ class UsersControler {
     }
     document.querySelector('.login-modal')?.classList.remove('active');
     document.querySelector('.wrapper')?.classList.remove('active');
+
+    const inputName: HTMLElement | null = document.getElementById('info-user-name');
+    const inputEmail: HTMLElement | null = document.getElementById('info-email');
+    if (inputName && inputEmail && inputName instanceof HTMLInputElement && inputEmail instanceof HTMLInputElement) {
+      inputName.value = name;
+      inputEmail.value = email;
+    }
   }
 
   private async handlegetUserName() {
     const data = await this.users.getUserName();
+    //console.log(data);
     if (data.username) {
-      this.logIn(data.username, '.login-btn');
+      this.logIn(data.username, data.username, data.userEmail);
     } else {
       this.logOut();
     }
@@ -101,8 +109,9 @@ class UsersControler {
     if (buttonName && buttonLogin) {
       buttonLogin.classList.remove('hidden');
       buttonName.classList.add('hidden');
-      buttonName.textContent = 'User';
+      buttonName.textContent = 'User Pr';
       this.JWT = localStorage.setItem('JWT', '');
+      console.log('logout');
     }
   }
 }

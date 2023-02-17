@@ -19,7 +19,11 @@ class AuthModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`);
     }
-    console.log(data[0]._id);
+    if (!data) {
+      console.log('data not found');
+    } else {
+      console.log(data);
+    }
   }
 
   async registrationUser(username: string, userEmail: string, password: string) {
