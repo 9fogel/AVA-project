@@ -172,10 +172,12 @@ class UsersControler {
         }
         if (data.messageNo) {
           textMessage.textContent = 'It looks like this name is already in use. Try entering something else.';
+          this.clearText(textMessage);
           textMessage.style.color = 'red';
         }
         if (data.messageOK) {
           textMessage.textContent = 'Changes were applied';
+          this.clearText(textMessage);
           textMessage.style.color = 'green';
           const buttonName = document.querySelector('.profile-btn');
           if (buttonName) {
@@ -186,9 +188,11 @@ class UsersControler {
         if (data.errors) {
           if (flag === 1) {
             textMessage.textContent = 'Name cannot be empty';
+            this.clearText(textMessage);
           }
           if (flag === 2) {
             textMessage.textContent = "It's not a valid Email";
+            this.clearText(textMessage);
           }
           textMessage.style.color = 'red';
         }
@@ -212,6 +216,7 @@ class UsersControler {
         if (data.messageNo) {
           deleteMessage.textContent = JSON.stringify(data.messageNo);
           deleteMessage.style.color = 'red';
+          this.clearText(deleteMessage);
         }
         if (data.messageOK) {
           deleteMessage.textContent = JSON.stringify(data.messageOK);
@@ -227,7 +232,7 @@ class UsersControler {
   }
 
   private listenInputs() {
-    const messageNewPassword = document.querySelectorAll('.info-password-message')[1] as HTMLElement;
+    const messageNewPassword = document.querySelectorAll('.info-password-message')[2] as HTMLElement;
 
     if (
       this.inputOldPasswors &&
@@ -239,8 +244,8 @@ class UsersControler {
       [this.inputNewPassword, this.inputConfirmNewPassword].forEach((el) => {
         el.addEventListener('input', () => {
           if (
-            this.inputNewPassword?.value === this.inputConfirmNewPassword?.value &&
-            String(this.inputOldPasswors?.value).length > 0
+            this.inputNewPassword?.value === this.inputConfirmNewPassword?.value
+            // && String(this.inputOldPasswors?.value).length > 0
           ) {
             this.updatePasswordBtn?.classList.remove('hidden');
             messageNewPassword.textContent = 'Password matches';
@@ -259,12 +264,12 @@ class UsersControler {
     this.listenInputs();
 
     const messageOldPassword = document.querySelectorAll('.info-password-message')[0] as HTMLElement;
-    const messageNewPassword = document.querySelectorAll('.info-password-message')[1] as HTMLElement;
+    const messageNewPassword = document.querySelectorAll('.info-password-message')[2] as HTMLElement;
 
     this.updatePasswordBtn?.addEventListener('click', async () => {
       if (this.inputOldPasswors) {
         const data = await this.users.checkPassword(this.inputOldPasswors.value);
-        console.log(data);
+        //console.log(data);
 
         if (data.messageLog || data.message) {
           this.nonLogIn();
@@ -273,11 +278,13 @@ class UsersControler {
         if (data.messageNo) {
           messageOldPassword.textContent = JSON.stringify(data.messageNo);
           messageOldPassword.style.color = 'red';
+          this.clearText(messageOldPassword);
         }
 
         if (data.messageOK && this.inputNewPassword) {
           messageOldPassword.textContent = JSON.stringify(data.messageOK);
           messageOldPassword.style.color = 'green';
+          this.clearText(messageOldPassword);
 
           const newData = await this.users.updatePassword(data.username, this.inputNewPassword.value);
           if (newData.errors) {
