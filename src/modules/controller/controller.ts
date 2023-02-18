@@ -108,7 +108,7 @@ class Controller {
       this.editor.hideOpenedToolMenus();
       this.editor.hideOpenedOptionControls();
       this.model.deleteImage();
-      document.getElementById('crop-done')?.click();
+      this.model.removeCropArea();
       this.switchWorkingAreas();
     });
   }

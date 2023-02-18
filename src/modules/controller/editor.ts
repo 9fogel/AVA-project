@@ -141,6 +141,7 @@ class Editor {
       }
     });
     this.hideMessageWrap();
+    this.model.removeCropArea();
   }
 
   private listenTools(): void {
@@ -247,11 +248,12 @@ class Editor {
     this.listenCropArea();
     this.listenCropDone();
     this.listenCropColorInput();
+    this.listenCropBackArrow();
   }
 
   private listenCropArea(): void {
     document.getElementById('crop')?.addEventListener('click', () => {
-      this.model.alignImage();
+      this.model.resetChanges();
       this.model.selectCropArea();
     });
   }
@@ -265,6 +267,12 @@ class Editor {
   private listenCropColorInput(): void {
     document.getElementById('crop-color-input')?.addEventListener('input', () => {
       this.model.cropColorChange();
+    });
+  }
+
+  private listenCropBackArrow(): void {
+    document.getElementById('crop-arrow')?.addEventListener('click', () => {
+      this.model.removeCropArea();
     });
   }
 

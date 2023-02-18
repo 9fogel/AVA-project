@@ -194,6 +194,8 @@ class Model {
       CanvasState.parameters.relativeStartX = offsetX;
       CanvasState.parameters.relativeStartY = offsetY;
       CanvasState.parameters.startSelection = true;
+      const cropDone = document.getElementById('crop-done') as HTMLButtonElement;
+      cropDone.disabled = false;
     },
 
     mousemove(): void {
@@ -259,6 +261,9 @@ class Model {
       CanvasState.parameters.selection.style.display = 'none';
       this.canvas.style.cursor = 'auto';
     }
+    const cropDone = document.getElementById('crop-done');
+    cropDone?.setAttribute('disabled', 'true');
+    CanvasState.parameters.imageCrop = false;
   }
 
   public cropColorChange(): void {
@@ -288,21 +293,10 @@ class Model {
       CanvasState.parameters.actualY = CanvasState.parameters.relativeStartY * heightFactor;
 
       this.applyСhanges();
-      this.removeCropArea();
-    }
-  }
 
-  public alignImage(): void {
-    if (this.context && this.canvas && this.image) {
-      CanvasState.parameters.imageRotate = false;
-      CanvasState.parameters.imageCrop = false;
-      CanvasState.parameters.imageRotateDegree = 0;
-      CanvasState.parameters.imageflipVertical = 1;
-      CanvasState.parameters.imageflipHorizontal = 1;
-      CanvasState.parameters.imageWidth = this.image.naturalWidth;
-      CanvasState.parameters.imageHeight = this.image.naturalHeight;
-      CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
-      this.applyСhanges();
+      CanvasState.parameters.selection.style.display = 'none';
+      const cropDone = document.getElementById('crop-done') as HTMLButtonElement;
+      cropDone.disabled = true;
     }
   }
 
@@ -318,6 +312,7 @@ class Model {
   }
 
   private applyСhanges(): void {
+    console.log('apply');
     if (this.image && this.canvas && this.context) {
       this.canvas.width = CanvasState.parameters.imageWidth;
       this.canvas.height = CanvasState.parameters.imageHeight;
@@ -351,6 +346,8 @@ class Model {
         } else if (CanvasState.parameters.imageCrop === true) {
           CanvasState.parameters.imageWidth = this.canvas.width = Math.round(CanvasState.parameters.croppedWidth);
           CanvasState.parameters.imageHeight = this.canvas.height = Math.round(CanvasState.parameters.croppedHeight);
+          CanvasState.parameters.imageProportions =
+            CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
 
           this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
             CanvasState.parameters.brightness
@@ -379,7 +376,6 @@ class Model {
           this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
           this.context.globalCompositeOperation = 'source-over';
           this.image.src = this.canvas.toDataURL();
-          CanvasState.parameters.imageCrop = false;
         }
       } else if (CanvasState.parameters.imageRotate === true) {
         this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
