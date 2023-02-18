@@ -198,7 +198,7 @@ class UserPage {
     });
   }
 
-  private switchPremiumView(): void {
+  public switchPremiumView(): void {
     this.buyPremiumContent?.classList.add('hidden');
     this.alreadyPremiumContent?.classList.remove('hidden');
   }
