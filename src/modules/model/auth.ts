@@ -14,19 +14,19 @@ function findIndexError(error: ValidError, value: string): number {
 }
 
 class AuthModel {
-  async getUsers() {
-    const response = await fetch(`${Baseurl}/auth/users/`, {});
+  // async getUsers() {
+  //   const response = await fetch(`${Baseurl}/auth/users/`, {});
 
-    const data = await response.json();
-    if (!response.ok) {
-      console.error(`Erros:${response.status}`);
-    }
-    if (!data) {
-      console.log('data not found');
-    } else {
-      console.log(data);
-    }
-  }
+  //   const data = await response.json();
+  //   if (!response.ok) {
+  //     console.error(`Erros:${response.status}`);
+  //   }
+  //   if (!data) {
+  //     console.log('data not found');
+  //   } else {
+  //     console.log(data);
+  //   }
+  // }
 
   async registrationUser(username: string, userEmail: string, password: string) {
     const response = await fetch(`${Baseurl}/auth/registration/`, {

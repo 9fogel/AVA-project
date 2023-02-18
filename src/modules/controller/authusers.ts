@@ -27,7 +27,7 @@ class UsersControler {
 
   handleUsers() {
     this.handleRegistrationUser();
-    this.handleGetUsers();
+    //this.handleGetUsers();
     this.handleLoginUser();
     this.handlegetUserName();
     this.clickLogOut();
@@ -45,9 +45,9 @@ class UsersControler {
     this.handeUpdatePremium();
   }
 
-  handleGetUsers() {
-    this.users.getUsers();
-  }
+  // handleGetUsers() {
+  //   this.users.getUsers();
+  // }
 
   handleRegistrationUser() {
     const userName = document.querySelector('#user-name') as HTMLInputElement;
@@ -73,11 +73,11 @@ class UsersControler {
         const messagePassword: HTMLElement | null = document.querySelector('.confirm-password-message');
         if (messagePassword) {
           if (password.value !== repeatPassword.value) {
-            messagePassword.textContent = 'Password mismatch';
+            messagePassword.textContent = 'Password mismatches';
             messagePassword.style.color = 'red';
             document.getElementById('sign-up')?.setAttribute('disabled', '');
           } else if (password.value === repeatPassword.value) {
-            messagePassword.textContent = 'Password match';
+            messagePassword.textContent = 'Password matches';
             messagePassword.style.color = 'green';
             document.getElementById('sign-up')?.removeAttribute('disabled');
           }
@@ -128,7 +128,6 @@ class UsersControler {
 
   private async handlegetUserName() {
     const data = await this.users.getUserName();
-    //console.log(data);
     if (data.username) {
       this.logIn(data.username, data.username, data.userEmail);
       this.updateState(data.roles);
@@ -148,7 +147,6 @@ class UsersControler {
       this.JWT = localStorage.setItem('JWT', '');
 
       State.userState = 'default';
-      //console.log('logout');
     }
   }
 
@@ -177,7 +175,7 @@ class UsersControler {
           textMessage.style.color = 'red';
         }
         if (data.messageOK) {
-          textMessage.textContent = 'Name was updated.';
+          textMessage.textContent = 'Changes were applied';
           textMessage.style.color = 'green';
           const buttonName = document.querySelector('.profile-btn');
           if (buttonName) {
@@ -187,10 +185,10 @@ class UsersControler {
 
         if (data.errors) {
           if (flag === 1) {
-            textMessage.textContent = 'Name is not be empty';
+            textMessage.textContent = 'Name cannot be empty';
           }
           if (flag === 2) {
-            textMessage.textContent = "It's not valid Email";
+            textMessage.textContent = "It's not a valid Email";
           }
           textMessage.style.color = 'red';
         }
@@ -229,13 +227,8 @@ class UsersControler {
   }
 
   private listenInputs() {
-    //
     const messageNewPassword = document.querySelectorAll('.info-password-message')[1] as HTMLElement;
 
-    //   inputOldPasswors:
-    // inputNewPassword:
-    // inputConfirmNewPassword:
-    // updatePasswordBtn:
     if (
       this.inputOldPasswors &&
       this.inputNewPassword &&
@@ -250,11 +243,11 @@ class UsersControler {
             String(this.inputOldPasswors?.value).length > 0
           ) {
             this.updatePasswordBtn?.classList.remove('hidden');
-            messageNewPassword.textContent = 'Password match';
+            messageNewPassword.textContent = 'Password matches';
             messageNewPassword.style.color = 'green';
           } else {
             this.updatePasswordBtn?.classList.add('hidden');
-            messageNewPassword.textContent = 'Password mismatch';
+            messageNewPassword.textContent = 'Password mismatches';
             messageNewPassword.style.color = 'red';
           }
         });
@@ -295,6 +288,13 @@ class UsersControler {
           if (newData.messageOK) {
             messageOldPassword.textContent = JSON.stringify(newData.messageOK);
             messageOldPassword.style.color = 'green';
+            this.inputNewPassword.value = '';
+            this.inputOldPasswors.value = '';
+            if (this.inputConfirmNewPassword) {
+              this.inputConfirmNewPassword.value = '';
+            }
+            this.clearText(messageOldPassword);
+            this.clearText(messageNewPassword);
           }
 
           if (newData.message) {
@@ -318,7 +318,7 @@ class UsersControler {
     //   }, 6000);
 
     //}
-    alert('You log out earlier. ');
+    alert('Looks likes you have already signed out or your account was deleted. Please try to sign in again.');
   }
 
   private updateState(array: Array<string>) {
@@ -347,15 +347,16 @@ class UsersControler {
           messgePremium.textContent = JSON.stringify(data.messageNo);
           messgePremium.style.color = 'red';
 
-          console.log('Premium no');
+          //console.log('Premium no');
         }
 
         if (data.messageOK) {
-          messgePremium.textContent = JSON.stringify(data.messageOK);
-          messgePremium.style.color = 'green';
+          // messgePremium.textContent = JSON.stringify(data.messageOK);
+          // messgePremium.style.color = 'green';
+          this.userPage.switchPremiumView();
 
           State.userState = 'premium';
-          console.log('Premium yes');
+          //console.log('Premium yes');
         }
       });
     }
@@ -364,7 +365,7 @@ class UsersControler {
   private clearText(container: HTMLElement) {
     setTimeout(() => {
       container.textContent = '';
-    }, 1000);
+    }, 5000);
   }
 }
 
