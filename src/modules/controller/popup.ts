@@ -62,6 +62,7 @@ class Popup {
     const signInBtn: HTMLElement | null = document.querySelector('.modal-login-btn');
     const signUpBtn: HTMLElement | null = document.querySelector('.modal-create-btn');
     const inputs = document.getElementsByClassName('modal-input');
+    const messages = document.querySelectorAll('.modal-message');
     console.log(inputs);
 
     const id = noAccLink?.id;
@@ -93,6 +94,12 @@ class Popup {
         input.id = this.text[key].inputs[i];
       });
     }
+
+    messages.forEach((message) => {
+      if (message instanceof HTMLElement) {
+        message.innerText = '';
+      }
+    });
   }
 }
 
