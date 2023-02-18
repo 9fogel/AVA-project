@@ -389,7 +389,8 @@ class Editor {
           }
 
           if (messageWrap && index >= 10) {
-            messageWrap.innerText = 'Sorry, this filter is available only for users with premium access';
+            messageWrap.innerText =
+              'Sorry, this filter is available only for users with premium access. Please visit profile page to get your promo';
           }
         }
       });
