@@ -261,6 +261,18 @@ class Model {
     }
   }
 
+  public cropColorChange(): void {
+    const selectionTool = document.getElementById('selection-tool');
+    const selectionSpanWidth = document.getElementById('selection-tool-width');
+    const selectionSpanHeight = document.getElementById('selection-tool-height');
+    const inputColor = document.getElementById('crop-color-input') as HTMLInputElement;
+    if (selectionTool && selectionSpanWidth && selectionSpanHeight) {
+      selectionTool.style.border = `2px dashed ${inputColor.value}`;
+      selectionSpanHeight.style.color = inputColor.value;
+      selectionSpanWidth.style.color = inputColor.value;
+    }
+  }
+
   public cropImage(): void {
     if (this.canvas && this.context && CanvasState.parameters.selection) {
       const widthFactor = this.canvas.width / this.canvas.offsetWidth;

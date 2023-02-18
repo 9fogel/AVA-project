@@ -246,6 +246,7 @@ class Editor {
   private listenCrop(): void {
     this.listenCropArea();
     this.listenCropDone();
+    this.listenCropColorInput();
   }
 
   private listenCropArea(): void {
@@ -258,6 +259,12 @@ class Editor {
   private listenCropDone(): void {
     document.getElementById('crop-done')?.addEventListener('click', () => {
       this.model.cropImage();
+    });
+  }
+
+  private listenCropColorInput(): void {
+    document.getElementById('crop-color-input')?.addEventListener('input', () => {
+      this.model.cropColorChange();
     });
   }
 

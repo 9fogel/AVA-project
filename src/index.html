@@ -157,17 +157,16 @@
             <button class="button delete-btn">Delete Image</button>
           </div>
           <canvas id="canvas" height="0" class="image-canvas" crossorigin="anonymous" draggable="false"></canvas>
-          <div id="selection-tool">
-            <span id="selection-tool-height">0</span>
-            <span id="selection-tool-width">0</span>
+          <div id="selection-tool" style="border: 2px dashed #00d0c3">
+            <span style="color: #00d0c3" id="selection-tool-height">0</span>
+            <span style="color: #00d0c3" id="selection-tool-width">0</span>
           </div>
           <div class="edit-tools">
             <ul class="edit-tools-list">
               <li class="tool-item transform-tool" id="transform">
                 Transform
                 <ul class="options-list transform-list hidden" id="transform-list">
-                  <li class="edit-option" id="crop">Show crop area</li>
-                  <li class="edit-option" id="crop-done">Apply crop</li>
+                  <li class="edit-option" id="crop">Crop</li>
                   <li class="edit-option" id="resize">Resize</li>
                   <li class="edit-option" id="rotate">Flip and Rotate</li>
                 </ul>
@@ -207,7 +206,7 @@
                           <div class="crop-icon"></div>
                         </div>
                       </div>
-                      <button class="crop-done-btn" disabled></button>
+                      <button id="crop-done" class="crop-done-btn" disabled></button>
 
                     </div>
                   </div>
