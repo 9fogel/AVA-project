@@ -311,76 +311,41 @@ class Model {
     this.applyСhanges();
   }
 
-  private applyСhanges(): void {
-    console.log('apply');
-    if (this.image && this.canvas && this.context) {
-      this.canvas.width = CanvasState.parameters.imageWidth;
-      this.canvas.height = CanvasState.parameters.imageHeight;
+  private async applyСhanges(): Promise<void> {
+    const changes = {
+      canvas: document.getElementById('canvas') as HTMLCanvasElement,
+      context: this.canvas?.getContext('2d') as CanvasRenderingContext2D,
+      image: document.getElementById('sourceImage') as HTMLImageElement,
 
-      CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+      applyFilter() {
+        this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
+          CanvasState.parameters.brightness
+        }%) contrast(${CanvasState.parameters.contrast}%) grayscale(${CanvasState.parameters.grayscale}%) hue-rotate(${
+          CanvasState.parameters.hue
+        }deg) saturate(${CanvasState.parameters.saturation}%)  sepia(${CanvasState.parameters.sepia}%) invert(${
+          CanvasState.parameters.invert / 100
+        }) opacity(${CanvasState.parameters.opacity / 100})`;
+      },
 
-      this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
-        CanvasState.parameters.brightness
-      }%) contrast(${CanvasState.parameters.contrast}%) grayscale(${CanvasState.parameters.grayscale}%) hue-rotate(${
-        CanvasState.parameters.hue
-      }deg) saturate(${CanvasState.parameters.saturation}%)  sepia(${CanvasState.parameters.sepia}%) invert(${
-        CanvasState.parameters.invert / 100
-      }) opacity(${CanvasState.parameters.opacity / 100})`;
-
-      if (CanvasState.parameters.imageRotate === false) {
-        if (CanvasState.parameters.imageCrop === false) {
-          this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
-          this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
-          this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
-          this.context.drawImage(
-            this.image,
-            -this.canvas.width / 2,
-            -this.canvas.height / 2,
-            this.canvas.width,
-            this.canvas.height,
-          );
-          this.context.globalCompositeOperation = 'color';
-          this.context.fillStyle = CanvasState.parameters.color;
-          this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
-          this.context.globalCompositeOperation = 'source-over';
-        } else if (CanvasState.parameters.imageCrop === true) {
-          CanvasState.parameters.imageWidth = this.canvas.width = Math.round(CanvasState.parameters.croppedWidth);
-          CanvasState.parameters.imageHeight = this.canvas.height = Math.round(CanvasState.parameters.croppedHeight);
-          CanvasState.parameters.imageProportions =
-            CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
-
-          this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
-            CanvasState.parameters.brightness
-          }%) contrast(${CanvasState.parameters.contrast}%) grayscale(${
-            CanvasState.parameters.grayscale
-          }%) hue-rotate(${CanvasState.parameters.hue}deg) saturate(${CanvasState.parameters.saturation}%)  sepia(${
-            CanvasState.parameters.sepia
-          }%) invert(${CanvasState.parameters.invert / 100}) opacity(${CanvasState.parameters.opacity / 100})`;
-
-          this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
-          this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
-          this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
-          this.context.drawImage(
-            this.image,
-            CanvasState.parameters.actualX,
-            CanvasState.parameters.actualY,
-            CanvasState.parameters.croppedWidth,
-            CanvasState.parameters.croppedHeight,
-            -this.canvas.width / 2,
-            -this.canvas.height / 2,
-            this.canvas.width,
-            this.canvas.height,
-          );
-          this.context.globalCompositeOperation = 'color';
-          this.context.fillStyle = CanvasState.parameters.color;
-          this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
-          this.context.globalCompositeOperation = 'source-over';
-          this.image.src = this.canvas.toDataURL();
-        }
-      } else if (CanvasState.parameters.imageRotate === true) {
+      drawImage() {
         this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
         this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
         this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
+        this.context.drawImage(
+          this.image,
+          -this.canvas.width / 2,
+          -this.canvas.height / 2,
+          this.canvas.width,
+          this.canvas.height,
+        );
+      },
+
+      drawImageAfterRotate() {
+        this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+        this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+        this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
         this.context.drawImage(
           this.image,
           -this.canvas.height / 2,
@@ -388,10 +353,96 @@ class Model {
           this.canvas.height,
           this.canvas.width,
         );
+      },
+
+      applyColor() {
+        this.context.globalCompositeOperation = 'color';
+        this.context.fillStyle = CanvasState.parameters.color;
+        this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
+        this.context.globalCompositeOperation = 'source-over';
+      },
+
+      applyColorAfterRotate() {
         this.context.globalCompositeOperation = 'color';
         this.context.fillStyle = CanvasState.parameters.color;
         this.context.fillRect(-this.canvas.height / 2, -this.canvas.width / 2, this.canvas.height, this.canvas.width);
         this.context.globalCompositeOperation = 'source-over';
+      },
+
+      async updateImage() {
+        const croppedImage = this.context.getImageData(
+          CanvasState.parameters.actualX,
+          CanvasState.parameters.actualY,
+          CanvasState.parameters.croppedWidth,
+          CanvasState.parameters.croppedHeight,
+        );
+
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        CanvasState.parameters.imageWidth = this.canvas.width = Math.round(CanvasState.parameters.croppedWidth);
+        CanvasState.parameters.imageHeight = this.canvas.height = Math.round(CanvasState.parameters.croppedHeight);
+
+        CanvasState.parameters.imageProportions =
+          CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+
+        this.context.putImageData(croppedImage, 0, 0);
+
+        this.image.src = this.canvas.toDataURL();
+
+        await this.image.decode();
+      },
+    };
+
+    if (this.image && this.canvas && this.context) {
+      this.canvas.width = CanvasState.parameters.imageWidth;
+      this.canvas.height = CanvasState.parameters.imageHeight;
+      CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+
+      if (CanvasState.parameters.imageRotate === false) {
+        if (CanvasState.parameters.imageCrop === false) {
+          changes.applyFilter();
+          changes.drawImage();
+          changes.applyColor();
+        } else if (CanvasState.parameters.imageCrop === true) {
+          changes.drawImage();
+
+          await changes.updateImage();
+
+          CanvasState.parameters.imageflipVertical = 1;
+          CanvasState.parameters.imageflipHorizontal = 1;
+          CanvasState.parameters.imageRotateDegree = 0;
+
+          CanvasState.parameters.imageWidth = this.canvas.width = this.image.naturalWidth;
+          CanvasState.parameters.imageHeight = this.canvas.height = this.image.naturalHeight;
+
+          changes.applyFilter();
+          changes.drawImage();
+          changes.applyColor();
+        }
+      } else if (CanvasState.parameters.imageRotate === true) {
+        if (CanvasState.parameters.imageCrop === false) {
+          changes.applyFilter();
+          changes.drawImageAfterRotate();
+          changes.applyColorAfterRotate();
+        } else if (CanvasState.parameters.imageCrop === true) {
+          changes.drawImageAfterRotate();
+
+          await changes.updateImage();
+
+          CanvasState.parameters.imageflipVertical = 1;
+          CanvasState.parameters.imageflipHorizontal = 1;
+          CanvasState.parameters.imageRotateDegree = 0;
+          CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
+
+          CanvasState.parameters.imageWidth = this.canvas.width = this.image.naturalWidth;
+          CanvasState.parameters.imageHeight = this.canvas.height = this.image.naturalHeight;
+
+          changes.applyFilter();
+
+          changes.drawImage();
+
+          changes.applyColor();
+        }
       }
     }
   }

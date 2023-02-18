@@ -253,7 +253,6 @@ class Editor {
 
   private listenCropArea(): void {
     document.getElementById('crop')?.addEventListener('click', () => {
-      this.model.resetChanges();
       this.model.selectCropArea();
     });
   }

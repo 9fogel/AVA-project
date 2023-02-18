@@ -40,40 +40,40 @@ class CanvasState {
   };
 
   static resetState() {
-    (this.parameters.imageWidth = 0),
-      (this.parameters.imageHeight = 0),
-      (this.parameters.imageProportions = 0),
-      (this.parameters.saveProportions = true),
-      (this.parameters.imageRotateDegree = 0),
-      (this.parameters.imageRotate = false),
-      (this.parameters.imageflipHorizontal = 1),
-      (this.parameters.imageflipVertical = 1),
-      (this.parameters.currentAdjustment = ''),
-      (this.parameters.color = 'rgba(0, 0, 0, 0)'),
-      (this.parameters.blur = 0),
-      (this.parameters.brightness = 100),
-      (this.parameters.contrast = 100),
-      (this.parameters.grayscale = 0),
-      (this.parameters.hue = 0),
-      (this.parameters.pixelate = 50),
-      (this.parameters.saturation = 100),
-      (this.parameters.sepia = 0),
-      (this.parameters.invert = 0),
-      (this.parameters.opacity = 100),
-      (this.parameters.currentPreset = 0),
-      (this.parameters.imageCrop = false),
-      (this.parameters.startSelection = false),
-      (this.parameters.relativeStartX = 0),
-      (this.parameters.relativeStartY = 0),
-      (this.parameters.endX = 0),
-      (this.parameters.endY = 0),
-      (this.parameters.relativeEndX = 0),
-      (this.parameters.relativeEndY = 0),
-      (this.parameters.event = { string: 0 }),
-      (this.parameters.croppedWidth = 0),
-      (this.parameters.croppedHeight = 0),
-      (this.parameters.actualX = 0),
-      (this.parameters.actualY = 0);
+    this.parameters.imageWidth = 0;
+    this.parameters.imageHeight = 0;
+    this.parameters.imageProportions = 0;
+    this.parameters.saveProportions = true;
+    this.parameters.imageRotateDegree = 0;
+    this.parameters.imageRotate = false;
+    this.parameters.imageflipHorizontal = 1;
+    this.parameters.imageflipVertical = 1;
+    this.parameters.currentAdjustment = '';
+    this.parameters.color = 'rgba(0, 0, 0, 0)';
+    this.parameters.blur = 0;
+    this.parameters.brightness = 100;
+    this.parameters.contrast = 100;
+    this.parameters.grayscale = 0;
+    this.parameters.hue = 0;
+    this.parameters.pixelate = 50;
+    this.parameters.saturation = 100;
+    this.parameters.sepia = 0;
+    this.parameters.invert = 0;
+    this.parameters.opacity = 100;
+    this.parameters.currentPreset = 0;
+    this.parameters.imageCrop = false;
+    this.parameters.startSelection = false;
+    this.parameters.relativeStartX = 0;
+    this.parameters.relativeStartY = 0;
+    this.parameters.endX = 0;
+    this.parameters.endY = 0;
+    this.parameters.relativeEndX = 0;
+    this.parameters.relativeEndY = 0;
+    this.parameters.event = { string: 0 };
+    this.parameters.croppedWidth = 0;
+    this.parameters.croppedHeight = 0;
+    this.parameters.actualX = 0;
+    this.parameters.actualY = 0;
   }
 }
 
