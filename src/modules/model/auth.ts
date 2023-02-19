@@ -1,5 +1,11 @@
 const Baseurl = 'http://localhost:5000';
 
+function clearText(container: HTMLElement) {
+  setTimeout(() => {
+    container.textContent = '';
+  }, 5000);
+}
+
 interface ValidError {
   errors: {
     errors: Array<{ value?: string; msg: string; param: string; location: string }>;
@@ -42,29 +48,35 @@ class AuthModel {
     const data = await response.json();
     if (!response.ok) {
       console.error(`Erros:${response.status}`, data);
-      const messageUser = document.querySelector('.user-message');
-      const messageEmail = document.querySelector('.email-message');
-      const messagePassword = document.querySelector('.password-message');
+      const messageUser: HTMLElement | null = document.querySelector('.user-message');
+      const messageEmail: HTMLElement | null = document.querySelector('.email-message');
+      const messagePassword: HTMLElement | null = document.querySelector('.password-message');
 
       if (messageUser) {
         messageUser.textContent = String(
           JSON.stringify(data.message || data.errors?.errors[findIndexError(data, 'username')]?.msg) || '',
-        );
+        ).replace(/"/g, '');
+
+        clearText(messageUser);
       }
 
       if (messageEmail) {
         messageEmail.textContent = String(
-          JSON.stringify(data.errors?.errors[findIndexError(data, 'userEmail')]?.msg) || '',
-        );
+          JSON.stringify(data.messageAcc || data.errors?.errors[findIndexError(data, 'userEmail')]?.msg) || '',
+        ).replace(/"/g, '');
+
+        clearText(messageEmail);
       }
 
       if (messagePassword) {
         messagePassword.textContent = String(
           JSON.stringify(data.errors?.errors[findIndexError(data, 'password')]?.msg) || '',
-        );
+        ).replace(/"/g, '');
+
+        clearText(messagePassword);
       }
     }
-    console.log(JSON.stringify(data));
+    //console.log(JSON.stringify(data));
     return data;
   }
 
@@ -81,10 +93,19 @@ class AuthModel {
 
     const data = await response.json();
     if (!response.ok) {
-      console.error(`Erros:${response.status}`, data);
-      const messageUser = document.querySelector('.email-message');
-      if (messageUser) {
-        messageUser.textContent = String(JSON.stringify(data.message));
+      //console.error(`Erros:${response.status}`, data);
+      const messageUser: HTMLElement | null = document.querySelector('.email-message');
+      const messagePassword: HTMLElement | null = document.querySelector('.password-message');
+      if (messageUser && data.message) {
+        messageUser.textContent = String(JSON.stringify(data.message)).replace(/"/g, '') || '';
+
+        clearText(messageUser);
+      }
+
+      if (messagePassword && data.messageKey) {
+        messagePassword.textContent = String(JSON.stringify(data.messageKey)).replace(/"/g, '') || '';
+
+        clearText(messagePassword);
       }
     }
     //console.log(JSON.stringify(data));
@@ -178,7 +199,7 @@ class AuthModel {
     return data;
   }
 
-  async updatePassword(username: string, password: string) {
+  async updatePassword(userEmail: string, password: string) {
     const response = await fetch(`${Baseurl}/auth/updatepassword`, {
       method: 'PUT',
       headers: {
@@ -187,7 +208,7 @@ class AuthModel {
         //Accept: 'application/json',
         //Authorization: `Bearer ${localStorage.getItem('JWT')}`,
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ userEmail, password }),
     });
     const data = await response.json();
     if (!response.ok) {
