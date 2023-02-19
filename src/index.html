@@ -46,6 +46,10 @@
     </header>
 
     <main class="main wide-container">
+      <div class="system-modal">
+        <div class="close-system-modal"></div>
+        <div class="system-text"></div>
+      </div>
       <div class="login">
         <div class="login-modal">
           <div class="close-modal"></div>
@@ -59,8 +63,7 @@
               <div class="modal-input-wrap user-name-wrap hidden">
                 <label class="modal-label">User Name</label>
                 <input class="modal-input" type="text" id="user-name">
-                <!-- <p class="modal-message user-message"></p> -->
-                <p class="modal-message user-message">User with this name already exists</p>
+                <p class="modal-message user-message"></p>
               </div>
               <div class="modal-input-wrap">
                 <label class="modal-label modal-email-label">Email / User Name</label>
@@ -409,7 +412,7 @@
                   <div class="info-input-content">
                     <label class="info-label">User Name</label>
                     <input class="info-input" type="text" id="info-user-name">
-                    <p class="info-message info-user-message">Some message here</p>
+                    <p class="info-message info-user-message"></p>
                   </div>
                   <button class="save-changes-btn hidden" id="save-username">Save Changes</button>
                 </div>
@@ -468,10 +471,10 @@
               <div class="info-input-wrap promo-input-wrap">
                 <div class="info-input-content">
                   <label class="info-label">Promo</label>
-                  <input class="promo-input" type="text" id="promo">
-                  <p class="info-message promo-user-message">Promo is not valid</p>
+                  <input class="promo-input" type="text" id="promo" placeholder="Please enter your promo here">
+                  <p class="info-message promo-user-message"></p>
                 </div>
-                <button class="get-premium-btn" id="get-premium" disabled>Get Premium</button>
+                <button class="get-premium-btn" id="get-premium">Get Premium</button>
               </div>
             </div>
             <div class="already-premium-content hidden">

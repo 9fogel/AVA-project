@@ -178,6 +178,10 @@
   background-image: url('img/edit-icon.svg');
 }
 
+.info-input:hover {
+  cursor: pointer;
+}
+
 .change-password-input,
 .promo-input {
   width: 267px;
@@ -202,7 +206,8 @@
 
 .save-changes-btn,
 .update-password-btn,
-.confirm-deletion-btn {
+.confirm-deletion-btn,
+.get-premium-btn {
   // justify-self: flex-start;
   align-self: self-start;
   margin-top: 2px;
@@ -239,8 +244,7 @@
 }
 
 .change-password-btn,
-.delete-account-btn,
-.get-premium-btn {
+.delete-account-btn {
   margin-bottom: 32px;
   padding: 11px 24px 10px 51px;
   background-color: $blue;
@@ -262,8 +266,10 @@
 }
 
 .get-premium-btn {
-  color: $black;
-  font-weight: bold;
+  // padding-top: 18px;
+  // padding-bottom: 18px;
+  // color: $black;
+  // font-weight: bold;
   background-image: url('img/premium-icon.svg');
 }
 
@@ -391,7 +397,8 @@
     transition: ease-in-out .3s;
   }
 
-  .confirm-deletion-input::placeholder {
+  .confirm-deletion-input::placeholder,
+  .promo-input::placeholder {
     color: $black;
   }
 

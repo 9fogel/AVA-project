@@ -234,7 +234,6 @@
 
 //_______________________________________________FILTERS
 .filter-option-controls {
-  // position: relative;
   top: -185px;
 }
 
@@ -246,10 +245,11 @@
   display: flex;
   justify-content: center;
   align-items:flex-start;
-  padding-top: 40px;
+  padding: 32px 120px;
   width: 100%;
   height: 170px;
   font-weight: bold;
+  text-align: center;
   color: $white;
   background-color: $black;
   border-radius: $border-radius;
@@ -278,12 +278,6 @@
   position: relative;
 }
 
-// .filter-wrap:hover {
-//   border: 2px solid $blue;
-//   border-radius: $border-radius;
-// }
-
-// .filter-wrap:after:nth-child(-n+5) {
 .user-filter:after,
 .premium-filter:after {
   position: absolute;

@@ -1,4 +1,5 @@
 import Editor from './editor';
+import State from '../state.ts/editorState';
 
 class UserPage {
   editorView = document.querySelector('.main-content');
@@ -14,12 +15,17 @@ class UserPage {
   changePswTitle = document.querySelector('.change-password-title');
   changePswContent = document.querySelector('.info-password-content');
   passwordInputs = document.querySelectorAll('.change-password-input');
+  passwordMessages = document.querySelectorAll('.info-password-message');
   updatePswBtn = document.querySelector('.update-password-btn');
 
   confirmDeletionWrap = document.querySelector('.confirm-deletion-wrap');
+  deteleInput = document.querySelector('.confirm-deletion-input');
+  deleteMessage = document.querySelector('.delete-account-message');
   deleteBtn = document.querySelector('.delete-account-btn');
   confirmDeletionBtn = document.querySelector('.confirm-deletion-btn');
 
+  promoInput = document.querySelector('.promo-input');
+  premiumMessage = document.querySelector('.promo-user-message');
   premiumBtn = document.querySelector('.get-premium-btn');
   buyPremiumContent = document.querySelector('.buy-premium-content');
   alreadyPremiumContent = document.querySelector('.already-premium-content');
@@ -35,12 +41,8 @@ class UserPage {
     this.listenReturnBtns();
     this.handleNav();
     this.handleInputs();
-    this.handleSaveChanges();
     this.handlePasswordChange();
-    this.handleAccDeletion();
-
     this.listenDeleteBtn();
-    this.handlePremium();
   }
 
   public showUserPage(): void {
@@ -54,6 +56,18 @@ class UserPage {
   public hideUserPage(): void {
     this.editorView?.classList.remove('hidden');
     this.userPageView?.classList.add('hidden');
+  }
+
+  public setDefaultState(): void {
+    this.navItems.forEach((item) => {
+      item.classList.remove('selected');
+    });
+    this.navItems[0].classList.add('selected');
+    this.userAccWrap?.classList.remove('hidden');
+    this.getPremiumWrap?.classList.add('hidden');
+    //TODO: update inputs from state?? hide Save Changes Btns?
+    this.hidePswUpdateBlock();
+    this.hideConfirmDeletionBlock();
   }
 
   private listenProfileBtn(): void {
@@ -84,29 +98,20 @@ class UserPage {
     document.querySelector('.nav-item.selected')?.classList.remove('selected');
     this.navItems[index].classList.add('selected');
     if (index === 0) {
+      this.setDefaultState();
       this.userAccWrap?.classList.remove('hidden');
       this.getPremiumWrap?.classList.add('hidden');
     } else if (index === 1) {
       this.userAccWrap?.classList.add('hidden');
       this.getPremiumWrap?.classList.remove('hidden');
+      if (State.userState === 'premium') {
+        this.showPremiumUserView();
+      } else {
+        this.setDefaultPremiumState();
+      }
     } else if (index === 2) {
-      console.log('User signs out');
-      //TODO: метод, который разлогинит пользователя (sign out)
       this.hideUserPage();
     }
-  }
-
-  private setDefaultState(): void {
-    this.navItems.forEach((item) => {
-      item.classList.remove('selected');
-    });
-    this.navItems[0].classList.add('selected');
-    this.userAccWrap?.classList.remove('hidden');
-    this.getPremiumWrap?.classList.add('hidden');
-    //TODO: заполнить инпуты в User Account нужной инфой пользователя
-    this.changePswBtn?.classList.remove('hidden');
-    this.changePswTitle?.classList.add('hidden');
-    this.changePswContent?.classList.add('hidden');
   }
 
   private handleInputs(): void {
@@ -117,90 +122,86 @@ class UserPage {
     });
   }
 
-  private handleSaveChanges(): void {
-    this.saveBtns.forEach((btn, index) => {
-      btn.addEventListener('click', () => {
-        console.log('changes saved');
-        btn.classList.add('hidden');
-        if (this.infoMessages) {
-          //TODO: выводим какое-то временное сообщение, что пароль успешно изменён?
-          this.infoMessages[index].innerText = 'Changes saved'; // сейчас появляется сообщение под инпутом, но оно красное и потом не исчезает
-        }
-      });
+  //_______________________________________________PASSWORD CHANGE
+  public hidePswUpdateBlock() {
+    this.passwordInputs.forEach((input) => {
+      if (input instanceof HTMLInputElement) {
+        input.value = '';
+      }
     });
+    this.passwordMessages.forEach((message) => {
+      if (message instanceof HTMLElement) {
+        message.innerText = '';
+      }
+    });
+    this.changePswBtn?.classList.remove('hidden');
+    this.changePswTitle?.classList.add('hidden');
+    this.changePswContent?.classList.add('hidden');
+    this.updatePswBtn?.classList.add('hidden');
   }
 
-  //_______________________________________________PASSWORD CHANGE
   private handlePasswordChange(): void {
     this.listenChangePswBtn();
-    this.listenPswInputs();
     this.listenUpdatePswBtn();
   }
 
   private listenChangePswBtn(): void {
     this.changePswBtn?.addEventListener('click', () => {
-      this.changePswBtn?.classList.add('hidden');
-      this.changePswTitle?.classList.remove('hidden');
-      this.changePswContent?.classList.remove('hidden');
+      this.showPswUpdateBlock();
     });
   }
 
-  private listenPswInputs(): void {
-    this.passwordInputs.forEach((input, index) => {
-      input.addEventListener('change', () => {
-        console.log(`input with index ${index} was changed`);
-        //TODO: метод, который валидирует каждый инпут (инпуты можно различать по индексу)
-      });
-    });
-    //TODO: если все инпуты проходят валидацию, то активировать кнопку Update Password
-    // this.updatePswBtn?.classList.remove('hidden');
+  private showPswUpdateBlock() {
+    this.changePswBtn?.classList.add('hidden');
+    this.changePswTitle?.classList.remove('hidden');
+    this.changePswContent?.classList.remove('hidden');
   }
 
   private listenUpdatePswBtn(): void {
     this.updatePswBtn?.addEventListener('click', () => {
-      console.log('update password');
-      //TODO: метод, который обновляет пароль в системе/на сервере
-      //TODO: выводим какое-то временное сообщение, что пароль успешно изменён?
-      this.setDefaultState();
+      setTimeout(() => this.setDefaultState(), 5000);
     });
   }
 
   //_______________________________________________DELETE ACCOUNT
-  private handleAccDeletion(): void {
-    this.listenDeleteBtn();
-    this.listenConfirmDeletionBtn();
-  }
-
   private listenDeleteBtn(): void {
     this.deleteBtn?.addEventListener('click', () => {
-      this.deleteBtn?.classList.add('hidden');
-      this.confirmDeletionWrap?.classList.remove('hidden');
+      this.showConfirmDeletionBlock();
     });
   }
 
-  private listenConfirmDeletionBtn(): void {
-    this.confirmDeletionBtn?.addEventListener('click', () => {
-      console.log('account will be deleted');
-      //TODO: метод, который удаляет профиль пользователя + делает sign out
-      this.hideUserPage();
-    });
+  private showConfirmDeletionBlock(): void {
+    if (this.deteleInput instanceof HTMLInputElement && this.deleteMessage instanceof HTMLElement) {
+      this.deteleInput.value = '';
+      this.deleteMessage.innerText = '';
+    }
+    this.deleteBtn?.classList.add('hidden');
+    this.confirmDeletionWrap?.classList.remove('hidden');
+  }
+
+  private hideConfirmDeletionBlock(): void {
+    this.deleteBtn?.classList.remove('hidden');
+    this.confirmDeletionWrap?.classList.add('hidden');
   }
 
   //_______________________________________________PREMIUM
-  private handlePremium(): void {
-    //TODO: если инпут с промо проходит валидацию, то активируем кнопку get-premium
-    // this.premiumBtn?.removeAttribute('disabled');
-    this.premiumBtn?.addEventListener('click', () => {
-      console.log('i want to get premium');
-      //TODO: метод, который дает премиум доступ
-      //TODO: выводить какое-то сообщение, что премиум получен? или просто переключать вид блока как для премиум пользователя?
-      this.switchPremiumView(); //переключает на блок как для премиум пользователя
-    });
-  }
-
   public switchPremiumView(): void {
     this.buyPremiumContent?.classList.add('hidden');
     this.alreadyPremiumContent?.classList.remove('hidden');
+  }
+
+  private showPremiumUserView(): void {
+    this.buyPremiumContent?.classList.add('hidden');
+    this.alreadyPremiumContent?.classList.remove('hidden');
+  }
+
+  private setDefaultPremiumState(): void {
+    if (this.promoInput instanceof HTMLInputElement && this.premiumMessage instanceof HTMLElement) {
+      this.promoInput.value = '';
+      this.premiumMessage.innerText = '';
+    }
+    this.buyPremiumContent?.classList.remove('hidden');
+    this.alreadyPremiumContent?.classList.add('hidden');
   }
 }
 
