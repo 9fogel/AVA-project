@@ -138,6 +138,9 @@ class UsersControler {
     if (this.inputName && this.inputEmail) {
       this.inputName.value = name;
       this.inputEmail.value = email;
+      State.userName = name;
+      State.userEmail = email;
+      // console.log('State', State.userName, State.userEmail);
     }
   }
 
@@ -163,6 +166,9 @@ class UsersControler {
       this.JWT = localStorage.setItem('JWT', '');
 
       State.userState = 'default';
+      State.userName = '';
+      State.userEmail = '';
+      //console.log('State', State.userName, State.userEmail);
     }
   }
 
@@ -199,6 +205,9 @@ class UsersControler {
           if (buttonName) {
             buttonName.textContent = data.newUserName;
           }
+          State.userName = data.newUserName;
+          State.userEmail = data.newUserEmail;
+          //console.log('state', State.userName, State.userEmail);
         }
 
         if (data.errors) {

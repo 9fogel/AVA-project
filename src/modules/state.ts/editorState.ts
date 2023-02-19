@@ -1,5 +1,7 @@
 class State {
   static userState = 'default';
+  static userName = '';
+  static userEmail = '';
 
   static tools: { [key: string]: boolean } = {
     transform: false,
