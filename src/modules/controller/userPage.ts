@@ -142,7 +142,7 @@ class UserPage {
 
   private handlePasswordChange(): void {
     this.listenChangePswBtn();
-    this.listenUpdatePswBtn();
+    //this.listenUpdatePswBtn();
   }
 
   private listenChangePswBtn(): void {

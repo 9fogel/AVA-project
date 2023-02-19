@@ -2,8 +2,12 @@ import AuthModel from '../model/auth';
 import { user } from '../model/auth';
 import UserPage from './userPage';
 import State from '../state.ts/editorState';
+import SystemPopup from './systemPopup';
+
+// Вынести вспамогательные методы в отдельный класс и вызывать их оттуда
 
 class UsersControler {
+  private readonly systemPopup: SystemPopup;
   static State: State;
   users: AuthModel;
   userPage: UserPage;
@@ -23,6 +27,7 @@ class UsersControler {
   constructor() {
     this.users = new AuthModel();
     this.userPage = new UserPage();
+    this.systemPopup = new SystemPopup();
   }
 
   handleUsers() {
@@ -68,9 +73,10 @@ class UsersControler {
       }
     };
 
+    //Вынести в отдельный метод
+    const messagePassword: HTMLElement | null = document.querySelector('.confirm-password-message');
     [password, repeatPassword].forEach((el) => {
       el.addEventListener('input', () => {
-        const messagePassword: HTMLElement | null = document.querySelector('.confirm-password-message');
         if (messagePassword) {
           if (password.value !== repeatPassword.value) {
             messagePassword.textContent = 'Password mismatches';
@@ -81,6 +87,15 @@ class UsersControler {
             messagePassword.style.color = 'green';
             document.getElementById('sign-up')?.removeAttribute('disabled');
           }
+        }
+      });
+    });
+
+    //Вынести в отдельный метод
+    [password, repeatPassword].forEach((el) => {
+      el.addEventListener('change', () => {
+        if (messagePassword) {
+          this.clearText(messagePassword);
         }
       });
     });
@@ -123,6 +138,9 @@ class UsersControler {
     if (this.inputName && this.inputEmail) {
       this.inputName.value = name;
       this.inputEmail.value = email;
+      State.userName = name;
+      State.userEmail = email;
+      // console.log('State', State.userName, State.userEmail);
     }
   }
 
@@ -131,9 +149,10 @@ class UsersControler {
     if (data.username) {
       this.logIn(data.username, data.username, data.userEmail);
       this.updateState(data.roles);
-      console.log('f', State.userState);
+      console.log('Role:', State.userState);
     } else {
       this.logOut();
+      console.log('Role:', State.userState);
     }
   }
 
@@ -147,6 +166,9 @@ class UsersControler {
       this.JWT = localStorage.setItem('JWT', '');
 
       State.userState = 'default';
+      State.userName = '';
+      State.userEmail = '';
+      //console.log('State', State.userName, State.userEmail);
     }
   }
 
@@ -165,30 +187,37 @@ class UsersControler {
       button.addEventListener('click', async () => {
         const user: user = flag === 1 ? { username: name.value } : { userEmail: name.value };
         const data = await this.users.updateUser(path, user);
-        console.log(`update: ${JSON.stringify(data)}`, name.value, path);
+        //console.log(`update: ${JSON.stringify(data)}`, name.value, path);
 
         if (data.messageLog || data.message) {
           this.nonLogIn();
         }
         if (data.messageNo) {
           textMessage.textContent = 'It looks like this name is already in use. Try entering something else.';
+          this.clearText(textMessage);
           textMessage.style.color = 'red';
         }
         if (data.messageOK) {
           textMessage.textContent = 'Changes were applied';
+          this.clearText(textMessage);
           textMessage.style.color = 'green';
           const buttonName = document.querySelector('.profile-btn');
           if (buttonName) {
             buttonName.textContent = data.newUserName;
           }
+          State.userName = data.newUserName;
+          State.userEmail = data.newUserEmail;
+          //console.log('state', State.userName, State.userEmail);
         }
 
         if (data.errors) {
           if (flag === 1) {
             textMessage.textContent = 'Name cannot be empty';
+            this.clearText(textMessage);
           }
           if (flag === 2) {
             textMessage.textContent = "It's not a valid Email";
+            this.clearText(textMessage);
           }
           textMessage.style.color = 'red';
         }
@@ -210,24 +239,26 @@ class UsersControler {
         }
 
         if (data.messageNo) {
-          deleteMessage.textContent = JSON.stringify(data.messageNo);
+          deleteMessage.textContent = JSON.stringify(data.messageNo).replace(/"/g, '');
           deleteMessage.style.color = 'red';
+          this.clearText(deleteMessage);
         }
         if (data.messageOK) {
-          deleteMessage.textContent = JSON.stringify(data.messageOK);
+          deleteMessage.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
           deleteMessage.style.color = 'green';
 
           setTimeout(() => {
             this.logOut();
             this.userPage.hideUserPage();
-          }, 2000);
+          }, 3000);
         }
       });
     }
   }
 
+  //ПЕРЕПИСАТЬ МЕТОД ТАК ЧТОБЫ ОН БЫЛ УНИВЕРСАЛЬНЫМ
   private listenInputs() {
-    const messageNewPassword = document.querySelectorAll('.info-password-message')[1] as HTMLElement;
+    const messageNewPassword = document.querySelectorAll('.info-password-message')[2] as HTMLElement;
 
     if (
       this.inputOldPasswors &&
@@ -239,17 +270,27 @@ class UsersControler {
       [this.inputNewPassword, this.inputConfirmNewPassword].forEach((el) => {
         el.addEventListener('input', () => {
           if (
-            this.inputNewPassword?.value === this.inputConfirmNewPassword?.value &&
-            String(this.inputOldPasswors?.value).length > 0
+            this.inputNewPassword?.value === this.inputConfirmNewPassword?.value
+            // && String(this.inputOldPasswors?.value).length > 0
           ) {
             this.updatePasswordBtn?.classList.remove('hidden');
             messageNewPassword.textContent = 'Password matches';
             messageNewPassword.style.color = 'green';
+
+            this.clearText(messageNewPassword);
           } else {
             this.updatePasswordBtn?.classList.add('hidden');
             messageNewPassword.textContent = 'Password mismatches';
             messageNewPassword.style.color = 'red';
           }
+
+          //this.clearText(messageNewPassword);
+        });
+      });
+
+      [this.inputNewPassword, this.inputConfirmNewPassword].forEach((el) => {
+        el.addEventListener('change', () => {
+          this.clearText(messageNewPassword);
         });
       });
     }
@@ -259,42 +300,47 @@ class UsersControler {
     this.listenInputs();
 
     const messageOldPassword = document.querySelectorAll('.info-password-message')[0] as HTMLElement;
-    const messageNewPassword = document.querySelectorAll('.info-password-message')[1] as HTMLElement;
+    const messageNewPassword = document.querySelectorAll('.info-password-message')[2] as HTMLElement;
 
     this.updatePasswordBtn?.addEventListener('click', async () => {
       if (this.inputOldPasswors) {
         const data = await this.users.checkPassword(this.inputOldPasswors.value);
-        console.log(data);
+        //console.log(data);
 
         if (data.messageLog || data.message) {
           this.nonLogIn();
         }
 
         if (data.messageNo) {
-          messageOldPassword.textContent = JSON.stringify(data.messageNo);
+          messageOldPassword.textContent = JSON.stringify(data.messageNo).replace(/"/g, '');
           messageOldPassword.style.color = 'red';
+          this.clearText(messageOldPassword);
         }
 
         if (data.messageOK && this.inputNewPassword) {
-          messageOldPassword.textContent = JSON.stringify(data.messageOK);
+          messageOldPassword.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
           messageOldPassword.style.color = 'green';
+          this.clearText(messageOldPassword);
+          //console.log(data);
 
-          const newData = await this.users.updatePassword(data.username, this.inputNewPassword.value);
+          const newData = await this.users.updatePassword(data.userEmail, this.inputNewPassword.value);
           if (newData.errors) {
             messageNewPassword.textContent = 'Password length must be between 4 and 10 characters';
             messageNewPassword.style.color = 'red';
+            this.clearText(messageNewPassword);
           }
 
           if (newData.messageOK) {
-            messageOldPassword.textContent = JSON.stringify(newData.messageOK);
+            messageOldPassword.textContent = JSON.stringify(newData.messageOK).replace(/"/g, '');
             messageOldPassword.style.color = 'green';
-            this.inputNewPassword.value = '';
-            this.inputOldPasswors.value = '';
-            if (this.inputConfirmNewPassword) {
-              this.inputConfirmNewPassword.value = '';
-            }
+            // this.inputNewPassword.value = '';
+            // this.inputOldPasswors.value = '';
+            // if (this.inputConfirmNewPassword) {
+            //   this.inputConfirmNewPassword.value = '';
+            // }
             this.clearText(messageOldPassword);
             this.clearText(messageNewPassword);
+            setTimeout(() => this.userPage.setDefaultState(), 6000);
           }
 
           if (newData.message) {
@@ -318,7 +364,15 @@ class UsersControler {
     //   }, 6000);
 
     //}
-    alert('Looks likes you have already signed out or your account was deleted. Please try to sign in again.');
+
+    this.systemPopup.showModal(
+      'Looks likes you have already signed out or your account was deleted. Please try to sign in again.',
+    );
+
+    setTimeout(() => {
+      this.systemPopup.hideModal();
+    }, 6000);
+    //alert('Looks likes you have already signed out or your account was deleted. Please try to sign in again.');
   }
 
   private updateState(array: Array<string>) {
@@ -329,6 +383,7 @@ class UsersControler {
     } else {
       State.userState = 'default';
     }
+    //console.log('state:', State.userState);
   }
 
   private handeUpdatePremium() {
@@ -344,14 +399,15 @@ class UsersControler {
         }
 
         if (data.messageNo) {
-          messgePremium.textContent = JSON.stringify(data.messageNo);
+          messgePremium.textContent = JSON.stringify(data.messageNo).replace(/"/g, '');
           messgePremium.style.color = 'red';
+          this.clearText(messgePremium);
 
           //console.log('Premium no');
         }
 
         if (data.messageOK) {
-          // messgePremium.textContent = JSON.stringify(data.messageOK);
+          // messgePremium.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
           // messgePremium.style.color = 'green';
           this.userPage.switchPremiumView();
 
