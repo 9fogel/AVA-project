@@ -2,8 +2,12 @@ import AuthModel from '../model/auth';
 import { user } from '../model/auth';
 import UserPage from './userPage';
 import State from '../state.ts/editorState';
+import SystemPopup from './systemPopup';
+
+// Вынести вспамогательные методы в отдельный класс и вызывать их оттуда
 
 class UsersControler {
+  private readonly systemPopup: SystemPopup;
   static State: State;
   users: AuthModel;
   userPage: UserPage;
@@ -23,6 +27,7 @@ class UsersControler {
   constructor() {
     this.users = new AuthModel();
     this.userPage = new UserPage();
+    this.systemPopup = new SystemPopup();
   }
 
   handleUsers() {
@@ -141,8 +146,10 @@ class UsersControler {
     if (data.username) {
       this.logIn(data.username, data.username, data.userEmail);
       this.updateState(data.roles);
+      console.log('Role:', State.userState);
     } else {
       this.logOut();
+      console.log('Role:', State.userState);
     }
   }
 
@@ -317,13 +324,14 @@ class UsersControler {
           if (newData.messageOK) {
             messageOldPassword.textContent = JSON.stringify(newData.messageOK).replace(/"/g, '');
             messageOldPassword.style.color = 'green';
-            this.inputNewPassword.value = '';
-            this.inputOldPasswors.value = '';
-            if (this.inputConfirmNewPassword) {
-              this.inputConfirmNewPassword.value = '';
-            }
+            // this.inputNewPassword.value = '';
+            // this.inputOldPasswors.value = '';
+            // if (this.inputConfirmNewPassword) {
+            //   this.inputConfirmNewPassword.value = '';
+            // }
             this.clearText(messageOldPassword);
             this.clearText(messageNewPassword);
+            setTimeout(() => this.userPage.setDefaultState(), 6000);
           }
 
           if (newData.message) {
@@ -347,7 +355,15 @@ class UsersControler {
     //   }, 6000);
 
     //}
-    alert('Looks likes you have already signed out or your account was deleted. Please try to sign in again.');
+
+    this.systemPopup.showModal(
+      'Looks likes you have already signed out or your account was deleted. Please try to sign in again.',
+    );
+
+    setTimeout(() => {
+      this.systemPopup.hideModal();
+    }, 6000);
+    //alert('Looks likes you have already signed out or your account was deleted. Please try to sign in again.');
   }
 
   private updateState(array: Array<string>) {

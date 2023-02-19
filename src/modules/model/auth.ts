@@ -19,6 +19,8 @@ function findIndexError(error: ValidError, value: string): number {
   return arr1.findIndex((el) => el.param === value);
 }
 
+//Пеписать запросы в один или два и переписать в соответстии с этим контроллер
+
 class AuthModel {
   // async getUsers() {
   //   const response = await fetch(`${Baseurl}/auth/users/`, {});
@@ -48,6 +50,8 @@ class AuthModel {
     const data = await response.json();
     if (!response.ok) {
       console.error(`Erros:${response.status}`, data);
+
+      //Перенести эти действия в контроллер и в следующем методе тоже
       const messageUser: HTMLElement | null = document.querySelector('.user-message');
       const messageEmail: HTMLElement | null = document.querySelector('.email-message');
       const messagePassword: HTMLElement | null = document.querySelector('.password-message');
@@ -146,10 +150,6 @@ class AuthModel {
     const data = await response.json();
     if (!response.ok) {
       console.error(`Erros:${response.status}`, data);
-      // const messageUser = document.querySelector('.email-message');
-      // if (messageUser) {
-      //   messageUser.textContent = String(JSON.stringify(data.message));
-      //}
     }
     console.log(JSON.stringify(data));
     return data;
@@ -170,12 +170,8 @@ class AuthModel {
     const data = await response.json();
     if (!response.ok) {
       console.error(`Erros:${response.status}`, data);
-      // const messageUser = document.querySelector('.email-message');
-      // if (messageUser) {
-      //   messageUser.textContent = String(JSON.stringify(data.message));
-      //}
     }
-    //console.log(JSON.stringify(data));
+
     return data;
   }
 
