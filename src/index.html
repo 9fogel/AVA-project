@@ -388,8 +388,50 @@
                 </div>
               </li>
               <li class="tool-item text-tool" id="text">Text</li>
-              <li class="tool-item border-tool" id="border">Border</li>
-              <li class="tool-item draw-tool" id="draw">Draw</li>
+              <li class="tool-item border-tool" id="border">Border
+                <div class="option-controls border-option-controls">
+                  <div class="border-controls border-list hidden" id="border-list">
+                    <div class="back-arrow" id="border-arrow"></div>
+                    <div class="controls-content">
+                      <span class="option-title">Border</span>
+                      <div class="border-wrap">
+                        <input class="border-input" type="color" id="border-color-input" value="#00d0c3" />
+                        <div class="width-wrap">
+                          <div class="width-icon"></div>
+                          <div class="width-input-wrap">
+                            <input class="option-input width-number-input" id="border-width" type="number" min="0" step="5" value="10"
+                              maxlength="2" />
+                            <span class="width-sign">px</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="border-done-btn"></button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="tool-item draw-tool" id="draw">Draw
+                <div class="option-controls draw-option-controls">
+                  <div class="draw-controls draw-list hidden" id="draw-list">
+                    <div class="back-arrow" id="draw-arrow"></div>
+                    <div class="controls-content">
+                      <span class="option-title">Draw</span>
+                      <div class="draw-wrap">
+                        <input class="draw-input" type="color" id="draw-color-input" value="#00d0c3" />
+                        <div class="width-wrap">
+                          <div class="width-icon"></div>
+                          <div class="width-input-wrap">
+                            <input class="option-input width-number-input"  id="draw-width" type="number" min="0" step="5" value="10"
+                              maxlength="2" />
+                            <span class="width-sign">px</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button class="draw-done-btn"></button>
+                    </div>
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
         </div>

@@ -151,6 +151,8 @@
   background-image: url('img/lock-proportions-icon-hover.svg');
 }
 
+.border-done-btn,
+.draw-done-btn,
 .crop-done-btn,
 .done-btn {
   padding: 2px 17px;
@@ -164,6 +166,8 @@
   border-radius: $border-radius;
 }
 
+.border-done-btn:hover,
+.draw-done-btn:hover,
 .crop-done-btn:hover,
 .done-btn:hover {
   background-color: $blue-hover;
@@ -171,6 +175,8 @@
   transition: ease-in-out 0.3s;
 }
 
+.border-done-btn:disabled,
+.draw-done-btn:disabled,
 .crop-done-btn:disabled,
 .done-btn:disabled {
   cursor: default;
@@ -398,6 +404,71 @@
   right: 8px;
 }
 
+//_______________________________________________BORDER & DRAW
+.border-option-controls,
+.draw-option-controls {
+  top: -62px;
+}
+
+.border-controls,
+.draw-controls {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px;
+  width: fit-content;
+}
+
+.border-controls.hidden,
+.draw-controls.hidden {
+  display: none;
+}
+
+.border-wrap,
+.draw-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.border-input,
+.draw-input {
+  padding: 0px 2px;
+}
+
+.border-input:hover,
+.draw-input:hover {
+  cursor: pointer;
+}
+
+.width-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.width-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('img/width-icon.svg');
+}
+
+.width-input-wrap {
+  position: relative;
+}
+
+.width-number-input {
+  width: 61px;
+}
+
+.width-sign {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+}
+
 //dark theme styles
 .dark-theme {
   .option-controls {
@@ -412,7 +483,9 @@
     background-image: url('img/arrow-back-icon-hover.svg');
   }
 
-  .crop-input {
+  .crop-input,
+  .border-input,
+  .draw-input {
     color-scheme: dark;
   }
 
@@ -446,6 +519,8 @@
     background-image: url('img/lock-proportions-icon-hover.svg');
   }
 
+  .border-done-btn:disabled,
+  .draw-done-btn:disabled,
   .crop-done-btn:disabled,
   .done-btn:disabled {
     background-color: $white;
@@ -488,10 +563,7 @@
     background-color: $white;
   }
 
-  // .filters-message {
-    // color: $black;
-    // background-color: $white;
-    // background-color: $light-gray;
-    // opacity: 0.75;
-  // }
+  .width-icon {
+    background-image: url('img/dark-width-icon.svg');
+  }
 }

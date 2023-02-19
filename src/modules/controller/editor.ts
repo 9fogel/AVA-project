@@ -119,6 +119,7 @@ class Editor {
       }
     });
     this.hideMessageWrap();
+    //TODO: убирать слушатель draw?
   }
 
   public hideOpenedOptionControls(): void {
@@ -231,6 +232,11 @@ class Editor {
     backArrows.forEach((arrow) => {
       arrow.addEventListener('click', () => {
         const optionName: string = arrow.id.slice(0, -6);
+        // console.log(optionName);
+        if (optionName === 'draw' || optionName === 'border') {
+          //TODO: убирать слушатель с канваса после закрытия менюшки draw через стрелку?
+          this.hideOpenedToolMenus();
+        }
         this.hideOptionControls(optionName);
       });
     });
