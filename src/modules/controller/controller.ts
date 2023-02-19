@@ -4,6 +4,10 @@ import Model from '../model/model';
 import Login from './login';
 import UsersControler from './authusers';
 import UserPage from './userPage';
+import View from '../view/view';
+
+const view = new View();
+view.render();
 
 class Controller {
   quality = 1;

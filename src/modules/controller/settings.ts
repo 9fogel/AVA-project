@@ -1,3 +1,5 @@
+import State from '../state.ts/editorState';
+
 class Settings {
   public handleSettings() {
     this.listenSettings();
@@ -26,6 +28,12 @@ class Settings {
 
   private switchTheme(): void {
     document.body.classList.toggle('dark-theme');
+    if (State.theme === 'light') {
+      State.theme = 'dark';
+    } else {
+      State.theme = 'light';
+    }
+    localStorage.setItem('ava-theme', State.theme);
   }
 }
 
