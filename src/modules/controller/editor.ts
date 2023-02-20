@@ -119,6 +119,7 @@ class Editor {
       }
     });
     this.hideMessageWrap();
+    //TODO: убирать слушатель draw?
   }
 
   public hideOpenedOptionControls(): void {
@@ -151,8 +152,6 @@ class Editor {
         const toolName = tool.id;
         if (toolName && e.target instanceof HTMLLIElement) {
           if (e.target.classList.contains('tool-item')) {
-            //TODO: спрятать другие открытые менюхи и убрать .selected с.tool-item с открытым меню
-            //TODO: если открыты подменю, то закрывать их
             this.showToolOptionsList(toolName);
             this.updateElements();
           } else {
@@ -233,6 +232,11 @@ class Editor {
     backArrows.forEach((arrow) => {
       arrow.addEventListener('click', () => {
         const optionName: string = arrow.id.slice(0, -6);
+        // console.log(optionName);
+        if (optionName === 'draw' || optionName === 'border') {
+          //TODO: убирать слушатель с канваса после закрытия менюшки draw через стрелку?
+          this.hideOpenedToolMenus();
+        }
         this.hideOptionControls(optionName);
       });
     });
@@ -316,8 +320,6 @@ class Editor {
     doneBtn?.addEventListener('click', () => {
       console.log('resize - click done');
       this.model.resizeImage();
-      //TODO: подумать нужно ли после применения изменений закрывать все менюшки и выдавать какое-то уведомление, что Image has been resized
-      //TODO: если всё закрываем, то в resize переписываем инпуты на новые размеры и лочим кнопку Готово?
     });
   }
 
@@ -355,12 +357,6 @@ class Editor {
     const messageWrap: HTMLElement | null = document.querySelector('.filters-message');
     filters.forEach((filter, index) => {
       filter.addEventListener('click', () => {
-        // document.querySelector('.filter.selected')?.classList.remove('selected');
-        // filter.classList.add('selected');
-        // console.log(`filter with index ${index} was chosen`);
-        // console.log(State.userState);
-        // this.model.applyFilter(index);
-        // this.updateElements();
         if (
           index < 5 ||
           (index >= 5 && index < 10 && (State.userState === 'user' || State.userState === 'premium')) ||
@@ -370,22 +366,12 @@ class Editor {
           filter.classList.add('selected');
           this.model.applyFilter(index);
           this.updateElements();
-          // } else if (index >= 5 && index < 10 && (State.userState === 'user' || State.userState === 'premium')) {
-          //   document.querySelector('.filter.selected')?.classList.remove('selected');
-          //   filter.classList.add('selected');
-          //   this.model.applyFilter(index);
-          //   this.updateElements();
-          // } else if (index >= 10 && State.userState === 'premium') {
-          //   document.querySelector('.filter.selected')?.classList.remove('selected');
-          //   filter.classList.add('selected');
-          //   this.model.applyFilter(index);
-          //   this.updateElements();
         } else {
           console.log(`NO ACCESS TO Filter ${index}`);
           messageWrap?.classList.remove('hidden');
           this.listenMessageWrap();
           if (messageWrap && index >= 5 && index < 10) {
-            messageWrap.innerText = 'Sorry, this filter is available for registed users only';
+            messageWrap.innerText = 'Sorry, this filter is available for registered users only';
           }
 
           if (messageWrap && index >= 10) {

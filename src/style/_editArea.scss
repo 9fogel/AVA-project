@@ -517,7 +517,11 @@
 .tool-item:hover .adjustments-controls,
 .tool-item.selected .adjustments-controls,
 .tool-item:hover .crop-controls,
-.tool-item.selected .crop-controls {
+.tool-item.selected .crop-controls,
+.tool-item:hover .border-controls,
+.tool-item.selected .border-controls,
+.tool-item:hover .draw-controls,
+.tool-item.selected .draw-controls {
   color: $black;
 }
 
@@ -763,7 +767,11 @@
   .tool-item:hover .adjustments-controls,
   .tool-item.selected .adjustments-controls,
   .tool-item:hover .crop-controls,
-  .tool-item.selected .crop-controls  {
+  .tool-item.selected .crop-controls,
+  .tool-item:hover .border-controls,
+  .tool-item.selected .border-controls,
+  .tool-item:hover .draw-controls,
+  .tool-item.selected .draw-controls   {
     color: $white;
   }
 

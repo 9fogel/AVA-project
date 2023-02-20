@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AVAeditor - online tool for editing photos and images</title>
-  </head>
-  <body>
-    <!-- <div class="wrapper"></div>
+import State from '../state.ts/editorState';
+
+class View {
+  public render(): void {
+    console.log('render view');
+    this.renderBodyContent();
+    this.setTheme();
+  }
+
+  private renderBodyContent(): void {
+    const bodyContent = `<div class="wrapper"></div>
     <header class="header wide-container">
       <div class="header-content">
         <p class="logo"><span class="logo-highlighted">AVA</span>editor.</p>
@@ -543,6 +544,29 @@
         <a class="rs-logo" href="https://rs.school/js/" target="_blank"></a>
       </div>
       <span class="copyright">© 2023 All Rights Reserved</span>
-    </footer> -->
-  </body>
-</html>
+    </footer>`;
+
+    document.body.innerHTML = bodyContent;
+  }
+
+  private setTheme(): void {
+    console.log('установить тему');
+    const toggleWrap: HTMLElement | null = document.querySelector('.toggle-wrap');
+
+    State.theme = localStorage.getItem('ava-theme') || 'light';
+    if (State.theme === 'light') {
+      document.body.classList.remove('dark-theme');
+      toggleWrap?.classList.remove('active');
+    } else {
+      document.body.classList.add('dark-theme');
+      toggleWrap?.classList.add('active');
+    }
+    // if (localStorage.getItem('ava-theme')) {
+    //   State.theme = localStorage.getItem('ava-theme');
+    // } else {
+
+    // }
+  }
+}
+
+export default View;

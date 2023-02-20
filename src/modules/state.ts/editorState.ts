@@ -1,4 +1,6 @@
 class State {
+  static theme = 'light';
+
   static userState = 'default';
   static userName = '';
   static userEmail = '';
