@@ -372,6 +372,8 @@ class UsersControler {
     setTimeout(() => {
       this.systemPopup.hideModal();
     }, 6000);
+
+    this.systemPopup.handleModal();
     //alert('Looks likes you have already signed out or your account was deleted. Please try to sign in again.');
   }
 
