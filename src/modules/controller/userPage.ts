@@ -7,7 +7,7 @@ class UserPage {
   navItems = document.querySelectorAll('.nav-item');
   userAccWrap = document.querySelector('.user-account-content');
   getPremiumWrap = document.querySelector('.get-premium-content');
-  infoInputs = document.querySelectorAll('.info-input');
+  infoInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('.info-input');
   saveBtns = document.querySelectorAll('.save-changes-btn');
   infoMessages: NodeListOf<HTMLElement> | null = document.querySelectorAll('.info-message');
 
@@ -65,7 +65,8 @@ class UserPage {
     this.navItems[0].classList.add('selected');
     this.userAccWrap?.classList.remove('hidden');
     this.getPremiumWrap?.classList.add('hidden');
-    //TODO: update inputs from state?? hide Save Changes Btns?
+    this.updateInputsContent();
+    this.hideSaveBtns();
     this.hidePswUpdateBlock();
     this.hideConfirmDeletionBlock();
   }
@@ -122,6 +123,17 @@ class UserPage {
     });
   }
 
+  private updateInputsContent(): void {
+    this.infoInputs[0].value = State.userName;
+    this.infoInputs[1].value = State.userEmail;
+  }
+
+  private hideSaveBtns(): void {
+    this.saveBtns.forEach((btn) => {
+      btn.classList.add('hidden');
+    });
+  }
+
   //_______________________________________________PASSWORD CHANGE
   public hidePswUpdateBlock() {
     this.passwordInputs.forEach((input) => {
@@ -142,7 +154,6 @@ class UserPage {
 
   private handlePasswordChange(): void {
     this.listenChangePswBtn();
-    //this.listenUpdatePswBtn();
   }
 
   private listenChangePswBtn(): void {
@@ -155,12 +166,6 @@ class UserPage {
     this.changePswBtn?.classList.add('hidden');
     this.changePswTitle?.classList.remove('hidden');
     this.changePswContent?.classList.remove('hidden');
-  }
-
-  private listenUpdatePswBtn(): void {
-    this.updatePswBtn?.addEventListener('click', () => {
-      setTimeout(() => this.setDefaultState(), 5000);
-    });
   }
 
   //_______________________________________________DELETE ACCOUNT
