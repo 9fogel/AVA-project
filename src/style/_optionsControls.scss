@@ -153,6 +153,7 @@
 
 .border-done-btn,
 .draw-done-btn,
+.draw-clear-btn,
 .crop-done-btn,
 .done-btn {
   padding: 2px 17px;
@@ -166,8 +167,20 @@
   border-radius: $border-radius;
 }
 
+.draw-clear-btn {
+  background-image: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 29px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
 .border-done-btn:hover,
 .draw-done-btn:hover,
+.draw-clear-btn:hover,
 .crop-done-btn:hover,
 .done-btn:hover {
   background-color: $blue-hover;
@@ -177,6 +190,7 @@
 
 .border-done-btn:disabled,
 .draw-done-btn:disabled,
+.draw-clear-btn:disabled,
 .crop-done-btn:disabled,
 .done-btn:disabled {
   cursor: default;

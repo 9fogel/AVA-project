@@ -26,6 +26,8 @@ class Editor {
     const adjustNumberSign = <HTMLInputElement>document.querySelector('.percentage-sign');
     resizeWidthInput.value = String(CanvasState.parameters.imageWidth);
     resizeHeightInput.value = String(CanvasState.parameters.imageHeight);
+    const drawInput = <HTMLInputElement>document.getElementById('draw-color-input');
+    drawInput.value = '#00d0c3';
     const filters = document.querySelectorAll('.filter');
     document.querySelector('.filter.selected')?.classList.remove('selected');
     filters.forEach((filter, index) => {
@@ -141,6 +143,9 @@ class Editor {
       }
     });
     this.hideMessageWrap();
+    this.model.removeCropArea();
+    this.model.stopDrawOnCanvas();
+    this.model.resetZoom();
   }
 
   private listenTools(): void {
@@ -171,6 +176,7 @@ class Editor {
     this.listenFilters();
     this.listenAdjustments();
     this.listenCrop();
+    this.listenDraw();
     //TODO сюда добавятся методы и на другие опции
   }
 
@@ -246,11 +252,12 @@ class Editor {
   private listenCrop(): void {
     this.listenCropArea();
     this.listenCropDone();
+    this.listenCropColorInput();
+    this.listenCropBackArrow();
   }
 
   private listenCropArea(): void {
     document.getElementById('crop')?.addEventListener('click', () => {
-      this.model.alignImage();
       this.model.selectCropArea();
     });
   }
@@ -258,6 +265,18 @@ class Editor {
   private listenCropDone(): void {
     document.getElementById('crop-done')?.addEventListener('click', () => {
       this.model.cropImage();
+    });
+  }
+
+  private listenCropColorInput(): void {
+    document.getElementById('crop-color-input')?.addEventListener('input', () => {
+      this.model.cropColorChange();
+    });
+  }
+
+  private listenCropBackArrow(): void {
+    document.getElementById('crop-arrow')?.addEventListener('click', () => {
+      this.model.removeCropArea();
     });
   }
 
@@ -454,6 +473,52 @@ class Editor {
         this.model.useAdjustment(range.value);
         console.log(`${adjustmentName} выставлен на уровень ${range.value}`);
       }
+    });
+  }
+
+  // _______________________________________________________DRAW
+  private listenDraw(): void {
+    this.listenDrawArea();
+    this.listenDrawColorInput();
+    this.listenDrawBackArrow();
+    this.listenDrawLineWidthInput();
+    this.listenClearDrawing();
+  }
+
+  private listenDrawArea() {
+    document.getElementById('draw')?.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLLIElement) {
+        if (event.target.id === 'draw') {
+          this.model.startDrawOnCanvas();
+          event.stopPropagation();
+        }
+      }
+    });
+  }
+  private listenClearDrawing(): void {
+    document.querySelector('.draw-clear-btn')?.addEventListener('click', () => {
+      this.model.clearDrawing();
+    });
+  }
+  private listenDrawColorInput(): void {
+    document.getElementById('draw-color-input')?.addEventListener('input', () => {
+      this.model.drawColorChange();
+    });
+  }
+
+  private listenDrawLineWidthInput(): void {
+    document.getElementById('draw-width')?.addEventListener('input', (event) => {
+      if (event.target instanceof HTMLInputElement) {
+        event.target.value = event.target.value.replace(/[^0-9 ]+/g, '');
+      }
+      this.model.drawLineWidthChange();
+    });
+  }
+
+  private listenDrawBackArrow(): void {
+    document.getElementById('draw-arrow')?.addEventListener('click', (event) => {
+      this.model.stopDrawOnCanvas();
+      event.stopPropagation();
     });
   }
 }

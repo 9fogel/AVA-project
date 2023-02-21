@@ -7,7 +7,7 @@
     <title>AVAeditor - online tool for editing photos and images</title>
   </head>
   <body>
-    <!-- <div class="wrapper"></div>
+    <div class="wrapper"></div>
     <header class="header wide-container">
       <div class="header-content">
         <p class="logo"><span class="logo-highlighted">AVA</span>editor.</p>
@@ -157,17 +157,17 @@
             <button class="button delete-btn">Delete Image</button>
           </div>
           <canvas id="canvas" height="0" class="image-canvas" crossorigin="anonymous" draggable="false"></canvas>
-          <div id="selection-tool">
-            <span id="selection-tool-height">0</span>
-            <span id="selection-tool-width">0</span>
+          <canvas id="canvas2" height="0" crossorigin="anonymous" draggable="false"></canvas>
+          <div id="selection-tool" style="border: 2px dashed #00d0c3">
+            <span style="color: #00d0c3" id="selection-tool-height">0</span>
+            <span style="color: #00d0c3" id="selection-tool-width">0</span>
           </div>
           <div class="edit-tools">
             <ul class="edit-tools-list">
               <li class="tool-item transform-tool" id="transform">
                 Transform
                 <ul class="options-list transform-list hidden" id="transform-list">
-                  <li class="edit-option" id="crop">Show crop area</li>
-                  <li class="edit-option" id="crop-done">Apply crop</li>
+                  <li class="edit-option" id="crop">Crop</li>
                   <li class="edit-option" id="resize">Resize</li>
                   <li class="edit-option" id="rotate">Flip and Rotate</li>
                 </ul>
@@ -207,7 +207,7 @@
                           <div class="crop-icon"></div>
                         </div>
                       </div>
-                      <button class="crop-done-btn" disabled></button>
+                      <button id="crop-done" class="crop-done-btn" disabled></button>
 
                     </div>
                   </div>
@@ -421,13 +421,14 @@
                         <div class="width-wrap">
                           <div class="width-icon"></div>
                           <div class="width-input-wrap">
-                            <input class="option-input width-number-input"  id="draw-width" type="number" min="0" step="5" value="10"
+                            <input class="option-input width-number-input"  id="draw-width" type="text" min="0" value="10"
                               maxlength="2" />
                             <span class="width-sign">px</span>
                           </div>
                         </div>
                       </div>
-                      <button class="draw-done-btn"></button>
+                      <button class="draw-clear-btn" disabled>CLEAR</button>
+                      <button class="draw-done-btn" disabled></button>
                     </div>
                   </div>
                 </div>
@@ -543,6 +544,6 @@
         <a class="rs-logo" href="https://rs.school/js/" target="_blank"></a>
       </div>
       <span class="copyright">© 2023 All Rights Reserved</span>
-    </footer> -->
+    </footer>
   </body>
 </html>

@@ -1,5 +1,6 @@
 import CanvasState from './canvasState';
 import Presets from './presets';
+import checkSelectedTools from '../utils/checkTools';
 
 class Model {
   private canvas: HTMLCanvasElement | null;
@@ -177,7 +178,7 @@ class Model {
     });
   }
 
-  private mouseEvents = {
+  private mouseCropEvents = {
     mouseover(): void {
       if (CanvasState.parameters.selection) {
         const canvas = document.getElementById('canvas') as HTMLCanvasElement | null;
@@ -194,6 +195,8 @@ class Model {
       CanvasState.parameters.relativeStartX = offsetX;
       CanvasState.parameters.relativeStartY = offsetY;
       CanvasState.parameters.startSelection = true;
+      const cropDone = document.getElementById('crop-done') as HTMLButtonElement;
+      cropDone.disabled = false;
     },
 
     mousemove(): void {
@@ -242,22 +245,37 @@ class Model {
   public selectCropArea(): void {
     CanvasState.parameters.startSelection = false;
     if (this.canvas) {
-      this.canvas.addEventListener('mouseover', this.mouseEvents.mouseover);
-      this.canvas.addEventListener('mousedown', this.mouseEvents.mousedown);
-      this.canvas.addEventListener('mouseup', this.mouseEvents.mouseup);
-      this.canvas.addEventListener('mousemove', this.mouseEvents.mousemove);
+      this.canvas.addEventListener('mouseover', this.mouseCropEvents.mouseover);
+      this.canvas.addEventListener('mousedown', this.mouseCropEvents.mousedown);
+      this.canvas.addEventListener('mouseup', this.mouseCropEvents.mouseup);
+      this.canvas.addEventListener('mousemove', this.mouseCropEvents.mousemove);
     }
     CanvasState.parameters.imageCrop = true;
   }
 
   public removeCropArea(): void {
     if (this.canvas && CanvasState.parameters.selection) {
-      this.canvas.removeEventListener('mouseover', this.mouseEvents.mouseover);
-      this.canvas.removeEventListener('mousedown', this.mouseEvents.mousedown);
-      this.canvas.removeEventListener('mouseup', this.mouseEvents.mouseup);
-      this.canvas.removeEventListener('mousemove', this.mouseEvents.mousemove);
+      this.canvas.removeEventListener('mouseover', this.mouseCropEvents.mouseover);
+      this.canvas.removeEventListener('mousedown', this.mouseCropEvents.mousedown);
+      this.canvas.removeEventListener('mouseup', this.mouseCropEvents.mouseup);
+      this.canvas.removeEventListener('mousemove', this.mouseCropEvents.mousemove);
       CanvasState.parameters.selection.style.display = 'none';
       this.canvas.style.cursor = 'auto';
+    }
+    const cropDone = document.getElementById('crop-done');
+    cropDone?.setAttribute('disabled', 'true');
+    CanvasState.parameters.imageCrop = false;
+  }
+
+  public cropColorChange(): void {
+    const selectionTool = document.getElementById('selection-tool');
+    const selectionSpanWidth = document.getElementById('selection-tool-width');
+    const selectionSpanHeight = document.getElementById('selection-tool-height');
+    const inputColor = document.getElementById('crop-color-input') as HTMLInputElement;
+    if (selectionTool && selectionSpanWidth && selectionSpanHeight) {
+      selectionTool.style.border = `2px dashed ${inputColor.value}`;
+      selectionSpanHeight.style.color = inputColor.value;
+      selectionSpanWidth.style.color = inputColor.value;
     }
   }
 
@@ -276,103 +294,248 @@ class Model {
       CanvasState.parameters.actualY = CanvasState.parameters.relativeStartY * heightFactor;
 
       this.applyСhanges();
-      this.removeCropArea();
+
+      CanvasState.parameters.selection.style.display = 'none';
+      const cropDone = document.getElementById('crop-done') as HTMLButtonElement;
+      cropDone.disabled = true;
     }
   }
 
-  public alignImage(): void {
-    if (this.context && this.canvas && this.image) {
-      CanvasState.parameters.imageRotate = false;
-      CanvasState.parameters.imageCrop = false;
-      CanvasState.parameters.imageRotateDegree = 0;
-      CanvasState.parameters.imageflipVertical = 1;
-      CanvasState.parameters.imageflipHorizontal = 1;
-      CanvasState.parameters.imageWidth = this.image.naturalWidth;
-      CanvasState.parameters.imageHeight = this.image.naturalHeight;
-      CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
-      this.applyСhanges();
-    }
-  }
-
-  public resetChanges(): void {
+  public async resetChanges(): Promise<void> {
     CanvasState.resetState();
     if (this.image && this.defaultImage) {
       CanvasState.parameters.imageWidth = this.defaultImage.naturalWidth;
       CanvasState.parameters.imageHeight = this.defaultImage.naturalHeight;
       this.image.src = this.defaultImage.src;
+      await this.image.decode();
     }
 
     this.applyСhanges();
   }
 
-  private applyСhanges(): void {
-    if (this.image && this.canvas && this.context) {
-      this.canvas.width = CanvasState.parameters.imageWidth;
-      this.canvas.height = CanvasState.parameters.imageHeight;
+  private mouseDrawEvents = {
+    mousedown(e: { offsetY: number; offsetX: number; clientX: number; clientY: number }): void {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
 
-      CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+      CanvasState.parameters.isDrawing = true;
+      context.beginPath();
+      context.lineWidth = CanvasState.parameters.lineWidth;
+      context.strokeStyle = CanvasState.parameters.strokeStyle;
+      context.lineJoin = 'round';
+      context.lineCap = 'round';
+      const widthFactor = drawCanvas.width / drawCanvas.offsetWidth;
+      const heightFactor = drawCanvas.height / drawCanvas.offsetHeight;
+      context.moveTo(
+        -drawCanvas.width / 2 + e.offsetX * widthFactor,
+        -drawCanvas.height / 2 + e.offsetY * heightFactor,
+      );
 
-      this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
-        CanvasState.parameters.brightness
-      }%) contrast(${CanvasState.parameters.contrast}%) grayscale(${CanvasState.parameters.grayscale}%) hue-rotate(${
-        CanvasState.parameters.hue
-      }deg) saturate(${CanvasState.parameters.saturation}%)  sepia(${CanvasState.parameters.sepia}%) invert(${
-        CanvasState.parameters.invert / 100
-      }) opacity(${CanvasState.parameters.opacity / 100})`;
+      const doneBtn = document.querySelector('.draw-done-btn') as HTMLButtonElement;
+      doneBtn.disabled = false;
+      const clearBtn = document.querySelector('.draw-clear-btn') as HTMLButtonElement;
+      clearBtn.disabled = false;
+    },
+    mousemove(e: { offsetY: number; offsetX: number; clientX: number; clientY: number }): void {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+      if (CanvasState.parameters.isDrawing === true) {
+        const widthFactor = drawCanvas.width / drawCanvas.offsetWidth;
+        const heightFactor = drawCanvas.height / drawCanvas.offsetHeight;
+        context.lineTo(
+          -drawCanvas.width / 2 + e.offsetX * widthFactor,
+          -drawCanvas.height / 2 + e.offsetY * heightFactor,
+        );
+        context.stroke();
+      }
+    },
+    mouseup(): void {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+      CanvasState.parameters.isDrawing = false;
+      context.closePath();
+    },
+  };
+
+  public startDrawOnCanvas() {
+    if (this.canvas && this.context && this.image) {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+      drawCanvas.style.display = 'block';
+      drawCanvas.width = this.canvas?.width;
+      drawCanvas.height = this.canvas?.height;
+      context.translate(drawCanvas.width / 2, drawCanvas.height / 2);
+      context.save();
+      context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+      context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
 
       if (CanvasState.parameters.imageRotate === false) {
-        if (CanvasState.parameters.imageCrop === false) {
-          this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
-          this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
-          this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
-          this.context.drawImage(
-            this.image,
-            -this.canvas.width / 2,
-            -this.canvas.height / 2,
-            this.canvas.width,
-            this.canvas.height,
-          );
-          this.context.globalCompositeOperation = 'color';
-          this.context.fillStyle = CanvasState.parameters.color;
-          this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
-          this.context.globalCompositeOperation = 'source-over';
-        } else if (CanvasState.parameters.imageCrop === true) {
-          CanvasState.parameters.imageWidth = this.canvas.width = Math.round(CanvasState.parameters.croppedWidth);
-          CanvasState.parameters.imageHeight = this.canvas.height = Math.round(CanvasState.parameters.croppedHeight);
-
-          this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
-            CanvasState.parameters.brightness
-          }%) contrast(${CanvasState.parameters.contrast}%) grayscale(${
-            CanvasState.parameters.grayscale
-          }%) hue-rotate(${CanvasState.parameters.hue}deg) saturate(${CanvasState.parameters.saturation}%)  sepia(${
-            CanvasState.parameters.sepia
-          }%) invert(${CanvasState.parameters.invert / 100}) opacity(${CanvasState.parameters.opacity / 100})`;
-
-          this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
-          this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
-          this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
-          this.context.drawImage(
-            this.image,
-            CanvasState.parameters.actualX,
-            CanvasState.parameters.actualY,
-            CanvasState.parameters.croppedWidth,
-            CanvasState.parameters.croppedHeight,
-            -this.canvas.width / 2,
-            -this.canvas.height / 2,
-            this.canvas.width,
-            this.canvas.height,
-          );
-          this.context.globalCompositeOperation = 'color';
-          this.context.fillStyle = CanvasState.parameters.color;
-          this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
-          this.context.globalCompositeOperation = 'source-over';
-          this.image.src = this.canvas.toDataURL();
-          CanvasState.parameters.imageCrop = false;
-        }
+        context.drawImage(
+          this.image,
+          -this.canvas.width / 2,
+          -this.canvas.height / 2,
+          this.canvas.width,
+          this.canvas.height,
+        );
       } else if (CanvasState.parameters.imageRotate === true) {
+        context.drawImage(
+          this.image,
+          -this.canvas.height / 2,
+          -this.canvas.width / 2,
+          this.canvas.height,
+          this.canvas.width,
+        );
+      }
+      context.restore();
+
+      drawCanvas.addEventListener('mousedown', this.mouseDrawEvents.mousedown);
+      drawCanvas.addEventListener('mouseup', this.mouseDrawEvents.mouseup);
+      drawCanvas.addEventListener('mousemove', this.mouseDrawEvents.mousemove);
+      drawCanvas.style.cursor = 'crosshair';
+
+      document.querySelector('.draw-done-btn')?.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (this.image) {
+          this.image.src = drawCanvas.toDataURL();
+          await this.image.decode();
+
+          if (CanvasState.parameters.imageRotate === false) {
+            CanvasState.parameters.imageflipVertical = 1;
+            CanvasState.parameters.imageflipHorizontal = 1;
+            CanvasState.parameters.imageRotateDegree = 0;
+          } else {
+            CanvasState.parameters.imageflipVertical = 1;
+            CanvasState.parameters.imageflipHorizontal = 1;
+            CanvasState.parameters.imageRotateDegree = 0;
+            CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
+          }
+
+          this.applyСhanges();
+        }
+        const doneBtn = document.querySelector('.draw-done-btn') as HTMLButtonElement;
+        doneBtn.disabled = true;
+        const clearBtn = document.querySelector('.draw-clear-btn') as HTMLButtonElement;
+        clearBtn.disabled = true;
+      });
+      if (!document.getElementById('draw')?.classList.contains('selected')) {
+        this.stopDrawOnCanvas();
+      }
+    }
+  }
+
+  public stopDrawOnCanvas() {
+    if (this.canvas && this.context) {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+      context.clearRect(-drawCanvas.height / 2, -drawCanvas.width / 2, drawCanvas.height, drawCanvas.width);
+      drawCanvas.style.display = 'none';
+
+      drawCanvas.removeEventListener('mousedown', this.mouseDrawEvents.mousedown);
+      drawCanvas.removeEventListener('mouseup', this.mouseDrawEvents.mouseup);
+      drawCanvas.removeEventListener('mousemove', this.mouseDrawEvents.mousemove);
+    }
+    const doneBtn = document.querySelector('.draw-done-btn') as HTMLButtonElement;
+    doneBtn.disabled = true;
+    const clearBtn = document.querySelector('.draw-clear-btn') as HTMLButtonElement;
+    clearBtn.disabled = true;
+  }
+
+  public clearDrawing() {
+    const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+    const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+    context.clearRect(-drawCanvas.height / 2, -drawCanvas.width / 2, drawCanvas.height, drawCanvas.width);
+
+    this.startDrawOnCanvas();
+
+    const doneBtn = document.querySelector('.draw-done-btn') as HTMLButtonElement;
+    doneBtn.disabled = true;
+    const clearBtn = document.querySelector('.draw-clear-btn') as HTMLButtonElement;
+    clearBtn.disabled = true;
+  }
+
+  public drawColorChange() {
+    const inputColor = document.getElementById('draw-color-input') as HTMLInputElement;
+    CanvasState.parameters.strokeStyle = `${inputColor.value}`;
+  }
+
+  public drawLineWidthChange() {
+    const inputLineWidth = document.getElementById('draw-width') as HTMLInputElement;
+    CanvasState.parameters.lineWidth = Number(inputLineWidth.value);
+  }
+
+  public setZoom = (): void => {
+    const zoomValue = document.querySelector('.zoom-value') as HTMLSpanElement;
+    if (this.canvas) {
+      zoomValue.innerHTML = `${Math.round(this.canvas.getBoundingClientRect().width / (this.canvas.width / 100))}%`;
+    }
+  };
+
+  public zoomIn = (): void => {
+    if (checkSelectedTools() && this.canvas) {
+      CanvasState.parameters.zoom += 0.2;
+      this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+    }
+    this.setZoom();
+  };
+
+  public zoomOut = (): void => {
+    if (checkSelectedTools() && this.canvas) {
+      if (CanvasState.parameters.zoom - 0.2 >= 0) {
+        CanvasState.parameters.zoom -= 0.2;
+        this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+      } else {
+        return;
+      }
+    }
+    this.setZoom();
+  };
+
+  public resetZoom() {
+    if (this.canvas) {
+      CanvasState.parameters.zoom = 1;
+      this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+      this.setZoom();
+    }
+  }
+
+  private async applyСhanges(): Promise<void> {
+    const changes = {
+      canvas: document.getElementById('canvas') as HTMLCanvasElement,
+      context: this.canvas?.getContext('2d') as CanvasRenderingContext2D,
+      image: document.getElementById('sourceImage') as HTMLImageElement,
+
+      applyFilter() {
+        this.context.filter = `blur(${CanvasState.parameters.blur}px) brightness(${
+          CanvasState.parameters.brightness
+        }%) contrast(${CanvasState.parameters.contrast}%) grayscale(${CanvasState.parameters.grayscale}%) hue-rotate(${
+          CanvasState.parameters.hue
+        }deg) saturate(${CanvasState.parameters.saturation}%)  sepia(${CanvasState.parameters.sepia}%) invert(${
+          CanvasState.parameters.invert / 100
+        }) opacity(${CanvasState.parameters.opacity / 100})`;
+      },
+
+      drawImage() {
         this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
         this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
         this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
+        this.context.drawImage(
+          this.image,
+          -this.canvas.width / 2,
+          -this.canvas.height / 2,
+          this.canvas.width,
+          this.canvas.height,
+        );
+      },
+
+      drawImageAfterRotate() {
+        this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
+        this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+        this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
         this.context.drawImage(
           this.image,
           -this.canvas.height / 2,
@@ -380,12 +543,101 @@ class Model {
           this.canvas.height,
           this.canvas.width,
         );
+      },
+
+      applyColor() {
+        this.context.globalCompositeOperation = 'color';
+        this.context.fillStyle = CanvasState.parameters.color;
+        this.context.fillRect(-this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
+        this.context.globalCompositeOperation = 'source-over';
+      },
+
+      applyColorAfterRotate() {
         this.context.globalCompositeOperation = 'color';
         this.context.fillStyle = CanvasState.parameters.color;
         this.context.fillRect(-this.canvas.height / 2, -this.canvas.width / 2, this.canvas.height, this.canvas.width);
         this.context.globalCompositeOperation = 'source-over';
+      },
+
+      async updateImage() {
+        const croppedImage = this.context.getImageData(
+          CanvasState.parameters.actualX,
+          CanvasState.parameters.actualY,
+          CanvasState.parameters.croppedWidth,
+          CanvasState.parameters.croppedHeight,
+        );
+
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        CanvasState.parameters.imageWidth = this.canvas.width = Math.round(CanvasState.parameters.croppedWidth);
+        CanvasState.parameters.imageHeight = this.canvas.height = Math.round(CanvasState.parameters.croppedHeight);
+
+        CanvasState.parameters.imageProportions =
+          CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+
+        this.context.putImageData(croppedImage, 0, 0);
+
+        this.image.src = this.canvas.toDataURL();
+
+        await this.image.decode();
+      },
+    };
+
+    if (this.image && this.canvas && this.context) {
+      this.canvas.width = CanvasState.parameters.imageWidth;
+      this.canvas.height = CanvasState.parameters.imageHeight;
+      CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+
+      if (CanvasState.parameters.imageRotate === false) {
+        if (CanvasState.parameters.imageCrop === false) {
+          changes.applyFilter();
+          changes.drawImage();
+          changes.applyColor();
+        } else if (CanvasState.parameters.imageCrop === true) {
+          changes.drawImage();
+
+          await changes.updateImage();
+
+          CanvasState.parameters.imageflipVertical = 1;
+          CanvasState.parameters.imageflipHorizontal = 1;
+          CanvasState.parameters.imageRotateDegree = 0;
+
+          CanvasState.parameters.imageWidth = this.canvas.width = this.image.naturalWidth;
+          CanvasState.parameters.imageHeight = this.canvas.height = this.image.naturalHeight;
+
+          changes.applyFilter();
+          changes.drawImage();
+          changes.applyColor();
+        }
+      } else if (CanvasState.parameters.imageRotate === true) {
+        if (CanvasState.parameters.imageCrop === false) {
+          changes.applyFilter();
+          changes.drawImageAfterRotate();
+          changes.applyColorAfterRotate();
+        } else if (CanvasState.parameters.imageCrop === true) {
+          changes.drawImageAfterRotate();
+
+          await changes.updateImage();
+
+          CanvasState.parameters.imageflipVertical = 1;
+          CanvasState.parameters.imageflipHorizontal = 1;
+          CanvasState.parameters.imageRotateDegree = 0;
+          CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
+
+          CanvasState.parameters.imageWidth = this.canvas.width = this.image.naturalWidth;
+          CanvasState.parameters.imageHeight = this.canvas.height = this.image.naturalHeight;
+
+          changes.applyFilter();
+
+          changes.drawImage();
+
+          changes.applyColor();
+        }
       }
     }
+    setTimeout(() => {
+      this.setZoom();
+    }, 1);
   }
 }
 
