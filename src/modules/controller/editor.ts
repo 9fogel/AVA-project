@@ -143,6 +143,7 @@ class Editor {
     this.hideMessageWrap();
     this.model.removeCropArea();
     this.model.stopDrawOnCanvas();
+    this.model.resetZoom();
   }
 
   private listenTools(): void {

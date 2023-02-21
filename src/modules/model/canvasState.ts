@@ -40,6 +40,8 @@ class CanvasState {
     isDrawing: false,
     strokeStyle: '#00d0c3',
     lineWidth: 10,
+    zoom: 1,
+    zoomValue: 0,
   };
 
   static resetState() {
@@ -77,6 +79,11 @@ class CanvasState {
     this.parameters.croppedHeight = 0;
     this.parameters.actualX = 0;
     this.parameters.actualY = 0;
+    this.parameters.isDrawing = false;
+    this.parameters.strokeStyle = '#00d0c3';
+    this.parameters.lineWidth = 10;
+    this.parameters.zoom = 1;
+    this.parameters.zoomValue = 0;
   }
 }
 

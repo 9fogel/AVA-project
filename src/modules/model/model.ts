@@ -1,5 +1,6 @@
 import CanvasState from './canvasState';
 import Presets from './presets';
+import checkSelectedTools from '../utils/checkTools';
 
 class Model {
   private canvas: HTMLCanvasElement | null;
@@ -300,12 +301,13 @@ class Model {
     }
   }
 
-  public resetChanges(): void {
+  public async resetChanges(): Promise<void> {
     CanvasState.resetState();
     if (this.image && this.defaultImage) {
       CanvasState.parameters.imageWidth = this.defaultImage.naturalWidth;
       CanvasState.parameters.imageHeight = this.defaultImage.naturalHeight;
       this.image.src = this.defaultImage.src;
+      await this.image.decode();
     }
 
     this.applyСhanges();
@@ -415,6 +417,9 @@ class Model {
         const clearBtn = document.querySelector('.draw-clear-btn') as HTMLButtonElement;
         clearBtn.disabled = true;
       });
+      if (!document.getElementById('draw')?.classList.contains('selected')) {
+        this.stopDrawOnCanvas();
+      }
     }
   }
 
@@ -458,6 +463,41 @@ class Model {
   public drawLineWidthChange() {
     const inputLineWidth = document.getElementById('draw-width') as HTMLInputElement;
     CanvasState.parameters.lineWidth = Number(inputLineWidth.value);
+  }
+
+  public setZoom = (): void => {
+    const zoomValue = document.querySelector('.zoom-value') as HTMLSpanElement;
+    if (this.canvas) {
+      zoomValue.innerHTML = `${Math.round(this.canvas.getBoundingClientRect().width / (this.canvas.width / 100))}%`;
+    }
+  };
+
+  public zoomIn = (): void => {
+    if (checkSelectedTools() && this.canvas) {
+      CanvasState.parameters.zoom += 0.2;
+      this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+    }
+    this.setZoom();
+  };
+
+  public zoomOut = (): void => {
+    if (checkSelectedTools() && this.canvas) {
+      if (CanvasState.parameters.zoom - 0.2 >= 0) {
+        CanvasState.parameters.zoom -= 0.2;
+        this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+      } else {
+        return;
+      }
+    }
+    this.setZoom();
+  };
+
+  public resetZoom() {
+    if (this.canvas) {
+      CanvasState.parameters.zoom = 1;
+      this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+      this.setZoom();
+    }
   }
 
   private async applyСhanges(): Promise<void> {
@@ -550,6 +590,7 @@ class Model {
       this.canvas.width = CanvasState.parameters.imageWidth;
       this.canvas.height = CanvasState.parameters.imageHeight;
       CanvasState.parameters.imageProportions = CanvasState.parameters.imageWidth / CanvasState.parameters.imageHeight;
+
       if (CanvasState.parameters.imageRotate === false) {
         if (CanvasState.parameters.imageCrop === false) {
           changes.applyFilter();
@@ -597,6 +638,9 @@ class Model {
         }
       }
     }
+    setTimeout(() => {
+      this.setZoom();
+    }, 1);
   }
 }
 

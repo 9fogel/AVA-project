@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  z-index: 1;
 }
 
 .reset-btn {
@@ -47,6 +48,7 @@
   background-color: $white;
   border-radius: $border-radius;
   box-shadow: $shadow-medium;
+  z-index: 1;
 }
 
 .remove-zoom {
@@ -60,7 +62,7 @@
 .remove-zoom:hover {
   cursor: pointer;
   background-image: url('img/remove-zoom-icon-hover.svg');
-  transition: ease-in-out .3s;
+  transition: ease-in-out 0.3s;
 }
 
 .zoom-info {
@@ -80,7 +82,7 @@
 .add-zoom:hover {
   cursor: pointer;
   background-image: url('img/add-zoom-icon-hover.svg');
-  transition: ease-in-out .3s;
+  transition: ease-in-out 0.3s;
 }
 
 .zoom-desc {
@@ -100,6 +102,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  z-index: 1;
 }
 
 .download-btn {
@@ -120,7 +123,7 @@
   background-color: $white;
   border-radius: $border-radius;
   box-shadow: 4px -4px 8px 0px #0000001a, -4px 4px 8px 0px #0000001a;
-  transition: ease-in-out .3s;
+  transition: ease-in-out 0.3s;
 }
 
 .download-title {
@@ -163,7 +166,7 @@
   color: $blue;
   background-color: $gray-selected;
   border-radius: $border-radius-btn;
-  transition: ease-in-out .3s;
+  transition: ease-in-out 0.3s;
 }
 
 .format-wrap:hover {
@@ -177,7 +180,7 @@
 
 .format-check {
   position: absolute;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   pointer-events: none;
 }
 
@@ -286,7 +289,7 @@
 }
 
 /* Firefox */
-.quality-number-input[type=number] {
+.quality-number-input[type='number'] {
   -moz-appearance: textfield;
   appearance: none;
 }
@@ -345,7 +348,7 @@
 }
 
 .download-arrow {
-  position:absolute;
+  position: absolute;
   top: -12px;
   right: 10%;
   // right: 13px;
@@ -378,7 +381,6 @@
 
 .image-canvas {
   @extend %canvas-size;
-  // display: block;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -459,7 +461,7 @@
   cursor: pointer;
   color: $blue;
   background-color: $gray-selected;
-  transition: ease-in-out .3s;
+  transition: ease-in-out 0.3s;
 }
 
 .tool-item.selected {
@@ -580,7 +582,6 @@
 
 //dark theme styles
 .dark-theme {
-
   .undo-controls .reset-btn {
     color: $white;
     background-image: url('img/dark-reset-changes-icon.svg');
@@ -680,7 +681,7 @@
   }
 
   .reset-download-btn:active {
-  background-color: $blue-hover;
+    background-color: $blue-hover;
   }
 
   .download-arrow {
@@ -714,7 +715,7 @@
   }
 
   .tool-item.selected {
-    background-color:  $light-black;
+    background-color: $light-black;
   }
 
   .transform-tool {
@@ -784,7 +785,7 @@
   .tool-item:hover .border-controls,
   .tool-item.selected .border-controls,
   .tool-item:hover .draw-controls,
-  .tool-item.selected .draw-controls   {
+  .tool-item.selected .draw-controls {
     color: $white;
   }
 
@@ -795,5 +796,4 @@
   .edit-option:hover {
     background-color: $light-black;
   }
-
 }

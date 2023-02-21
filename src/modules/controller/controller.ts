@@ -42,6 +42,8 @@ class Controller {
     this.users.handleUsers();
     this.userPage.handlePage();
     this.handleResetChanges();
+    this.handleZoomIn();
+    this.handleZoomOut();
   }
 
   private useFileInput(): void {
@@ -244,6 +246,15 @@ class Controller {
       this.editor.hideOpenedOptionControls();
       this.model.resetChanges();
     });
+  }
+
+  //_______________________________________ZOOM
+
+  private handleZoomIn(): void {
+    document.querySelector('.add-zoom')?.addEventListener('click', this.model.zoomIn);
+  }
+  private handleZoomOut(): void {
+    document.querySelector('.remove-zoom')?.addEventListener('click', this.model.zoomOut);
   }
 }
 
