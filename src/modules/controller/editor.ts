@@ -142,6 +142,7 @@ class Editor {
     });
     this.hideMessageWrap();
     this.model.removeCropArea();
+    this.model.stopDrawOnCanvas();
   }
 
   private listenTools(): void {
@@ -172,6 +173,7 @@ class Editor {
     this.listenFilters();
     this.listenAdjustments();
     this.listenCrop();
+    this.listenDraw();
     //TODO сюда добавятся методы и на другие опции
   }
 
@@ -468,6 +470,52 @@ class Editor {
         this.model.useAdjustment(range.value);
         console.log(`${adjustmentName} выставлен на уровень ${range.value}`);
       }
+    });
+  }
+
+  // _______________________________________________________DRAW
+  private listenDraw(): void {
+    this.listenDrawArea();
+    this.listenDrawColorInput();
+    this.listenDrawBackArrow();
+    this.listenDrawLineWidthInput();
+    this.listenClearDrawing();
+  }
+
+  private listenDrawArea() {
+    document.getElementById('draw')?.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLLIElement) {
+        if (event.target.id === 'draw') {
+          this.model.startDrawOnCanvas();
+          event.stopPropagation();
+        }
+      }
+    });
+  }
+  private listenClearDrawing(): void {
+    document.querySelector('.draw-clear-btn')?.addEventListener('click', () => {
+      this.model.clearDrawing();
+    });
+  }
+  private listenDrawColorInput(): void {
+    document.getElementById('draw-color-input')?.addEventListener('input', () => {
+      this.model.drawColorChange();
+    });
+  }
+
+  private listenDrawLineWidthInput(): void {
+    document.getElementById('draw-width')?.addEventListener('input', (event) => {
+      if (event.target instanceof HTMLInputElement) {
+        event.target.value = event.target.value.replace(/[^0-9 ]+/g, '');
+      }
+      this.model.drawLineWidthChange();
+    });
+  }
+
+  private listenDrawBackArrow(): void {
+    document.getElementById('draw-arrow')?.addEventListener('click', (event) => {
+      this.model.stopDrawOnCanvas();
+      event.stopPropagation();
     });
   }
 }

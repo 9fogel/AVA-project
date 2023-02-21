@@ -37,6 +37,9 @@ class CanvasState {
     croppedHeight: 0,
     actualX: 0,
     actualY: 0,
+    isDrawing: false,
+    strokeStyle: '#00d0c3',
+    lineWidth: 10,
   };
 
   static resetState() {

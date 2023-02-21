@@ -376,12 +376,28 @@
   font-weight: 400;
 }
 
-.image-canvas{
+.image-canvas {
   @extend %canvas-size;
-  display: block;
-  margin: 0 auto 56px;
+  // display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
   background-color: $white;
   box-shadow: $shadow-small;
+}
+
+#canvas2 {
+  @extend %canvas-size;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
 }
 
 #selection-tool {
