@@ -388,6 +388,7 @@ class Model {
         );
       }
       context.restore();
+
       drawCanvas.addEventListener('mousedown', this.mouseDrawEvents.mousedown);
       drawCanvas.addEventListener('mouseup', this.mouseDrawEvents.mouseup);
       drawCanvas.addEventListener('mousemove', this.mouseDrawEvents.mousemove);
@@ -518,7 +519,6 @@ class Model {
 
       drawImage() {
         this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
-        this.context.save();
         this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
         this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
 
@@ -529,12 +529,10 @@ class Model {
           this.canvas.width,
           this.canvas.height,
         );
-        this.context.restore();
       },
 
       drawImageAfterRotate() {
         this.context.translate(this.canvas.width / 2, this.canvas.height / 2);
-        this.context.save();
         this.context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
         this.context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
 
@@ -545,7 +543,6 @@ class Model {
           this.canvas.height,
           this.canvas.width,
         );
-        this.context.restore();
       },
 
       applyColor() {
