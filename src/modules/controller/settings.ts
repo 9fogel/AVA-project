@@ -19,6 +19,8 @@ class Settings {
       toggleWrap?.classList.toggle('active');
       this.switchTheme();
     });
+
+    this.listenTooltips();
   }
 
   private showSettings(): void {
@@ -34,6 +36,23 @@ class Settings {
       State.theme = 'light';
     }
     localStorage.setItem('ava-theme', State.theme);
+  }
+
+  private listenTooltips(): void {
+    const tooltipsBtns = document.querySelectorAll('.tooltips-wrap');
+    const toolTipTextElems: NodeListOf<HTMLElement> = document.querySelectorAll('.tooltip .tooltiptext');
+
+    tooltipsBtns.forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelector('.tooltips-wrap.selected')?.classList.remove('selected');
+        button.classList.add('selected');
+        if (button.id === 'no-tooltips') {
+          toolTipTextElems.forEach((elem) => (elem.style.display = 'none'));
+        } else {
+          toolTipTextElems.forEach((elem) => (elem.style.display = 'block'));
+        }
+      });
+    });
   }
 }
 

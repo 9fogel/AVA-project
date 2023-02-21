@@ -172,10 +172,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: bold;
   line-height: 29px;
   text-transform: uppercase;
   vertical-align: middle;
+  color: $black;
+}
+
+.draw-clear-btn .tooltiptext {
+  font-weight: 400;
+  text-transform: none;
+  line-height: 1.15;
 }
 
 .border-done-btn:hover,
@@ -303,7 +311,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 3;
+  z-index: 2;
   width: 24px;
   height: 24px;
   background-color: $yellow;
@@ -321,6 +329,10 @@
 
 .premium-filter:after {
   background-image: url('img/premium-icon.svg');
+}
+
+.user-filter:hover.user-filter:after {
+  background-color: $yellow-hover;
 }
 
 .filter {
@@ -535,6 +547,7 @@
 
   .border-done-btn:disabled,
   .draw-done-btn:disabled,
+  .draw-clear-btn:disabled,
   .crop-done-btn:disabled,
   .done-btn:disabled {
     background-color: $white;

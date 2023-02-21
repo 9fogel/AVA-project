@@ -25,16 +25,16 @@
                   <label class="theme-label" for="theme"></label>
                 </div>
               </li>
-              <li class="settings-item lang-choice-item">
-                <span>Language</span>
-                <div class="lang-choice">
-                  <label class="lang-wrap selected">
+              <li class="settings-item tooltips-choice-item">
+                <span>Tooltips</span>
+                <div class="tooltips-choice">
+                  <label class="tooltips-wrap selected" id="no-tooltips">
                     <input class="radio-check" type="radio" />
-                    <span class="lang-btn">English</span>
+                    <span class="tooltips-btn">No Tooltips</span>
                   </label>
-                  <label class="lang-wrap">
+                  <label class="tooltips-wrap" id="with-tooltips">
                     <input class="radio-check" type="radio" />
-                    <span class="lang-btn">Russian</span>
+                    <span class="tooltips-btn">With Tooltips</span>
                   </label>
                 </div>
               </li>
@@ -179,35 +179,50 @@
                       <div class="size-wrap">
                         <input class="option-input resize-input" type="text" id="width-input" placeholder="Width" min="0"
                           maxlength="4" value="912" />
-                        <div class="proportions locked"></div>
+                        <div class="proportions locked tooltip">
+                          <span class="tooltiptext">Proportions locked/unlocked</span>
+                        </div>
                         <input class="option-input resize-input" type="text" id="height-input" placeholder="Height" min="0"
                           maxlength="4" value="510" />
                       </div>
-                      <button class="done-btn" disabled></button>
+                      <button class="done-btn tooltip" disabled>
+                        <span class="tooltiptext">Apply resize</span>
+                      </button>
                     </div>
                   </div>
                   <div class="rotate-controls hidden">
                     <div class="back-arrow" id="rotate-arrow"></div>
                     <div class="controls-content">
                       <span class="option-title">Flip and Rotate</span>
-                      <div class="flip-vert" id="flip-vert"></div>
-                      <div class="flip-hor" id="flip-hor"></div>
-                      <div class="rotate-left" id="rotate-left"></div>
-                      <div class="rotate-right" id="rotate-right"></div>
+                      <div class="flip-vert tooltip" id="flip-vert">
+                        <span class="tooltiptext">Flip vertically</span>
+                      </div>
+                      <div class="flip-hor tooltip" id="flip-hor">
+                        <span class="tooltiptext">Flip horizontally</span>
+                      </div>
+                      <div class="rotate-left tooltip" id="rotate-left">
+                        <span class="tooltiptext">Rotate counter-clockwise</span>
+                      </div>
+                      <div class="rotate-right tooltip" id="rotate-right">
+                        <span class="tooltiptext">Rotate clockwise</span>
+                      </div>
                     </div>
                   </div>
                   <div class="crop-controls hidden">
                     <div class="back-arrow" id="crop-arrow"></div>
                     <div class="controls-content">
                       <span class="option-title">Crop</span>
-                      <div class="crop-wrap">
+                      <div class="crop-wrap tooltip">
+                        <span class="tooltiptext">Choose selection tool color and shape</span>
                         <input class="crop-input" type="color" id="crop-color-input" value="#00d0c3" />
                         <div class="custom-wrap">
                           <span class="crop-text">Custom</span>
                           <div class="crop-icon"></div>
                         </div>
                       </div>
-                      <button id="crop-done" class="crop-done-btn" disabled></button>
+                      <button class="crop-done-btn tooltip" id="crop-done" disabled>
+                        <span class="tooltiptext">Apply crop</span>
+                      </button>
 
                     </div>
                   </div>
@@ -253,30 +268,35 @@
                         <span class="filter-title">Brannan</span>
                       </div>
                     </div>
-                    <div class="filter-wrap user-filter">
+                    <div class="filter-wrap user-filter tooltip">
+                      <span class="tooltiptext">Available for registered users</span>
                       <div style="background-color: rgba(168, 223, 193, 0.4); filter: brightness(110%) contrast(90%)"
                         class="filter filter-five">
                         <span class="filter-title">Brooklyn</span>
                       </div>
                     </div>
-                    <div class="filter-wrap user-filter">
+                    <div class="filter-wrap user-filter tooltip">
+                      <span class="tooltiptext">Available for registered users</span>
                       <div style="background-color: rgba(127, 187, 227, 0.2); filter: contrast(120%) saturate(125%)"
                         class="filter filter-six">
                         <span class="filter-title">Clarendon</span>
                       </div>
                     </div>
-                    <div class="filter-wrap user-filter">
+                    <div class="filter-wrap user-filter tooltip">
+                      <span class="tooltiptext">Available for registered users</span>
                       <div style="background: rgba(208, 186, 142, 0.5); filter: contrast(90%) sepia(20%)" class="filter filter-seven">
                         <span class="filter-title">Earlybird</span>
                       </div>
                     </div>
-                    <div class="filter-wrap user-filter">
+                    <div class="filter-wrap user-filter tooltip">
+                      <span class="tooltiptext">Available for registered users</span>
                       <div style="background-color: rgba(66, 10, 14, 0.2); filter: brightness(105%) hue-rotate(350deg)"
                         class="filter filter-eight">
                         <span class="filter-title">Gingham</span>
                       </div>
                     </div>
-                    <div class="filter-wrap user-filter">
+                    <div class="filter-wrap user-filter tooltip">
+                      <span class="tooltiptext">Available for registered users</span>
                       <div style="
                                                   background-color: rgba(255, 177, 166, 0.5);
                                                   filter: brightness(120%) contrast(90%) saturate(110%);
@@ -284,7 +304,8 @@
                         <span class="filter-title">Hudson</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="
                                                   background-color: rgba(0, 0, 0, 0);
                                                   filter: brightness(110%) contrast(110%) sepia(30%) grayscale(100%);
@@ -292,13 +313,15 @@
                         <span class="filter-title">Inkwell</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="background-color: rgba(255, 101, 80, 0.4); filter: contrast(150%) saturate(110%)"
                         class="filter filter-eleven">
                         <span class="filter-title">Lofi</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="
                                                   background-color: rgba(3, 230, 26, 0.2);
                                                   filter: brightness(95%) contrast(95%) sepia(25%) saturate(150%);
@@ -306,12 +329,14 @@
                         <span class="filter-title">Maven</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="background-color: rgba(86, 22, 214, 0.5)" class="filter filter-thirteen">
                         <span class="filter-title">Perpetua</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="
                                                   background-color: rgba(173, 205, 239, 0.5);
                                                   filter: brightness(110%) contrast(85%) sepia(22%) saturate(75%);
@@ -319,7 +344,8 @@
                         <span class="filter-title">Reyes</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="
                                                   background-color: rgba(240, 149, 128, 0.2);
                                                   filter: brightness(115%) contrast(75%) saturate(85%);
@@ -327,7 +353,8 @@
                         <span class="filter-title">Stinson</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="
                                                   background-color: rgba(125, 0, 247, 0.4);
                                                   filter: brightness(110%) contrast(110%) sepia(30%);
@@ -335,7 +362,8 @@
                         <span class="filter-title">Toaster</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="
                                                   background-color: rgba(0, 227, 217, 0.4);
                                                   filter: brightness(110%) saturate(160%) sepia(30%) hue-rotate(350);
@@ -343,13 +371,15 @@
                         <span class="filter-title">Walden</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="background-color: rgba(58, 3, 57, 0.6); filter: brightness(108%) contrast(108%) sepia(8%)"
                         class="filter filter-eighteen">
                         <span class="filter-title">Valencia</span>
                       </div>
                     </div>
-                    <div class="filter-wrap premium-filter">
+                    <div class="filter-wrap premium-filter tooltip">
+                      <span class="tooltiptext">Available for users with premium access</span>
                       <div style="background-color: rgba(74, 25, 8, 0.5); filter: sepia(30%)" class="filter filter-nineteen">
                         <span class="filter-title">Xpro2</span>
                       </div>
@@ -394,7 +424,8 @@
                     <div class="back-arrow" id="border-arrow"></div>
                     <div class="controls-content">
                       <span class="option-title">Border</span>
-                      <div class="border-wrap">
+                      <div class="border-wrap tooltip">
+                        <span class="tooltiptext">Choose border color and width</span>
                         <input class="border-input" type="color" id="border-color-input" value="#00d0c3" />
                         <div class="width-wrap">
                           <div class="width-icon"></div>
@@ -405,7 +436,9 @@
                           </div>
                         </div>
                       </div>
-                      <button class="border-done-btn"></button>
+                      <button class="border-done-btn tooltip">
+                        <span class="tooltiptext">Apply border</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -416,7 +449,8 @@
                     <div class="back-arrow" id="draw-arrow"></div>
                     <div class="controls-content">
                       <span class="option-title">Draw</span>
-                      <div class="draw-wrap">
+                      <div class="draw-wrap tooltip">
+                        <span class="tooltiptext">Choose pen color and width</span>
                         <input class="draw-input" type="color" id="draw-color-input" value="#00d0c3" />
                         <div class="width-wrap">
                           <div class="width-icon"></div>
@@ -427,8 +461,12 @@
                           </div>
                         </div>
                       </div>
-                      <button class="draw-clear-btn" disabled>CLEAR</button>
-                      <button class="draw-done-btn" disabled></button>
+                      <button class="draw-clear-btn tooltip" disabled>CLEAR
+                        <span class="tooltiptext">Clear last drawing</span>
+                      </button>
+                      <button class="draw-done-btn tooltip" disabled>
+                        <span class="tooltiptext">Save drawing</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -439,9 +477,15 @@
       </div>
       <div class="profile-page-wrapper hidden">
         <ul class="profile-nav-list">
-          <li class="nav-item account-item selected">User Account</li>
-          <li class="nav-item premium-item">Get Premium</li>
-          <li class="nav-item sign-out-item">Sign Out</li>
+          <li class="nav-item account-item selected tooltip">User Account
+            <span class="tooltiptext">Manage your account here</span>
+          </li>
+          <li class="nav-item premium-item tooltip">Get Premium
+            <span class="tooltiptext">You can find your PREMIUM promo here</span>
+          </li>
+          <li class="nav-item sign-out-item tooltip">Sign Out
+            <span class="tooltiptext">You will be signed out and profile page will be closed</span>
+          </li>
         </ul>
         <div class="profile-page-content">
           <div class="user-account-content">
