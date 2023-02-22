@@ -79,6 +79,7 @@
 }
 
 .modal-input-wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -135,6 +136,44 @@
   background-repeat: no-repeat;
   background-size: 24px 24px;
   background-position: 24px 50%;
+}
+
+//________________________________________RESTORE PSW
+.forgot-password {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  color: $blue;
+}
+
+.restore-text {
+  text-align: center;
+}
+
+.modal-send-key-btn,
+.modal-set-new-psw-btn,
+.modal-cancel-restore-btn {
+  padding: 11px 29px 10px;
+}
+
+.modal-cancel-restore-btn {
+  font-weight: 400;
+  background-color: transparent;
+}
+
+.modal-set-new-psw-btn:disabled {
+  cursor: default;
+  background-color: $black-opacity;
+  opacity: 0.8;
+}
+
+.modal-set-new-psw-btn:disabled:hover {
+  box-shadow: none;
+  background-color: $black-opacity;
+  opacity: 0.8;
 }
 
 //________________________________________SYSTEM MODAL
@@ -203,12 +242,36 @@
     background-color: $light-black;
   }
 
+  .modal-input::placeholder {
+    color: $gray;
+  }
+
   .modal-login-google-btn {
     color: $white;
   }
 
   .modal-login-google-btn:hover {
     color: $black;
+  }
+
+  .modal-cancel-restore-btn {
+    color: $white;
+  }
+
+  .modal-cancel-restore-btn:hover {
+    color: $black;
+  }
+
+  .modal-set-new-psw-btn:disabled {
+    cursor: default;
+    background-color: $white;
+    opacity: 0.2;
+  }
+
+  .modal-set-new-psw-btn:disabled:hover {
+    box-shadow: none;
+    background-color: $white;
+    opacity: 0.2;
   }
 
 }
