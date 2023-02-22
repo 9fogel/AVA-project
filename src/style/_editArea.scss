@@ -581,6 +581,54 @@
   background-color: $gray-selected;
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  position: absolute;
+  z-index: 3;
+  bottom: 130%;
+  left: 50%;
+  display: none;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  min-width: 120px;
+  padding: 4px 12px;
+  font-size: 12px;
+  text-align: center;
+  color: $white;
+  background-color: $black;
+  border-radius: $border-radius;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: $black transparent transparent transparent;
+}
+
+.filter-wrap .tooltiptext {
+  bottom: 110%;
+}
+
+.nav-item .tooltiptext {
+  bottom: 100%;
+  margin-left: 0;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 //dark theme styles
 .dark-theme {
   .undo-controls .reset-btn {
@@ -796,5 +844,15 @@
 
   .edit-option:hover {
     background-color: $light-black;
+  }
+
+  .tooltip .tooltiptext {
+    color: $black;
+    background-color: $white;
+  }
+
+  .tooltip .tooltiptext::after {
+    content: " ";
+    border-color: $white transparent transparent transparent;
   }
 }
