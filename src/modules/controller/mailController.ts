@@ -17,6 +17,11 @@ class MailController {
   messagePassword: HTMLElement | null = document.querySelector('.restore-psw-confirm-psw-message');
   buttonRecoverePassword: HTMLButtonElement | null = document.querySelector('#set-new-psw-btn');
 
+  // inputEmailHelp: HTMLInputElement | null = document.querySelector('.');
+  // helpMessage: HTMLElement | null = document.querySelector('.');
+  // inputTextMessage: HTMLInputElement | null = document.querySelector('.');
+  // buttonHelpMessage: HTMLButtonElement | null = document.querySelector('.');
+
   constructor() {
     this.mail = new MailModel();
     this.helpMethods = new HelpMethodsUser();
@@ -26,6 +31,7 @@ class MailController {
   public handleMailController() {
     this.handleGetKey();
     this.handleRecoverPassword();
+    //this.handleSendMessage();
   }
 
   private handleGetKey() {
@@ -101,6 +107,31 @@ class MailController {
       }
     });
   }
+
+  // private handleSendMessage() {
+  //   this.buttonHelpMessage?.addEventListener('click', async () => {
+  //     if (this.inputEmailHelp && this.helpMessage && this.inputTextMessage) {
+  //       const data = await this.mail.sendMessage(this.inputEmailHelp.value, this.inputTextMessage.value);
+  //       if (data.errors) {
+  //         this.helpMessage.textContent = 'It is not a valid email';
+  //         this.helpMessage.style.color = 'red';
+  //         this.helpMethods.clearText(this.helpMessage);
+  //       }
+
+  //       if (data.message) {
+  //         this.helpMessage.textContent = JSON.stringify(data.message).replace(/"/g, '');
+  //         this.helpMessage.style.color = 'red';
+  //         this.helpMethods.clearText(this.helpMessage);
+  //       }
+
+  //       if (data.messageOK) {
+  //         this.helpMessage.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
+  //         this.helpMessage.style.color = 'green';
+  //         this.helpMethods.clearText(this.helpMessage);
+  //       }
+  //     }
+  //   });
+  // }
 }
 
 export default MailController;
