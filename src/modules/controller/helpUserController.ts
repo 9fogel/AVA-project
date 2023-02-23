@@ -1,9 +1,11 @@
 import UserPage from './userPage';
 import State from '../state.ts/editorState';
 import SystemPopup from './systemPopup';
+import Popup from './popup';
 
 class HelpMethodsUser {
   private readonly systemPopup: SystemPopup;
+  private readonly popup: Popup;
   userPage: UserPage;
   static State: State;
   inputName = document.querySelector('#info-user-name') as HTMLInputElement;
@@ -12,18 +14,21 @@ class HelpMethodsUser {
   constructor() {
     this.userPage = new UserPage();
     this.systemPopup = new SystemPopup();
+    this.popup = new Popup();
   }
 
-  public logIn(userName: string, name: string, email: string) {
+  public logIn(name: string, email: string) {
     const buttonLogin = document.querySelector('.login-btn');
     const buttonName = document.querySelector('.profile-btn');
     if (buttonLogin && buttonName) {
       buttonLogin.classList.add('hidden');
       buttonName.classList.remove('hidden');
-      buttonName.textContent = userName;
+      buttonName.textContent = name;
     }
-    document.querySelector('.login-modal')?.classList.remove('active');
-    document.querySelector('.wrapper')?.classList.remove('active');
+    //document.querySelector('.login-modal')?.classList.remove('active');
+    //document.querySelector('.wrapper')?.classList.remove('active');
+
+    this.popup.hideModal();
 
     if (this.inputName && this.inputEmail) {
       this.inputName.value = name;
@@ -78,6 +83,50 @@ class HelpMethodsUser {
     setTimeout(() => {
       container.textContent = '';
     }, 5000);
+  }
+
+  public listenInputsPasswords(
+    inputNewPassword: HTMLInputElement | null,
+    inputConfirmNewPassword: HTMLInputElement | null,
+    updatePasswordBtn: HTMLButtonElement | null,
+    messageNewPassword: HTMLElement | null,
+    flag: number,
+  ) {
+    // const messageNewPassword = document.querySelectorAll('.info-password-message')[2] as HTMLElement;
+
+    if (inputNewPassword && inputConfirmNewPassword && updatePasswordBtn && messageNewPassword) {
+      [inputNewPassword, inputConfirmNewPassword].forEach((el) => {
+        el.addEventListener('input', () => {
+          if (inputNewPassword?.value === inputConfirmNewPassword?.value) {
+            if (flag === 1) {
+              updatePasswordBtn?.removeAttribute('disabled');
+            }
+            if (flag === 2) {
+              updatePasswordBtn?.classList.remove('hidden');
+            }
+            messageNewPassword.textContent = 'Password matches';
+            messageNewPassword.style.color = 'green';
+
+            this.clearText(messageNewPassword);
+          } else {
+            if (flag === 1) {
+              updatePasswordBtn?.setAttribute('disabled', '');
+            }
+            if (flag === 2) {
+              updatePasswordBtn?.classList.add('hidden');
+            }
+            messageNewPassword.textContent = 'Password mismatches';
+            messageNewPassword.style.color = 'red';
+          }
+        });
+      });
+
+      [inputNewPassword, inputConfirmNewPassword].forEach((el) => {
+        el.addEventListener('change', () => {
+          this.clearText(messageNewPassword);
+        });
+      });
+    }
   }
 }
 

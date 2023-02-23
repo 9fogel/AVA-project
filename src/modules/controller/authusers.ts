@@ -24,6 +24,7 @@ class UsersControler {
   inputNewPassword: HTMLInputElement | null = document.querySelector('#new-password');
   inputConfirmNewPassword: HTMLInputElement | null = document.querySelector('#confirm-new-password');
   updatePasswordBtn: HTMLButtonElement | null = document.querySelector('.update-password-btn');
+  messageNewPassword = document.querySelectorAll('.info-password-message')[2] as HTMLElement;
 
   JWT = localStorage.getItem('JWT') || localStorage.setItem('JWT', '');
   constructor() {
@@ -67,7 +68,7 @@ class UsersControler {
       const data = await this.users.registrationUser(userName.value, userEmail.value, password.value);
 
       if (data.token) {
-        this.helpMethods.logIn(data.username, data.username, data.userEmail);
+        this.helpMethods.logIn(data.username, data.userEmail);
         this.helpMethods.updateState(data.roles);
 
         localStorage.JWT = data.token;
@@ -76,32 +77,10 @@ class UsersControler {
       }
     };
 
-    //Вынести в отдельный метод
     const messagePassword: HTMLElement | null = document.querySelector('.confirm-password-message');
-    [password, repeatPassword].forEach((el) => {
-      el.addEventListener('input', () => {
-        if (messagePassword) {
-          if (password.value !== repeatPassword.value) {
-            messagePassword.textContent = 'Password mismatches';
-            messagePassword.style.color = 'red';
-            document.getElementById('sign-up')?.setAttribute('disabled', '');
-          } else if (password.value === repeatPassword.value) {
-            messagePassword.textContent = 'Password matches';
-            messagePassword.style.color = 'green';
-            document.getElementById('sign-up')?.removeAttribute('disabled');
-          }
-        }
-      });
-    });
+    const buttonRegistration: HTMLButtonElement | null = document.querySelector('#sign-up');
 
-    //Вынести в отдельный метод
-    [password, repeatPassword].forEach((el) => {
-      el.addEventListener('change', () => {
-        if (messagePassword) {
-          this.helpMethods.clearText(messagePassword);
-        }
-      });
-    });
+    this.helpMethods.listenInputsPasswords(password, repeatPassword, buttonRegistration, messagePassword, 1);
 
     document.getElementById('sign-up')?.addEventListener('click', regUs);
   }
@@ -115,7 +94,7 @@ class UsersControler {
       const data = await this.users.logInUser(userEmail.value, userEmail.value, password.value);
       //console.log(data);
       if (data.token) {
-        this.helpMethods.logIn(data.username1, data.username1, data.userEmail1);
+        this.helpMethods.logIn(data.username1, data.userEmail1);
         this.helpMethods.updateState(data.roles);
 
         localStorage.JWT = data.token;
@@ -126,7 +105,7 @@ class UsersControler {
   private async handlegetUserName() {
     const data = await this.users.getUserName();
     if (data.username) {
-      this.helpMethods.logIn(data.username, data.username, data.userEmail);
+      this.helpMethods.logIn(data.username, data.userEmail);
       this.helpMethods.updateState(data.roles);
       console.log('Role:', State.userState);
     } else {
@@ -217,46 +196,16 @@ class UsersControler {
     }
   }
 
-  //ПЕРЕПИСАТЬ МЕТОД ТАК ЧТОБЫ ОН БЫЛ УНИВЕРСАЛЬНЫМ
-  private listenInputs() {
-    const messageNewPassword = document.querySelectorAll('.info-password-message')[2] as HTMLElement;
-
-    if (
-      this.inputOldPasswors &&
-      this.inputNewPassword &&
-      this.inputConfirmNewPassword &&
-      this.updatePasswordBtn &&
-      messageNewPassword
-    ) {
-      [this.inputNewPassword, this.inputConfirmNewPassword].forEach((el) => {
-        el.addEventListener('input', () => {
-          if (this.inputNewPassword?.value === this.inputConfirmNewPassword?.value) {
-            this.updatePasswordBtn?.classList.remove('hidden');
-            messageNewPassword.textContent = 'Password matches';
-            messageNewPassword.style.color = 'green';
-
-            this.helpMethods.clearText(messageNewPassword);
-          } else {
-            this.updatePasswordBtn?.classList.add('hidden');
-            messageNewPassword.textContent = 'Password mismatches';
-            messageNewPassword.style.color = 'red';
-          }
-        });
-      });
-
-      [this.inputNewPassword, this.inputConfirmNewPassword].forEach((el) => {
-        el.addEventListener('change', () => {
-          this.helpMethods.clearText(messageNewPassword);
-        });
-      });
-    }
-  }
-
   private handleUpdatePassword() {
-    this.listenInputs();
+    this.helpMethods.listenInputsPasswords(
+      this.inputNewPassword,
+      this.inputConfirmNewPassword,
+      this.updatePasswordBtn,
+      this.messageNewPassword,
+      2,
+    );
 
     const messageOldPassword = document.querySelectorAll('.info-password-message')[0] as HTMLElement;
-    const messageNewPassword = document.querySelectorAll('.info-password-message')[2] as HTMLElement;
 
     this.updatePasswordBtn?.addEventListener('click', async () => {
       if (this.inputOldPasswors) {
@@ -278,13 +227,13 @@ class UsersControler {
           this.helpMethods.clearText(messageOldPassword);
 
           const newData = await this.users.updatePassword(data.userEmail, this.inputNewPassword.value);
-          if (newData.errors) {
-            messageNewPassword.textContent = 'Password length must be between 4 and 10 characters';
-            messageNewPassword.style.color = 'red';
-            this.helpMethods.clearText(messageNewPassword);
+          if (newData.errors && this.messageNewPassword) {
+            this.messageNewPassword.textContent = 'Password length must be between 4 and 10 characters';
+            this.messageNewPassword.style.color = 'red';
+            this.helpMethods.clearText(this.messageNewPassword);
           }
 
-          if (newData.messageOK) {
+          if (newData.messageOK && this.messageNewPassword) {
             messageOldPassword.textContent = JSON.stringify(newData.messageOK).replace(/"/g, '');
             messageOldPassword.style.color = 'green';
             // this.inputNewPassword.value = '';
@@ -293,7 +242,7 @@ class UsersControler {
             //   this.inputConfirmNewPassword.value = '';
             // }
             this.helpMethods.clearText(messageOldPassword);
-            this.helpMethods.clearText(messageNewPassword);
+            this.helpMethods.clearText(this.messageNewPassword);
             setTimeout(() => this.userPage.setDefaultState(), 6000);
           }
 
