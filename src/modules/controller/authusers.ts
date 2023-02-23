@@ -113,7 +113,7 @@ class UsersControler {
     document.getElementById('sign-in')?.addEventListener('click', async () => {
       console.log('click');
       const data = await this.users.logInUser(userEmail.value, userEmail.value, password.value);
-      console.log(data);
+      //console.log(data);
       if (data.token) {
         this.helpMethods.logIn(data.username1, data.username1, data.userEmail1);
         this.helpMethods.updateState(data.roles);
@@ -122,25 +122,6 @@ class UsersControler {
       }
     });
   }
-
-  // private logIn(userName: string, name: string, email: string) {
-  //   const buttonLogin = document.querySelector('.login-btn');
-  //   const buttonName = document.querySelector('.profile-btn');
-  //   if (buttonLogin && buttonName) {
-  //     buttonLogin.classList.add('hidden');
-  //     buttonName.classList.remove('hidden');
-  //     buttonName.textContent = userName;
-  //   }
-  //   document.querySelector('.login-modal')?.classList.remove('active');
-  //   document.querySelector('.wrapper')?.classList.remove('active');
-
-  //   if (this.inputName && this.inputEmail) {
-  //     this.inputName.value = name;
-  //     this.inputEmail.value = email;
-  //     State.userName = name;
-  //     State.userEmail = email;
-  //   }
-  // }
 
   private async handlegetUserName() {
     const data = await this.users.getUserName();
@@ -153,21 +134,6 @@ class UsersControler {
       console.log('Role:', State.userState);
     }
   }
-
-  // private logOut() {
-  //   const buttonLogin = document.querySelector('.login-btn');
-  //   const buttonName = document.querySelector('.profile-btn');
-  //   if (buttonName && buttonLogin) {
-  //     buttonLogin.classList.remove('hidden');
-  //     buttonName.classList.add('hidden');
-  //     buttonName.textContent = 'User Profil';
-  //     this.JWT = localStorage.setItem('JWT', '');
-
-  //     State.userState = 'default';
-  //     State.userName = '';
-  //     State.userEmail = '';
-  //   }
-  // }
 
   private clickLogOut() {
     document.querySelector('.sign-out-item')?.addEventListener('click', this.helpMethods.logOut);
@@ -339,31 +305,6 @@ class UsersControler {
     });
   }
 
-  // private nonLogIn() {
-  //   this.helpMethods.logOut();
-  //   this.userPage.hideUserPage();
-
-  //   this.systemPopup.showModal(
-  //     'Looks likes you have already signed out or your account was deleted. Please try to sign in again.',
-  //   );
-
-  //   setTimeout(() => {
-  //     this.systemPopup.hideModal();
-  //   }, 6000);
-
-  //   this.systemPopup.handleModal();
-  // }
-
-  // private updateState(array: Array<string>) {
-  //   if (array.includes('USER') && !array.includes('PREMIUM')) {
-  //     State.userState = 'user';
-  //   } else if (array.includes('PREMIUM')) {
-  //     State.userState = 'premium';
-  //   } else {
-  //     State.userState = 'default';
-  //   }
-  // }
-
   private handeUpdatePremium() {
     const inputPremium: HTMLInputElement | null = document.querySelector('#promo');
     const buttonPremium: HTMLButtonElement | null = document.querySelector('#get-premium');
@@ -392,12 +333,6 @@ class UsersControler {
       });
     }
   }
-
-  // private clearText(container: HTMLElement) {
-  //   setTimeout(() => {
-  //     container.textContent = '';
-  //   }, 5000);
-  // }
 }
 
 export default UsersControler;
