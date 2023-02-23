@@ -2,6 +2,9 @@ class Popup {
   loginModal = document.querySelector('.login-modal');
   loginWrapper = document.querySelector('.wrapper');
   closeIcon = document.querySelector('.close-modal');
+
+  modalInputs = document.querySelectorAll('.modal-input');
+
   loginContent = document.querySelector('.login-content');
   restoreContent = document.querySelector('.restore-psw-content');
   restoreText = document.querySelector('.restore-text');
@@ -39,7 +42,6 @@ class Popup {
     this.handleModalclosure();
     this.listenAccLink();
     this.listenForgotPswLink();
-    //this.listenSendKeyBtn(); //TODO: потом убрать этот метод
     this.listenCancelRestorePsw();
   }
 
@@ -119,6 +121,14 @@ class Popup {
     });
   }
 
+  private clearInputs(): void {
+    this.modalInputs.forEach((input) => {
+      if (input instanceof HTMLInputElement) {
+        input.value = '';
+      }
+    });
+  }
+
   //_______________________________________RESTORE PSW
   public showKeyEntryView(): void {
     if (this.restoreText instanceof HTMLElement) {
@@ -145,16 +155,10 @@ class Popup {
   }
 
   private showLoginView(): void {
+    this.clearInputs();
     this.loginContent?.classList.remove('hidden');
     this.restoreContent?.classList.add('hidden');
     this.setRestoreModalDefaultState();
-  }
-
-  //TODO: убрать этот метод
-  private listenSendKeyBtn(): void {
-    this.sendKeyBtn?.addEventListener('click', () => {
-      this.showKeyEntryView();
-    });
   }
 
   private setRestoreModalDefaultState(): void {
