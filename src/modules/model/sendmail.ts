@@ -1,4 +1,4 @@
-const Baseurl = 'http://localhost:5000';
+const Baseurl = 'https://ava-editor-server-final-task-production.up.railway.app';
 //'https://ava-editor-server-final-task-production.up.railway.app';
 //'http://localhost:5000';
 
