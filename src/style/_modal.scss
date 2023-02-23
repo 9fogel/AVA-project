@@ -128,6 +128,18 @@
   padding: 11px 39px 10px;
 }
 
+.modal-create-btn:disabled {
+  cursor: default;
+  background-color: $black-opacity;
+  opacity: 0.8;
+}
+
+.modal-create-btn:disabled:hover {
+  box-shadow: none;
+  background-color: $black-opacity;
+  opacity: 0.8;
+}
+
 .modal-login-google-btn {
   padding: 11px 29px 10px 56px;
   font-weight: normal;
@@ -262,12 +274,14 @@
     color: $black;
   }
 
+  .modal-create-btn:disabled,
   .modal-set-new-psw-btn:disabled {
     cursor: default;
     background-color: $white;
     opacity: 0.2;
   }
 
+  .modal-create-btn:disabled:hover,
   .modal-set-new-psw-btn:disabled:hover {
     box-shadow: none;
     background-color: $white;
