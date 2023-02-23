@@ -2,12 +2,14 @@ import AuthModel from '../model/auth';
 import { user } from '../model/auth';
 import UserPage from './userPage';
 import State from '../state.ts/editorState';
-import SystemPopup from './systemPopup';
+//import SystemPopup from './systemPopup';
+import HelpMethodsUser from './helpUserController';
 
 // Вынести вспамогательные методы в отдельный класс и вызывать их оттуда
 
 class UsersControler {
-  private readonly systemPopup: SystemPopup;
+  //private readonly systemPopup: SystemPopup;
+  private readonly helpMethods: HelpMethodsUser;
   static State: State;
   users: AuthModel;
   userPage: UserPage;
@@ -27,7 +29,8 @@ class UsersControler {
   constructor() {
     this.users = new AuthModel();
     this.userPage = new UserPage();
-    this.systemPopup = new SystemPopup();
+    //this.systemPopup = new SystemPopup();
+    this.helpMethods = new HelpMethodsUser();
   }
 
   handleUsers() {
@@ -64,8 +67,8 @@ class UsersControler {
       const data = await this.users.registrationUser(userName.value, userEmail.value, password.value);
 
       if (data.token) {
-        this.logIn(data.username, data.username, data.userEmail);
-        this.updateState(data.roles);
+        this.helpMethods.logIn(data.username, data.username, data.userEmail);
+        this.helpMethods.updateState(data.roles);
 
         localStorage.JWT = data.token;
         // document.cookie = `user = ${data.username}; SameSite=None; HTTPOnly`;
@@ -95,7 +98,7 @@ class UsersControler {
     [password, repeatPassword].forEach((el) => {
       el.addEventListener('change', () => {
         if (messagePassword) {
-          this.clearText(messagePassword);
+          this.helpMethods.clearText(messagePassword);
         }
       });
     });
@@ -112,68 +115,62 @@ class UsersControler {
       const data = await this.users.logInUser(userEmail.value, userEmail.value, password.value);
       console.log(data);
       if (data.token) {
-        this.logIn(data.username1, data.username1, data.userEmail1);
-        this.updateState(data.roles);
+        this.helpMethods.logIn(data.username1, data.username1, data.userEmail1);
+        this.helpMethods.updateState(data.roles);
 
         localStorage.JWT = data.token;
-        // document.cookie = `user = ${data.username1}; SameSite=None; HTTPOnly`;
-        // document.cookie = `token = ${data.token}; SameSite=None; HTTPOnly`;
       }
     });
   }
 
-  private logIn(userName: string, name: string, email: string) {
-    const buttonLogin = document.querySelector('.login-btn');
-    const buttonName = document.querySelector('.profile-btn');
-    if (buttonLogin && buttonName) {
-      buttonLogin.classList.add('hidden');
-      buttonName.classList.remove('hidden');
-      buttonName.textContent = userName;
-    }
-    document.querySelector('.login-modal')?.classList.remove('active');
-    document.querySelector('.wrapper')?.classList.remove('active');
+  // private logIn(userName: string, name: string, email: string) {
+  //   const buttonLogin = document.querySelector('.login-btn');
+  //   const buttonName = document.querySelector('.profile-btn');
+  //   if (buttonLogin && buttonName) {
+  //     buttonLogin.classList.add('hidden');
+  //     buttonName.classList.remove('hidden');
+  //     buttonName.textContent = userName;
+  //   }
+  //   document.querySelector('.login-modal')?.classList.remove('active');
+  //   document.querySelector('.wrapper')?.classList.remove('active');
 
-    // const inputName: HTMLElement | null = document.getElementById('info-user-name');
-    // const inputEmail: HTMLElement | null = document.getElementById('info-email');
-    if (this.inputName && this.inputEmail) {
-      this.inputName.value = name;
-      this.inputEmail.value = email;
-      State.userName = name;
-      State.userEmail = email;
-      // console.log('State', State.userName, State.userEmail);
-    }
-  }
+  //   if (this.inputName && this.inputEmail) {
+  //     this.inputName.value = name;
+  //     this.inputEmail.value = email;
+  //     State.userName = name;
+  //     State.userEmail = email;
+  //   }
+  // }
 
   private async handlegetUserName() {
     const data = await this.users.getUserName();
     if (data.username) {
-      this.logIn(data.username, data.username, data.userEmail);
-      this.updateState(data.roles);
+      this.helpMethods.logIn(data.username, data.username, data.userEmail);
+      this.helpMethods.updateState(data.roles);
       console.log('Role:', State.userState);
     } else {
-      this.logOut();
+      this.helpMethods.logOut();
       console.log('Role:', State.userState);
     }
   }
 
-  private logOut() {
-    const buttonLogin = document.querySelector('.login-btn');
-    const buttonName = document.querySelector('.profile-btn');
-    if (buttonName && buttonLogin) {
-      buttonLogin.classList.remove('hidden');
-      buttonName.classList.add('hidden');
-      buttonName.textContent = 'User Profil';
-      this.JWT = localStorage.setItem('JWT', '');
+  // private logOut() {
+  //   const buttonLogin = document.querySelector('.login-btn');
+  //   const buttonName = document.querySelector('.profile-btn');
+  //   if (buttonName && buttonLogin) {
+  //     buttonLogin.classList.remove('hidden');
+  //     buttonName.classList.add('hidden');
+  //     buttonName.textContent = 'User Profil';
+  //     this.JWT = localStorage.setItem('JWT', '');
 
-      State.userState = 'default';
-      State.userName = '';
-      State.userEmail = '';
-      //console.log('State', State.userName, State.userEmail);
-    }
-  }
+  //     State.userState = 'default';
+  //     State.userName = '';
+  //     State.userEmail = '';
+  //   }
+  // }
 
   private clickLogOut() {
-    document.querySelector('.sign-out-item')?.addEventListener('click', this.logOut);
+    document.querySelector('.sign-out-item')?.addEventListener('click', this.helpMethods.logOut);
   }
 
   private handleUpdateUser(
@@ -187,19 +184,18 @@ class UsersControler {
       button.addEventListener('click', async () => {
         const user: user = flag === 1 ? { username: name.value } : { userEmail: name.value };
         const data = await this.users.updateUser(path, user);
-        //console.log(`update: ${JSON.stringify(data)}`, name.value, path);
 
         if (data.messageLog || data.message) {
-          this.nonLogIn();
+          this.helpMethods.nonLogIn();
         }
         if (data.messageNo) {
           textMessage.textContent = 'It looks like this name is already in use. Try entering something else.';
-          this.clearText(textMessage);
+          this.helpMethods.clearText(textMessage);
           textMessage.style.color = 'red';
         }
         if (data.messageOK) {
           textMessage.textContent = 'Changes were applied';
-          this.clearText(textMessage);
+          this.helpMethods.clearText(textMessage);
           textMessage.style.color = 'green';
           const buttonName = document.querySelector('.profile-btn');
           if (buttonName) {
@@ -207,17 +203,16 @@ class UsersControler {
           }
           State.userName = data.newUserName;
           State.userEmail = data.newUserEmail;
-          //console.log('state', State.userName, State.userEmail);
         }
 
         if (data.errors) {
           if (flag === 1) {
             textMessage.textContent = 'Name cannot be empty';
-            this.clearText(textMessage);
+            this.helpMethods.clearText(textMessage);
           }
           if (flag === 2) {
             textMessage.textContent = "It's not a valid Email";
-            this.clearText(textMessage);
+            this.helpMethods.clearText(textMessage);
           }
           textMessage.style.color = 'red';
         }
@@ -235,20 +230,20 @@ class UsersControler {
         const data = await this.users.deleteUser(inputDelete.value);
 
         if (data.message || data.messageLog) {
-          this.nonLogIn();
+          this.helpMethods.nonLogIn();
         }
 
         if (data.messageNo) {
           deleteMessage.textContent = JSON.stringify(data.messageNo).replace(/"/g, '');
           deleteMessage.style.color = 'red';
-          this.clearText(deleteMessage);
+          this.helpMethods.clearText(deleteMessage);
         }
         if (data.messageOK) {
           deleteMessage.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
           deleteMessage.style.color = 'green';
 
           setTimeout(() => {
-            this.logOut();
+            this.helpMethods.logOut();
             this.userPage.hideUserPage();
           }, 3000);
         }
@@ -269,28 +264,23 @@ class UsersControler {
     ) {
       [this.inputNewPassword, this.inputConfirmNewPassword].forEach((el) => {
         el.addEventListener('input', () => {
-          if (
-            this.inputNewPassword?.value === this.inputConfirmNewPassword?.value
-            // && String(this.inputOldPasswors?.value).length > 0
-          ) {
+          if (this.inputNewPassword?.value === this.inputConfirmNewPassword?.value) {
             this.updatePasswordBtn?.classList.remove('hidden');
             messageNewPassword.textContent = 'Password matches';
             messageNewPassword.style.color = 'green';
 
-            this.clearText(messageNewPassword);
+            this.helpMethods.clearText(messageNewPassword);
           } else {
             this.updatePasswordBtn?.classList.add('hidden');
             messageNewPassword.textContent = 'Password mismatches';
             messageNewPassword.style.color = 'red';
           }
-
-          //this.clearText(messageNewPassword);
         });
       });
 
       [this.inputNewPassword, this.inputConfirmNewPassword].forEach((el) => {
         el.addEventListener('change', () => {
-          this.clearText(messageNewPassword);
+          this.helpMethods.clearText(messageNewPassword);
         });
       });
     }
@@ -305,29 +295,27 @@ class UsersControler {
     this.updatePasswordBtn?.addEventListener('click', async () => {
       if (this.inputOldPasswors) {
         const data = await this.users.checkPassword(this.inputOldPasswors.value);
-        //console.log(data);
 
         if (data.messageLog || data.message) {
-          this.nonLogIn();
+          this.helpMethods.nonLogIn();
         }
 
         if (data.messageNo) {
           messageOldPassword.textContent = JSON.stringify(data.messageNo).replace(/"/g, '');
           messageOldPassword.style.color = 'red';
-          this.clearText(messageOldPassword);
+          this.helpMethods.clearText(messageOldPassword);
         }
 
         if (data.messageOK && this.inputNewPassword) {
           messageOldPassword.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
           messageOldPassword.style.color = 'green';
-          this.clearText(messageOldPassword);
-          //console.log(data);
+          this.helpMethods.clearText(messageOldPassword);
 
           const newData = await this.users.updatePassword(data.userEmail, this.inputNewPassword.value);
           if (newData.errors) {
             messageNewPassword.textContent = 'Password length must be between 4 and 10 characters';
             messageNewPassword.style.color = 'red';
-            this.clearText(messageNewPassword);
+            this.helpMethods.clearText(messageNewPassword);
           }
 
           if (newData.messageOK) {
@@ -338,55 +326,43 @@ class UsersControler {
             // if (this.inputConfirmNewPassword) {
             //   this.inputConfirmNewPassword.value = '';
             // }
-            this.clearText(messageOldPassword);
-            this.clearText(messageNewPassword);
+            this.helpMethods.clearText(messageOldPassword);
+            this.helpMethods.clearText(messageNewPassword);
             setTimeout(() => this.userPage.setDefaultState(), 6000);
           }
 
           if (newData.message) {
-            this.nonLogIn();
+            this.helpMethods.nonLogIn();
           }
         }
       }
     });
   }
 
-  private nonLogIn() {
-    this.logOut();
-    //message: string
-    //const messageText = document.querySelector('#');
-    // document.querySelector('.profile-page-wrapper')?.classList.add('hidden');
-    this.userPage.hideUserPage();
-    // if (messageText) {
-    //   messageText.textContent = message;
-    //   setTimeout(() => {
-    //     messageText.textContent = '';
-    //   }, 6000);
+  // private nonLogIn() {
+  //   this.helpMethods.logOut();
+  //   this.userPage.hideUserPage();
 
-    //}
+  //   this.systemPopup.showModal(
+  //     'Looks likes you have already signed out or your account was deleted. Please try to sign in again.',
+  //   );
 
-    this.systemPopup.showModal(
-      'Looks likes you have already signed out or your account was deleted. Please try to sign in again.',
-    );
+  //   setTimeout(() => {
+  //     this.systemPopup.hideModal();
+  //   }, 6000);
 
-    setTimeout(() => {
-      this.systemPopup.hideModal();
-    }, 6000);
+  //   this.systemPopup.handleModal();
+  // }
 
-    this.systemPopup.handleModal();
-    //alert('Looks likes you have already signed out or your account was deleted. Please try to sign in again.');
-  }
-
-  private updateState(array: Array<string>) {
-    if (array.includes('USER') && !array.includes('PREMIUM')) {
-      State.userState = 'user';
-    } else if (array.includes('PREMIUM')) {
-      State.userState = 'premium';
-    } else {
-      State.userState = 'default';
-    }
-    //console.log('state:', State.userState);
-  }
+  // private updateState(array: Array<string>) {
+  //   if (array.includes('USER') && !array.includes('PREMIUM')) {
+  //     State.userState = 'user';
+  //   } else if (array.includes('PREMIUM')) {
+  //     State.userState = 'premium';
+  //   } else {
+  //     State.userState = 'default';
+  //   }
+  // }
 
   private handeUpdatePremium() {
     const inputPremium: HTMLInputElement | null = document.querySelector('#promo');
@@ -397,15 +373,13 @@ class UsersControler {
         const data = await this.users.updatePremium(inputPremium.value);
 
         if (data.messageLog || data.message) {
-          this.nonLogIn();
+          this.helpMethods.nonLogIn();
         }
 
         if (data.messageNo) {
           messgePremium.textContent = JSON.stringify(data.messageNo).replace(/"/g, '');
           messgePremium.style.color = 'red';
-          this.clearText(messgePremium);
-
-          //console.log('Premium no');
+          this.helpMethods.clearText(messgePremium);
         }
 
         if (data.messageOK) {
@@ -414,17 +388,16 @@ class UsersControler {
           this.userPage.switchPremiumView();
 
           State.userState = 'premium';
-          //console.log('Premium yes');
         }
       });
     }
   }
 
-  private clearText(container: HTMLElement) {
-    setTimeout(() => {
-      container.textContent = '';
-    }, 5000);
-  }
+  // private clearText(container: HTMLElement) {
+  //   setTimeout(() => {
+  //     container.textContent = '';
+  //   }, 5000);
+  // }
 }
 
 export default UsersControler;
