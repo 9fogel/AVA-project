@@ -1,6 +1,13 @@
 import State from '../state.ts/editorState';
+import Support from './support';
 
 class Settings {
+  private readonly support: Support;
+
+  constructor() {
+    this.support = new Support();
+  }
+
   public handleSettings() {
     this.listenSettings();
   }
@@ -26,6 +33,7 @@ class Settings {
   private showSettings(): void {
     const settingsMenu: HTMLElement | null = document.querySelector('.settings-menu');
     settingsMenu?.classList.toggle('hidden');
+    this.support.hideSupport();
   }
 
   private switchTheme(): void {

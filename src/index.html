@@ -14,7 +14,31 @@
         <div class="user-content">
           <button class="button login-btn">Sign In / Sign Up</button>
           <button class="button profile-btn hidden">User Profile</button>
-          <div class="settings"></div>
+          <div class="header-icons">
+            <div class="support"></div>
+            <div class="settings"></div>
+          </div>
+          <div class="support-menu hidden">
+            <h3 class="support-title">Contact Support</h3>
+            <div class="support-arrow"></div>
+            <div class="support-content">
+              <div class="support-text">
+                <p>Please enter your email and leave us a message.</p>
+                <p>We will get in touch with you as soon as possible</p>
+              </div>
+              <div class="support-input-wrap">
+                <label class="support-label">Email</label>
+                <input class="support-input" type="email" id="contact-email">
+                <p class="support-message"></p>
+              </div>
+              <div class="modal-input-wrap user-name-wrap">
+                <label class="support-label">Message</label>
+                <textarea class="support-textarea" name="message-to-support" id="message-to-support" cols="30" rows="10" placeholder="Enter your message here"></textarea>
+                <p class="support-message user-message"></p>
+              </div>
+              <button class="button support-btn" id="support-btn">Send</button>
+            </div>
+          </div>
           <div class="settings-menu hidden">
             <h3 class="settings-title">Settings</h3>
             <ul class="settings-list">
