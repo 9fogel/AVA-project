@@ -197,8 +197,8 @@ class Controller {
         if (+qualityNumInput.value < 0) {
           qualityNumInput.value = qualityNumInput.value.replace(/[^0-9 ]+/g, '');
         }
-        if (qualityNumInput.value.startsWith('00') || qualityNumInput.value.startsWith('-0')) {
-          qualityNumInput.value = '0';
+        if (qualityNumInput.value.startsWith('00') || qualityNumInput.value.startsWith('-')) {
+          qualityNumInput.value = '1';
         }
         if (+qualityNumInput.value > 100) {
           qualityNumInput.value = '100';
