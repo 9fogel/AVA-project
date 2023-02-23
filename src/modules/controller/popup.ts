@@ -39,7 +39,7 @@ class Popup {
     this.handleModalclosure();
     this.listenAccLink();
     this.listenForgotPswLink();
-    this.listenSendKeyBtn(); //TODO: потом убрать этот метод
+    //this.listenSendKeyBtn(); //TODO: потом убрать этот метод
     this.listenCancelRestorePsw();
   }
 

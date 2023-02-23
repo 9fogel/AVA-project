@@ -5,6 +5,7 @@ import Login from './login';
 import UsersControler from './authusers';
 import UserPage from './userPage';
 import View from '../view/view';
+import MailController from './mailController';
 
 const view = new View();
 view.render();
@@ -18,6 +19,7 @@ class Controller {
   private readonly login: Login;
   private readonly users: UsersControler;
   private readonly userPage: UserPage;
+  private readonly mail: MailController;
 
   constructor() {
     this.settings = new Settings();
@@ -26,6 +28,7 @@ class Controller {
     this.login = new Login();
     this.users = new UsersControler();
     this.userPage = new UserPage();
+    this.mail = new MailController();
   }
 
   public run(): void {
@@ -44,6 +47,7 @@ class Controller {
     this.handleResetChanges();
     this.handleZoomIn();
     this.handleZoomOut();
+    this.mail.handleMailController();
   }
 
   private useFileInput(): void {

@@ -1,4 +1,5 @@
 const Baseurl = 'https://ava-editor-server-final-task-production.up.railway.app';
+//'https://ava-editor-server-final-task-production.up.railway.app';
 //'http://localhost:5000';
 
 function clearText(container: HTMLElement) {
@@ -81,7 +82,7 @@ class AuthModel {
         clearText(messagePassword);
       }
     }
-    //console.log(JSON.stringify(data));
+
     return data;
   }
 
@@ -98,7 +99,6 @@ class AuthModel {
 
     const data = await response.json();
     if (!response.ok) {
-      //console.error(`Erros:${response.status}`, data);
       const messageUser: HTMLElement | null = document.querySelector('.email-message');
       const messagePassword: HTMLElement | null = document.querySelector('.password-message');
       if (messageUser && data.message) {
@@ -113,7 +113,6 @@ class AuthModel {
         clearText(messagePassword);
       }
     }
-    //console.log(JSON.stringify(data));
     return data;
   }
 
@@ -123,7 +122,6 @@ class AuthModel {
       headers: {
         'Content-Type': 'application/json',
 
-        //Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('JWT')}`,
       },
     });
@@ -132,7 +130,6 @@ class AuthModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`);
     }
-    //console.log(data);
     return data;
   }
 
@@ -142,7 +139,6 @@ class AuthModel {
       headers: {
         'Content-Type': 'application/json',
 
-        //Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('JWT')}`,
       },
       body: JSON.stringify(name),
@@ -201,9 +197,6 @@ class AuthModel {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-
-        //Accept: 'application/json',
-        //Authorization: `Bearer ${localStorage.getItem('JWT')}`,
       },
       body: JSON.stringify({ userEmail, password }),
     });
@@ -211,7 +204,7 @@ class AuthModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`);
     }
-    //console.log(data);
+
     return data;
   }
 
@@ -230,7 +223,7 @@ class AuthModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`);
     }
-    //console.log(data);
+
     return data;
   }
 }
