@@ -31,6 +31,12 @@
   background-position: 24px 50%;
 }
 
+.header-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.support,
 .settings {
   width: 40px;
   height: 40px;
@@ -38,17 +44,38 @@
   border-radius: 50%;
 }
 
+.support {
+  background-image: url('img/help-icon.svg');
+}
+
+.settings {
+  background-image: url('img/settings-icon.svg');
+}
+
+.support:hover,
 .settings:hover {
   cursor: pointer;
   border-radius: 50%;
-  background-image: url('img/settings-icon-hover.svg');
   transition: ease-in-out .3s;
+}
+
+.support:hover {
+  background-image: url('img/help-icon-hover.svg');
+}
+
+.support.active {
+  background-image: url('img/help-icon-hover.svg');
+}
+
+.settings:hover {
+  background-image: url('img/settings-icon-hover.svg');
 }
 
 .settings.active {
   background-image: url('img/settings-icon-hover.svg');
 }
 
+.support-menu,
 .settings-menu {
   position: absolute;
   right: 0;
@@ -62,10 +89,61 @@
   transition: ease-in-out .3s;
 }
 
+.support-menu {
+  right: 52px;
+}
+
+.support-title,
 .settings-title {
   margin-bottom: 24px;
   font-size: 20px;
   font-weight: bold;
+}
+
+.support-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.support-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 400;
+}
+
+.support-input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.support-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: $light-black;
+}
+
+.support-input,
+.support-textarea {
+  padding: 12px 16px;
+  width: 100%;
+  color: $black;
+  background-color: $light-gray;
+  border: none;
+  border-radius: $border-radius;
+  outline: 0;
+}
+
+.support-input {
+  height: 60px;
+}
+
+.support-message {
+  font-size: 12px;
+  font-weight: bold;
+  color: $red;
 }
 
 .settings-list {
@@ -168,6 +246,7 @@
   font-weight: bold;
 }
 
+.support-arrow,
 .settings-arrow {
   position:absolute;
   top: -12px;
@@ -185,6 +264,18 @@
 
 //dark theme styles
 .dark-theme {
+  .support {
+    background-image: url('img/dark-help-icon.svg');
+  }
+
+  .support:hover {
+    background-image: url('img/help-icon-hover.svg');
+  }
+
+  .support.active {
+    background-image: url('img/help-icon-hover.svg');
+  }
+
   .settings {
     background-image: url('img/dark-settings-icon.svg');
   }
@@ -197,9 +288,24 @@
     background-image: url('img/dark-settings-icon-hover.svg');
   }
 
+  .support-menu,
   .settings-menu {
     background-color: $black;
     box-shadow: 4px -4px 8px 0px #99ece71a, -4px 4px 8px 0px #99ece71a;
+  }
+
+  .support-label {
+    color: $light-gray;
+  }
+
+  .support-input,
+  .support-textarea {
+    color: $white;
+    background-color: $light-black;
+  }
+
+  .support-textarea::placeholder {
+    color: $gray;
   }
 
   .tooltips-choice {
@@ -214,6 +320,7 @@
     background-color: $blue;
   }
 
+  .support-arrow,
   .settings-arrow {
     border-bottom: 6px solid $black;
   }

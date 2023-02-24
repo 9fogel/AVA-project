@@ -1,3 +1,4 @@
+import Support from './support';
 import Settings from './settings';
 import Editor from './editor';
 import Model from '../model/model';
@@ -13,6 +14,7 @@ view.render();
 class Controller {
   quality = 1;
   format = 'png';
+  private readonly support: Support;
   private readonly settings: Settings;
   private readonly editor: Editor;
   private readonly model: Model;
@@ -22,6 +24,7 @@ class Controller {
   private readonly mail: MailController;
 
   constructor() {
+    this.support = new Support();
     this.settings = new Settings();
     this.editor = new Editor();
     this.model = new Model();
@@ -34,6 +37,7 @@ class Controller {
   public run(): void {
     console.log('run controller');
     this.login.handleLogin();
+    this.support.handleSupport();
     this.settings.handleSettings();
     this.handleImageUpload();
     this.handleImageDeletion();
@@ -197,8 +201,8 @@ class Controller {
         if (+qualityNumInput.value < 0) {
           qualityNumInput.value = qualityNumInput.value.replace(/[^0-9 ]+/g, '');
         }
-        if (qualityNumInput.value.startsWith('00') || qualityNumInput.value.startsWith('-0')) {
-          qualityNumInput.value = '0';
+        if (qualityNumInput.value.startsWith('00') || qualityNumInput.value.startsWith('-')) {
+          qualityNumInput.value = '1';
         }
         if (+qualityNumInput.value > 100) {
           qualityNumInput.value = '100';

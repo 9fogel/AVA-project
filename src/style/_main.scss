@@ -1,14 +1,13 @@
 .main {
   position: relative;
-  margin-bottom: 88px;
-  min-height: 70vh;
+  margin-bottom: 80px;
+  min-height: 65vh;
 }
 
 .main-content {
   position: relative;
   padding-top: 32px;
-  // min-height: 65vh;
-  min-height: 710px;
+  min-height: 65vh;
   background-color: $light-gray;
   border: $border;
   border-radius: $border-radius;

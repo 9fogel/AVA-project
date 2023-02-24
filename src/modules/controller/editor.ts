@@ -510,6 +510,9 @@ class Editor {
     document.getElementById('draw-width')?.addEventListener('input', (event) => {
       if (event.target instanceof HTMLInputElement) {
         event.target.value = event.target.value.replace(/[^0-9 ]+/g, '');
+        if (event.target.value.startsWith('0')) {
+          event.target.value = '1';
+        }
       }
       this.model.drawLineWidthChange();
     });
