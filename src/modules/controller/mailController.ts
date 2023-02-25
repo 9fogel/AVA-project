@@ -23,6 +23,7 @@ class MailController {
   helpMessage: HTMLElement | null = document.querySelector('.support-message');
   inputTextMessage: HTMLInputElement | null = document.querySelector('#message-to-support');
   buttonHelpMessage: HTMLButtonElement | null = document.querySelector('#support-btn');
+  countCharacter = document.querySelectorAll('.support-message')[1] as HTMLElement;
 
   constructor() {
     this.mail = new MailModel();
@@ -120,6 +121,7 @@ class MailController {
   private handleSendMessage() {
     if (this.inputTextMessage && this.buttonHelpMessage) {
       this.helpMethods.controlInputLength(this.inputTextMessage, this.buttonHelpMessage);
+      this.helpMethods.writeMessageLength(this.inputTextMessage, this.countCharacter);
     }
 
     this.buttonHelpMessage?.addEventListener('click', async () => {
