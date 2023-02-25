@@ -145,6 +145,7 @@ class MailController {
           this.helpMethods.clearText(this.helpMessage);
           setTimeout(() => {
             this.support.hideSupport();
+            this.countCharacter.textContent = '0/600';
           }, 3000);
         }
       }
