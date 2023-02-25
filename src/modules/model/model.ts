@@ -440,6 +440,8 @@ class Model {
     doneBtn.disabled = true;
     const clearBtn = document.querySelector('.draw-clear-btn') as HTMLButtonElement;
     clearBtn.disabled = true;
+
+    CanvasState.parameters.strokeStyle = '#00d0c3';
   }
 
   public clearDrawing() {
