@@ -128,6 +128,18 @@ class HelpMethodsUser {
       });
     }
   }
+
+  public controlInputLength(input: HTMLInputElement, button: HTMLButtonElement) {
+    //if (input && button) {
+    input.addEventListener('input', () => {
+      if (input.value.length === 0 || input.value.length > 600) {
+        button.setAttribute('disabled', '');
+      } else {
+        button.removeAttribute('disabled');
+      }
+    });
+    //}
+  }
 }
 
 export default HelpMethodsUser;
