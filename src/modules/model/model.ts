@@ -476,7 +476,11 @@ class Model {
   public zoomIn = (): void => {
     if (checkSelectedTools() && this.canvas) {
       CanvasState.parameters.zoom += 0.2;
-      this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+      if (CanvasState.parameters.canvasTransformX === 0 && CanvasState.parameters.canvasTransformY === 0) {
+        this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+      } else {
+        this.canvas.style.transform = `translate(${CanvasState.parameters.canvasTransformX}px, ${CanvasState.parameters.canvasTransformY}px) scale(${CanvasState.parameters.zoom})`;
+      }
     }
     this.setZoom();
   };
@@ -485,7 +489,11 @@ class Model {
     if (checkSelectedTools() && this.canvas) {
       if (CanvasState.parameters.zoom - 0.2 >= 0) {
         CanvasState.parameters.zoom -= 0.2;
-        this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+        if (CanvasState.parameters.canvasTransformX === 0 && CanvasState.parameters.canvasTransformY === 0) {
+          this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+        } else {
+          this.canvas.style.transform = `translate(${CanvasState.parameters.canvasTransformX}px, ${CanvasState.parameters.canvasTransformY}px) scale(${CanvasState.parameters.zoom})`;
+        }
       } else {
         return;
       }
@@ -500,6 +508,53 @@ class Model {
       this.setZoom();
     }
   }
+
+  public mouseDragEvents = {
+    mousedown(e: MouseEvent): void {
+      if (checkSelectedTools()) {
+        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+
+        canvas.style.cursor = 'grabbing';
+
+        const style = getComputedStyle(canvas);
+        const transform = new DOMMatrixReadOnly(style.transform);
+
+        const translateX = transform.m41;
+        const translateY = transform.m42;
+
+        CanvasState.parameters.canvasDragging = true;
+        CanvasState.parameters.canvasStartX = e.pageX - translateX;
+        CanvasState.parameters.canvasStartY = e.pageY - translateY;
+      }
+    },
+    mousemove(e: MouseEvent): void {
+      if (checkSelectedTools()) {
+        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+        if (CanvasState.parameters.canvasDragging === true) {
+          const x = e.pageX - CanvasState.parameters.canvasStartX;
+          const y = e.pageY - CanvasState.parameters.canvasStartY;
+
+          CanvasState.parameters.canvasTransformX = x;
+          CanvasState.parameters.canvasTransformY = y;
+
+          canvas.style.transform = `translate(${x}px, ${y}px) scale(${CanvasState.parameters.zoom})`;
+        }
+      }
+    },
+    mouseup(): void {
+      const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+      if (checkSelectedTools()) {
+        CanvasState.parameters.canvasDragging = false;
+        canvas.style.cursor = 'grab';
+      }
+    },
+    mouseover(): void {
+      const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+      if (checkSelectedTools()) {
+        canvas.style.cursor = 'grab';
+      }
+    },
+  };
 
   private async applyСhanges(): Promise<void> {
     const changes = {

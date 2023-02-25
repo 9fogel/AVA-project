@@ -42,6 +42,11 @@ class CanvasState {
     lineWidth: 10,
     zoom: 1,
     zoomValue: 0,
+    canvasDragging: false,
+    canvasStartX: 0,
+    canvasStartY: 0,
+    canvasTransformX: 0,
+    canvasTransformY: 0,
   };
 
   static resetState() {
@@ -84,6 +89,11 @@ class CanvasState {
     this.parameters.lineWidth = 10;
     this.parameters.zoom = 1;
     this.parameters.zoomValue = 0;
+    this.parameters.canvasDragging = false;
+    this.parameters.canvasStartX = 0;
+    this.parameters.canvasStartY = 0;
+    this.parameters.canvasTransformX = 0;
+    this.parameters.canvasTransformY = 0;
   }
 }
 
