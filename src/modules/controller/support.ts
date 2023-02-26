@@ -6,8 +6,10 @@ class Support {
   public hideSupport(): void {
     const activeSupportIcon: HTMLElement | null = document.querySelector('.support.active');
     const supportMenu: HTMLElement | null = document.querySelector('.support-menu');
+    const sendBtn = document.querySelector('.support-btn');
     activeSupportIcon?.classList.remove('active');
     supportMenu?.classList.add('hidden');
+    sendBtn?.setAttribute('disabled', 'disabled');
     this.clearSupportInputs();
   }
 
@@ -29,11 +31,15 @@ class Support {
   private clearSupportInputs(): void {
     const email = document.querySelector('.support-input');
     const messageToSupport = document.querySelector('.support-textarea');
+    const counter = document.querySelector('.support-counter-message');
     if (email instanceof HTMLInputElement) {
       email.value = '';
     }
     if (messageToSupport instanceof HTMLTextAreaElement) {
       messageToSupport.value = '';
+    }
+    if (counter instanceof HTMLElement) {
+      counter.innerText = '0/600';
     }
   }
 

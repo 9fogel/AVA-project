@@ -33,10 +33,10 @@
               </div>
               <div class="modal-input-wrap user-name-wrap">
                 <label class="support-label">Message</label>
-                <textarea class="support-textarea" name="message-to-support" id="message-to-support" cols="30" rows="10" placeholder="Enter your message here"></textarea>
-                <p class="support-message user-message"></p>
+                <textarea class="support-textarea" name="message-to-support" id="message-to-support" cols="30" rows="10" maxlength="600" placeholder="Message length should be at least 10, maximum 600 characters"></textarea>
+                <p class="support-message support-counter-message">0/600</p>
               </div>
-              <button class="button support-btn" id="support-btn">Send</button>
+              <button class="button support-btn" id="support-btn" disabled>Send</button>
             </div>
           </div>
           <div class="settings-menu hidden">
