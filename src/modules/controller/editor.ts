@@ -160,8 +160,6 @@ class Editor {
     const tools: NodeListOf<HTMLLIElement> = document.querySelectorAll('.tool-item');
     tools?.forEach((tool: HTMLLIElement) => {
       tool?.addEventListener('click', (e) => {
-        // console.log('event target', e.target);
-        // console.log('current target', e.currentTarget);
         const toolName = tool.id;
         if (toolName && e.target instanceof HTMLLIElement) {
           if (e.target.classList.contains('tool-item')) {
@@ -169,7 +167,6 @@ class Editor {
             this.updateElements();
           } else {
             const optionName = e.target.id;
-            console.log(optionName, toolName);
             this.showOptionControls(optionName, toolName);
             this.updateElements();
           }
@@ -247,9 +244,7 @@ class Editor {
     backArrows.forEach((arrow) => {
       arrow.addEventListener('click', () => {
         const optionName: string = arrow.id.slice(0, -6);
-        // console.log(optionName);
         if (optionName === 'draw' || optionName === 'border') {
-          //TODO: убирать слушатель с канваса после закрытия менюшки draw через стрелку?
           this.hideOpenedToolMenus();
         }
         this.hideOptionControls(optionName);
@@ -323,7 +318,6 @@ class Editor {
             }
           }
         }
-        console.log('Input changed!!');
         this.enableDoneBtn();
       });
     });
@@ -334,7 +328,6 @@ class Editor {
     propControl?.addEventListener('click', () => {
       propControl.classList.toggle('locked');
       CanvasState.parameters.saveProportions = !CanvasState.parameters.saveProportions;
-      console.log(`lockProportions: ${CanvasState.parameters.saveProportions}`);
     });
   }
 
@@ -346,7 +339,6 @@ class Editor {
   private listenResizeDoneBtn(): void {
     const doneBtn = document.querySelector('.done-btn');
     doneBtn?.addEventListener('click', () => {
-      console.log('resize - click done');
       this.model.resizeImage();
     });
   }
@@ -359,22 +351,18 @@ class Editor {
     const rotateRight = document.querySelector('.rotate-right');
 
     flipVert?.addEventListener('click', () => {
-      console.log('flip vertically');
       this.model.flipImage('vertical');
     });
 
     flipHor?.addEventListener('click', () => {
-      console.log('flip horizontally');
       this.model.flipImage('horizontal');
     });
 
     rotateLeft?.addEventListener('click', () => {
-      console.log('rotate left');
       this.model.rotateImage('left');
     });
 
     rotateRight?.addEventListener('click', () => {
-      console.log('rotate right');
       this.model.rotateImage('right');
     });
   }
@@ -395,7 +383,6 @@ class Editor {
           this.model.applyFilter(index);
           this.updateElements();
         } else {
-          console.log(`NO ACCESS TO Filter ${index}`);
           messageWrap?.classList.remove('hidden');
           this.listenMessageWrap();
           if (messageWrap && index >= 5 && index < 10) {
@@ -432,12 +419,6 @@ class Editor {
       this.model.setAdjustment(optionName);
       this.updateElements();
     }
-    //TODO: заполнить в adjust-range-input value значение из стейта (по optionName?)
-    //TODO: заполнить в adjust-number-input value значение из стейта (по optionName?)
-    console.log('optionName', optionName);
-    const inputRange: HTMLInputElement | null = document.querySelector('.adjust-range-input');
-    const inputPercentage: HTMLInputElement | null = document.querySelector('.adjust-number-input');
-    console.log(inputRange?.value, inputPercentage?.value);
   }
 
   private showAdjustControls(): void {
@@ -455,15 +436,15 @@ class Editor {
   private listenAdjustments(): void {
     const range: HTMLInputElement | null = document.querySelector('.adjust-range-input');
     const inputNum: HTMLInputElement | null = document.querySelector('.adjust-number-input');
-    const adjustmentTitle: HTMLElement | null = document.querySelector('.adjust-title');
-    const adjustmentName = adjustmentTitle?.innerText;
+    // const adjustmentTitle: HTMLElement | null = document.querySelector('.adjust-title');
+    // const adjustmentName = adjustmentTitle?.innerText;
 
     //Здесь специально отлавливается событие change, а не input
     range?.addEventListener('change', () => {
       if (inputNum) {
         inputNum.value = range.value;
         this.model.useAdjustment(range.value);
-        console.log(`${adjustmentName} выставлен на уровень ${inputNum.value}`);
+        // console.log(`${adjustmentName} выставлен на уровень ${inputNum.value}`);
       }
     });
 
@@ -480,7 +461,6 @@ class Editor {
         }
         range.value = inputNum.value;
         this.model.useAdjustment(range.value);
-        console.log(`${adjustmentName} выставлен на уровень ${range.value}`);
       }
     });
   }
