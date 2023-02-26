@@ -162,8 +162,8 @@
         <div class="edit-area hidden">
           <div class="undo-controls">
             <button class="button reset-btn">Reset All Changes</button>
-            <button class="button undo-btn">Undo</button>
-            <button class="button redo-btn">Redo</button>
+            <button class="button undo-btn hidden">Undo</button>
+            <button class="button redo-btn hidden">Redo</button>
           </div>
           <div class="zoom-controls">
             <div class="remove-zoom"></div>
@@ -274,7 +274,7 @@
                       <div class="crop-wrap tooltip">
                         <span class="tooltiptext">Choose selection tool color and shape</span>
                         <input class="crop-input" type="color" id="crop-color-input" value="#00d0c3" />
-                        <div class="custom-wrap">
+                        <div class="custom-wrap selected">
                           <span class="crop-text">Custom</span>
                           <div class="crop-icon"></div>
                         </div>
@@ -476,7 +476,6 @@
                   </div>
                 </div>
               </li>
-              <li class="tool-item text-tool" id="text">Text</li>
               <li class="tool-item border-tool" id="border">Border
                 <div class="option-controls border-option-controls">
                   <div class="border-controls border-list hidden" id="border-list">
