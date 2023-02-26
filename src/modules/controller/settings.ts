@@ -22,7 +22,6 @@ class Settings {
     const themeCheckbox: HTMLElement | null = document.querySelector('.theme-checkbox');
     const toggleWrap: HTMLElement | null = document.querySelector('.toggle-wrap');
     themeCheckbox?.addEventListener('click', () => {
-      console.log('theme changed');
       toggleWrap?.classList.toggle('active');
       this.switchTheme();
     });

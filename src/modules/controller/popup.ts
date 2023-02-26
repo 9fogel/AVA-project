@@ -80,7 +80,6 @@ class Popup {
     const signUpBtn: HTMLElement | null = document.querySelector('.modal-create-btn');
     const inputs = document.getElementsByClassName('modal-input');
     const messages = document.querySelectorAll('.modal-message');
-    console.log(inputs);
 
     const id = noAccLink?.id;
     const key = id;
