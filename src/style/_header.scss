@@ -146,6 +146,25 @@
   color: $red;
 }
 
+.support-counter-message {
+  text-align: right;
+  color: $light-black;
+}
+
+textarea::-webkit-scrollbar {
+  width: 0.7em;
+}
+
+textarea::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: $light-gray;
+  border-radius: $border-radius;
+  outline: 1px solid $gray;
+}
+
 .support-btn:disabled {
   cursor: default;
   background-color: $black-opacity;
@@ -286,6 +305,15 @@
 
   .support.active {
     background-image: url('img/help-icon-hover.svg');
+  }
+
+  textarea::-webkit-scrollbar-thumb {
+    background-color: $light-black;
+    outline: 1px solid $black;
+  }
+
+  .support-counter-message {
+    color: $light-gray;
   }
 
   .support-btn:disabled {

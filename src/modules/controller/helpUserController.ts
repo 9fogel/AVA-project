@@ -144,7 +144,7 @@ class HelpMethodsUser {
   public writeMessageLength(input: HTMLInputElement, container: HTMLElement) {
     input.addEventListener('input', () => {
       container.textContent = `${input.value.length}/600`;
-      container.style.color = 'black';
+      // container.style.color = 'black';
     });
   }
 }
