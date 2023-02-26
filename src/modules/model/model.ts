@@ -431,6 +431,7 @@ class Model {
 
       context.clearRect(-drawCanvas.height / 2, -drawCanvas.width / 2, drawCanvas.height, drawCanvas.width);
       drawCanvas.style.display = 'none';
+      drawCanvas.style.cursor = 'auto';
 
       drawCanvas.removeEventListener('mousedown', this.mouseDrawEvents.mousedown);
       drawCanvas.removeEventListener('mouseup', this.mouseDrawEvents.mouseup);
@@ -442,6 +443,7 @@ class Model {
     clearBtn.disabled = true;
 
     CanvasState.parameters.strokeStyle = '#00d0c3';
+    CanvasState.parameters.lineWidth = 10;
   }
 
   public clearDrawing() {
@@ -554,9 +556,107 @@ class Model {
       const canvas = document.getElementById('canvas') as HTMLCanvasElement;
       if (checkSelectedTools()) {
         canvas.style.cursor = 'grab';
+      } else {
+        canvas.style.cursor = 'auto';
       }
     },
   };
+
+  public drawBorder() {
+    if (this.canvas && this.context && this.image) {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+      drawCanvas.style.display = 'block';
+      drawCanvas.width = this.canvas?.width;
+      drawCanvas.height = this.canvas?.height;
+      context.translate(drawCanvas.width / 2, drawCanvas.height / 2);
+      context.save();
+      context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+      context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
+      if (CanvasState.parameters.imageRotate === false) {
+        context.drawImage(
+          this.image,
+          -this.canvas.width / 2,
+          -this.canvas.height / 2,
+          this.canvas.width,
+          this.canvas.height,
+        );
+      } else if (CanvasState.parameters.imageRotate === true) {
+        context.drawImage(
+          this.image,
+          -this.canvas.height / 2,
+          -this.canvas.width / 2,
+          this.canvas.height,
+          this.canvas.width,
+        );
+      }
+      context.restore();
+
+      context.beginPath();
+      context.strokeStyle = CanvasState.parameters.canvasBorderColor;
+      context.lineWidth = CanvasState.parameters.canvasBorderWidth;
+      context.strokeRect(-drawCanvas.width / 2, -drawCanvas.height / 2, drawCanvas.width, drawCanvas.height);
+
+      document.querySelector('.border-done-btn')?.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (this.image) {
+          this.image.src = drawCanvas.toDataURL();
+          await this.image.decode();
+
+          if (CanvasState.parameters.imageRotate === false) {
+            CanvasState.parameters.imageflipVertical = 1;
+            CanvasState.parameters.imageflipHorizontal = 1;
+            CanvasState.parameters.imageRotateDegree = 0;
+          } else {
+            CanvasState.parameters.imageflipVertical = 1;
+            CanvasState.parameters.imageflipHorizontal = 1;
+            CanvasState.parameters.imageRotateDegree = 0;
+            CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
+          }
+
+          this.applyСhanges();
+        }
+        const doneBtn = document.querySelector('.border-done-btn') as HTMLButtonElement;
+        doneBtn.disabled = true;
+      });
+    }
+
+    const doneBtn = document.querySelector('.border-done-btn') as HTMLButtonElement;
+    doneBtn.disabled = false;
+
+    if (!document.getElementById('border')?.classList.contains('selected')) {
+      this.stopDrawBorder();
+    }
+  }
+
+  public borderColorChange() {
+    const inputColor = document.getElementById('border-color-input') as HTMLInputElement;
+    CanvasState.parameters.canvasBorderColor = `${inputColor.value}`;
+    this.drawBorder();
+  }
+
+  public borderLineWidthChange() {
+    const inputLineWidth = document.getElementById('border-width') as HTMLInputElement;
+    CanvasState.parameters.canvasBorderWidth = Number(inputLineWidth.value);
+    this.drawBorder();
+  }
+
+  public stopDrawBorder() {
+    if (this.canvas && this.context) {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+      context.clearRect(-drawCanvas.height / 2, -drawCanvas.width / 2, drawCanvas.height, drawCanvas.width);
+      drawCanvas.style.display = 'none';
+    }
+    const doneBtn = document.querySelector('.border-done-btn') as HTMLButtonElement;
+    doneBtn.disabled = true;
+
+    CanvasState.parameters.canvasBorderColor = '#00d0c3';
+    CanvasState.parameters.canvasBorderWidth = 10;
+  }
 
   private async applyСhanges(): Promise<void> {
     const changes = {

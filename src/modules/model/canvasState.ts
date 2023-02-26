@@ -47,6 +47,8 @@ class CanvasState {
     canvasStartY: 0,
     canvasTransformX: 0,
     canvasTransformY: 0,
+    canvasBorderColor: '#00d0c3',
+    canvasBorderWidth: 10,
   };
 
   static resetState() {
@@ -94,6 +96,8 @@ class CanvasState {
     this.parameters.canvasStartY = 0;
     this.parameters.canvasTransformX = 0;
     this.parameters.canvasTransformY = 0;
+    this.parameters.canvasBorderColor = '#00d0c3';
+    this.parameters.canvasBorderWidth = 10;
   }
 }
 
