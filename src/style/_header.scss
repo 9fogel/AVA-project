@@ -146,6 +146,18 @@
   color: $red;
 }
 
+.support-btn:disabled {
+  cursor: default;
+  background-color: $black-opacity;
+  opacity: 0.8;
+}
+
+.support-btn:disabled:hover {
+  box-shadow: none;
+  background-color: $black-opacity;
+  opacity: 0.8;
+}
+
 .settings-list {
   display: flex;
   flex-direction: column;
@@ -274,6 +286,18 @@
 
   .support.active {
     background-image: url('img/help-icon-hover.svg');
+  }
+
+  .support-btn:disabled {
+    cursor: default;
+    background-color: $white;
+    opacity: 0.2;
+  }
+
+  .support-btn:disabled:hover {
+    box-shadow: none;
+    background-color: $white;
+    opacity: 0.2;
   }
 
   .settings {
