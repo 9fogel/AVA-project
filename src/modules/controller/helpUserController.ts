@@ -128,6 +128,25 @@ class HelpMethodsUser {
       });
     }
   }
+
+  public controlInputLength(input: HTMLInputElement, button: HTMLButtonElement) {
+    //if (input && button) {
+    input.addEventListener('input', () => {
+      if (input.value.length < 10 || input.value.length > 600) {
+        button.setAttribute('disabled', '');
+      } else {
+        button.removeAttribute('disabled');
+      }
+    });
+    //}
+  }
+
+  public writeMessageLength(input: HTMLInputElement, container: HTMLElement) {
+    input.addEventListener('input', () => {
+      container.textContent = `${input.value.length}/600`;
+      container.style.color = 'black';
+    });
+  }
 }
 
 export default HelpMethodsUser;
