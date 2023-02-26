@@ -26,8 +26,16 @@ class Editor {
     const adjustNumberSign = <HTMLInputElement>document.querySelector('.percentage-sign');
     resizeWidthInput.value = String(CanvasState.parameters.imageWidth);
     resizeHeightInput.value = String(CanvasState.parameters.imageHeight);
-    const drawInput = <HTMLInputElement>document.getElementById('draw-color-input');
-    drawInput.value = '#00d0c3';
+
+    const drawColorInput = <HTMLInputElement>document.getElementById('draw-color-input');
+    drawColorInput.value = '#00d0c3';
+    const borderColorInput = <HTMLInputElement>document.getElementById('border-color-input');
+    borderColorInput.value = '#00d0c3';
+    const drawWidth = <HTMLInputElement>document.getElementById('draw-width');
+    drawWidth.value = '10';
+    const borderWidth = <HTMLInputElement>document.getElementById('border-width');
+    borderWidth.value = '10';
+
     const filters = document.querySelectorAll('.filter');
     document.querySelector('.filter.selected')?.classList.remove('selected');
     filters.forEach((filter, index) => {
@@ -177,6 +185,7 @@ class Editor {
     this.listenAdjustments();
     this.listenCrop();
     this.listenDraw();
+    this.listenBorder();
     //TODO сюда добавятся методы и на другие опции
   }
 
@@ -521,6 +530,50 @@ class Editor {
   private listenDrawBackArrow(): void {
     document.getElementById('draw-arrow')?.addEventListener('click', (event) => {
       this.model.stopDrawOnCanvas();
+      event.stopPropagation();
+    });
+  }
+
+  //______________________________________________________BORDER
+  private listenBorder(): void {
+    this.listenDrawBorder();
+    this.listenBorderColorInput();
+    this.listenBorderLineWidthInput();
+    this.listenBorderBackArrow();
+  }
+
+  private listenDrawBorder(): void {
+    document.getElementById('border')?.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLLIElement) {
+        if (event.target.id === 'border') {
+          this.model.drawBorder();
+          event.stopPropagation();
+        }
+      }
+    });
+  }
+
+  private listenBorderColorInput(): void {
+    document.getElementById('border-color-input')?.addEventListener('input', () => {
+      this.model.borderColorChange();
+    });
+  }
+
+  private listenBorderLineWidthInput(): void {
+    document.getElementById('border-width')?.addEventListener('input', (event) => {
+      if (event.target instanceof HTMLInputElement) {
+        event.target.value = event.target.value.replace(/[^0-9 ]+/g, '');
+        if (event.target.value.startsWith('0')) {
+          event.target.value = '1';
+        }
+      }
+      this.model.borderLineWidthChange();
+    });
+  }
+
+  private listenBorderBackArrow(): void {
+    document.getElementById('border-arrow')?.addEventListener('click', (event) => {
+      this.model.stopDrawBorder();
       event.stopPropagation();
     });
   }

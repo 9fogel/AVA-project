@@ -52,6 +52,7 @@ class Controller {
     this.handleZoomIn();
     this.handleZoomOut();
     this.mail.handleMailController();
+    this.canvasDragOn();
   }
 
   private useFileInput(): void {
@@ -264,6 +265,19 @@ class Controller {
   private handleZoomOut(): void {
     document.querySelector('.remove-zoom')?.addEventListener('click', this.model.zoomOut);
   }
+  private canvasDragOn(): void {
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    canvas.addEventListener('mousedown', this.model.mouseDragEvents.mousedown);
+    canvas.addEventListener('mouseover', this.model.mouseDragEvents.mouseover);
+    document.querySelector('body')?.addEventListener('mousemove', this.model.mouseDragEvents.mousemove);
+    document.querySelector('body')?.addEventListener('mouseup', this.model.mouseDragEvents.mouseup);
+  }
+  // public canvasDragOff(): void {
+  //   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  //   canvas.removeEventListener('mousedown', this.model.mouseDragEvents.mousedown);
+  //   document.querySelector('body')?.removeEventListener('mousemove', this.model.mouseDragEvents.mousemove);
+  //   document.querySelector('body')?.removeEventListener('mouseup', this.model.mouseDragEvents.mouseup);
+  // }
 }
 
 export default Controller;

@@ -369,24 +369,6 @@ class Model {
       context.save();
       context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
       context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
-
-      if (CanvasState.parameters.imageRotate === false) {
-        context.drawImage(
-          this.image,
-          -this.canvas.width / 2,
-          -this.canvas.height / 2,
-          this.canvas.width,
-          this.canvas.height,
-        );
-      } else if (CanvasState.parameters.imageRotate === true) {
-        context.drawImage(
-          this.image,
-          -this.canvas.height / 2,
-          -this.canvas.width / 2,
-          this.canvas.height,
-          this.canvas.width,
-        );
-      }
       context.restore();
 
       drawCanvas.addEventListener('mousedown', this.mouseDrawEvents.mousedown);
@@ -396,9 +378,57 @@ class Model {
 
       document.querySelector('.draw-done-btn')?.addEventListener('click', async (e) => {
         e.stopPropagation();
-        if (this.image) {
-          this.image.src = drawCanvas.toDataURL();
-          await this.image.decode();
+
+        if (this.image && this.canvas) {
+          const newCanvas = document.createElement('canvas') as HTMLCanvasElement;
+          const newContext = newCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+          newCanvas.width = this.canvas.width;
+          newCanvas.height = this.canvas.height;
+
+          newContext.translate(this.canvas.width / 2, this.canvas.height / 2);
+          newContext.save();
+          newContext.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+          newContext.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
+          if (CanvasState.parameters.imageRotate === false) {
+            newContext.drawImage(
+              this.image,
+              -this.canvas.width / 2,
+              -this.canvas.height / 2,
+              this.canvas.width,
+              this.canvas.height,
+            );
+          } else if (CanvasState.parameters.imageRotate === true) {
+            newContext.drawImage(
+              this.image,
+              -this.canvas.height / 2,
+              -this.canvas.width / 2,
+              this.canvas.height,
+              this.canvas.width,
+            );
+          }
+          newContext.restore();
+
+          if (CanvasState.parameters.imageRotate === true) {
+            newContext.drawImage(
+              drawCanvas,
+              -drawCanvas.width / 2,
+              -drawCanvas.height / 2,
+              drawCanvas.width,
+              drawCanvas.height,
+            );
+          } else if (CanvasState.parameters.imageRotate === false) {
+            newContext.drawImage(
+              drawCanvas,
+              -drawCanvas.width / 2,
+              -drawCanvas.height / 2,
+              drawCanvas.width,
+              drawCanvas.height,
+            );
+          }
+
+          this.image.src = newCanvas.toDataURL();
 
           if (CanvasState.parameters.imageRotate === false) {
             CanvasState.parameters.imageflipVertical = 1;
@@ -411,7 +441,9 @@ class Model {
             CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
           }
 
-          this.applyСhanges();
+          this.image.onload = () => {
+            this.applyСhanges();
+          };
         }
         const doneBtn = document.querySelector('.draw-done-btn') as HTMLButtonElement;
         doneBtn.disabled = true;
@@ -431,6 +463,7 @@ class Model {
 
       context.clearRect(-drawCanvas.height / 2, -drawCanvas.width / 2, drawCanvas.height, drawCanvas.width);
       drawCanvas.style.display = 'none';
+      drawCanvas.style.cursor = 'auto';
 
       drawCanvas.removeEventListener('mousedown', this.mouseDrawEvents.mousedown);
       drawCanvas.removeEventListener('mouseup', this.mouseDrawEvents.mouseup);
@@ -440,6 +473,9 @@ class Model {
     doneBtn.disabled = true;
     const clearBtn = document.querySelector('.draw-clear-btn') as HTMLButtonElement;
     clearBtn.disabled = true;
+
+    CanvasState.parameters.strokeStyle = '#00d0c3';
+    CanvasState.parameters.lineWidth = 10;
   }
 
   public clearDrawing() {
@@ -476,7 +512,11 @@ class Model {
   public zoomIn = (): void => {
     if (checkSelectedTools() && this.canvas) {
       CanvasState.parameters.zoom += 0.2;
-      this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+      if (CanvasState.parameters.canvasTransformX === 0 && CanvasState.parameters.canvasTransformY === 0) {
+        this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+      } else {
+        this.canvas.style.transform = `translate(${CanvasState.parameters.canvasTransformX}px, ${CanvasState.parameters.canvasTransformY}px) scale(${CanvasState.parameters.zoom})`;
+      }
     }
     this.setZoom();
   };
@@ -485,7 +525,11 @@ class Model {
     if (checkSelectedTools() && this.canvas) {
       if (CanvasState.parameters.zoom - 0.2 >= 0) {
         CanvasState.parameters.zoom -= 0.2;
-        this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+        if (CanvasState.parameters.canvasTransformX === 0 && CanvasState.parameters.canvasTransformY === 0) {
+          this.canvas.style.transform = `translate(-50%, -50%) scale(${CanvasState.parameters.zoom})`;
+        } else {
+          this.canvas.style.transform = `translate(${CanvasState.parameters.canvasTransformX}px, ${CanvasState.parameters.canvasTransformY}px) scale(${CanvasState.parameters.zoom})`;
+        }
       } else {
         return;
       }
@@ -501,7 +545,183 @@ class Model {
     }
   }
 
-  private async applyСhanges(): Promise<void> {
+  public mouseDragEvents = {
+    mousedown(e: MouseEvent): void {
+      if (checkSelectedTools()) {
+        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+
+        canvas.style.cursor = 'grabbing';
+
+        const style = getComputedStyle(canvas);
+        const transform = new DOMMatrixReadOnly(style.transform);
+
+        const translateX = transform.m41;
+        const translateY = transform.m42;
+
+        CanvasState.parameters.canvasDragging = true;
+        CanvasState.parameters.canvasStartX = e.pageX - translateX;
+        CanvasState.parameters.canvasStartY = e.pageY - translateY;
+      }
+    },
+    mousemove(e: MouseEvent): void {
+      if (checkSelectedTools()) {
+        const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+        if (CanvasState.parameters.canvasDragging === true) {
+          const x = e.pageX - CanvasState.parameters.canvasStartX;
+          const y = e.pageY - CanvasState.parameters.canvasStartY;
+
+          CanvasState.parameters.canvasTransformX = x;
+          CanvasState.parameters.canvasTransformY = y;
+
+          canvas.style.transform = `translate(${x}px, ${y}px) scale(${CanvasState.parameters.zoom})`;
+        }
+      }
+    },
+    mouseup(): void {
+      const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+      if (checkSelectedTools()) {
+        CanvasState.parameters.canvasDragging = false;
+        canvas.style.cursor = 'grab';
+      }
+    },
+    mouseover(): void {
+      const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+      if (checkSelectedTools()) {
+        canvas.style.cursor = 'grab';
+      } else {
+        canvas.style.cursor = 'auto';
+      }
+    },
+  };
+
+  public drawBorder() {
+    if (this.canvas && this.context && this.image) {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+      drawCanvas.style.display = 'block';
+      drawCanvas.width = this.canvas?.width;
+      drawCanvas.height = this.canvas?.height;
+      context.translate(drawCanvas.width / 2, drawCanvas.height / 2);
+      context.save();
+      context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+      context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+      context.restore();
+
+      context.beginPath();
+      context.strokeStyle = CanvasState.parameters.canvasBorderColor;
+      context.lineWidth = CanvasState.parameters.canvasBorderWidth;
+      context.strokeRect(-drawCanvas.width / 2, -drawCanvas.height / 2, drawCanvas.width, drawCanvas.height);
+
+      document.querySelector('.border-done-btn')?.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (this.image && this.canvas) {
+          const newCanvas = document.createElement('canvas') as HTMLCanvasElement;
+          const newContext = newCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+          newCanvas.width = this.canvas.width;
+          newCanvas.height = this.canvas.height;
+
+          newContext.translate(this.canvas.width / 2, this.canvas.height / 2);
+          newContext.save();
+          newContext.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+          newContext.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
+          if (CanvasState.parameters.imageRotate === false) {
+            newContext.drawImage(
+              this.image,
+              -this.canvas.width / 2,
+              -this.canvas.height / 2,
+              this.canvas.width,
+              this.canvas.height,
+            );
+          } else if (CanvasState.parameters.imageRotate === true) {
+            newContext.drawImage(
+              this.image,
+              -this.canvas.height / 2,
+              -this.canvas.width / 2,
+              this.canvas.height,
+              this.canvas.width,
+            );
+          }
+          newContext.restore();
+
+          if (CanvasState.parameters.imageRotate === true) {
+            newContext.drawImage(
+              drawCanvas,
+              -drawCanvas.width / 2,
+              -drawCanvas.height / 2,
+              drawCanvas.width,
+              drawCanvas.height,
+            );
+          } else if (CanvasState.parameters.imageRotate === false) {
+            newContext.drawImage(
+              drawCanvas,
+              -drawCanvas.width / 2,
+              -drawCanvas.height / 2,
+              drawCanvas.width,
+              drawCanvas.height,
+            );
+          }
+
+          this.image.src = newCanvas.toDataURL();
+
+          if (CanvasState.parameters.imageRotate === false) {
+            CanvasState.parameters.imageflipVertical = 1;
+            CanvasState.parameters.imageflipHorizontal = 1;
+            CanvasState.parameters.imageRotateDegree = 0;
+          } else {
+            CanvasState.parameters.imageflipVertical = 1;
+            CanvasState.parameters.imageflipHorizontal = 1;
+            CanvasState.parameters.imageRotateDegree = 0;
+            CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
+          }
+
+          this.image.onload = () => {
+            this.applyСhanges();
+          };
+        }
+        const doneBtn = document.querySelector('.border-done-btn') as HTMLButtonElement;
+        doneBtn.disabled = true;
+      });
+    }
+
+    const doneBtn = document.querySelector('.border-done-btn') as HTMLButtonElement;
+    doneBtn.disabled = false;
+
+    if (!document.getElementById('border')?.classList.contains('selected')) {
+      this.stopDrawBorder();
+    }
+  }
+
+  public borderColorChange() {
+    const inputColor = document.getElementById('border-color-input') as HTMLInputElement;
+    CanvasState.parameters.canvasBorderColor = `${inputColor.value}`;
+    this.drawBorder();
+  }
+
+  public borderLineWidthChange() {
+    const inputLineWidth = document.getElementById('border-width') as HTMLInputElement;
+    CanvasState.parameters.canvasBorderWidth = Number(inputLineWidth.value);
+    this.drawBorder();
+  }
+
+  public stopDrawBorder() {
+    if (this.canvas && this.context) {
+      const drawCanvas = document.getElementById('canvas2') as HTMLCanvasElement;
+      const context = drawCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+      context.clearRect(-drawCanvas.height / 2, -drawCanvas.width / 2, drawCanvas.height, drawCanvas.width);
+      drawCanvas.style.display = 'none';
+    }
+    const doneBtn = document.querySelector('.border-done-btn') as HTMLButtonElement;
+    doneBtn.disabled = true;
+
+    CanvasState.parameters.canvasBorderColor = '#00d0c3';
+    CanvasState.parameters.canvasBorderWidth = 10;
+  }
+
+  public async applyСhanges(): Promise<void> {
     const changes = {
       canvas: document.getElementById('canvas') as HTMLCanvasElement,
       context: this.canvas?.getContext('2d') as CanvasRenderingContext2D,
