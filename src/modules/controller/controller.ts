@@ -35,7 +35,6 @@ class Controller {
   }
 
   public run(): void {
-    console.log('run controller');
     this.login.handleLogin();
     this.support.handleSupport();
     this.settings.handleSettings();
@@ -94,13 +93,11 @@ class Controller {
       uploadArea?.addEventListener('dragover', (event) => {
         this.highlightUploadArea('#00d0c3');
         event.preventDefault();
-        console.log('over area');
       });
 
       uploadArea?.addEventListener('dragleave', (event) => {
         this.highlightUploadArea('#c0c0be');
         event.preventDefault();
-        console.log('not over area');
       });
     }
   }
@@ -223,7 +220,6 @@ class Controller {
     });
 
     applyOptions?.addEventListener('click', () => {
-      console.log(`Download format - ${this.format}, quality - ${this.quality}`);
       this.model.downloadImage(this.format, this.quality);
     });
   }
