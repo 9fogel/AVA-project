@@ -369,24 +369,6 @@ class Model {
       context.save();
       context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
       context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
-
-      if (CanvasState.parameters.imageRotate === false) {
-        context.drawImage(
-          this.image,
-          -this.canvas.width / 2,
-          -this.canvas.height / 2,
-          this.canvas.width,
-          this.canvas.height,
-        );
-      } else if (CanvasState.parameters.imageRotate === true) {
-        context.drawImage(
-          this.image,
-          -this.canvas.height / 2,
-          -this.canvas.width / 2,
-          this.canvas.height,
-          this.canvas.width,
-        );
-      }
       context.restore();
 
       drawCanvas.addEventListener('mousedown', this.mouseDrawEvents.mousedown);
@@ -396,9 +378,57 @@ class Model {
 
       document.querySelector('.draw-done-btn')?.addEventListener('click', async (e) => {
         e.stopPropagation();
-        if (this.image) {
-          this.image.src = drawCanvas.toDataURL();
-          await this.image.decode();
+
+        if (this.image && this.canvas) {
+          const newCanvas = document.createElement('canvas') as HTMLCanvasElement;
+          const newContext = newCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+          newCanvas.width = this.canvas.width;
+          newCanvas.height = this.canvas.height;
+
+          newContext.translate(this.canvas.width / 2, this.canvas.height / 2);
+          newContext.save();
+          newContext.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+          newContext.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
+          if (CanvasState.parameters.imageRotate === false) {
+            newContext.drawImage(
+              this.image,
+              -this.canvas.width / 2,
+              -this.canvas.height / 2,
+              this.canvas.width,
+              this.canvas.height,
+            );
+          } else if (CanvasState.parameters.imageRotate === true) {
+            newContext.drawImage(
+              this.image,
+              -this.canvas.height / 2,
+              -this.canvas.width / 2,
+              this.canvas.height,
+              this.canvas.width,
+            );
+          }
+          newContext.restore();
+
+          if (CanvasState.parameters.imageRotate === true) {
+            newContext.drawImage(
+              drawCanvas,
+              -drawCanvas.width / 2,
+              -drawCanvas.height / 2,
+              drawCanvas.width,
+              drawCanvas.height,
+            );
+          } else if (CanvasState.parameters.imageRotate === false) {
+            newContext.drawImage(
+              drawCanvas,
+              -drawCanvas.width / 2,
+              -drawCanvas.height / 2,
+              drawCanvas.width,
+              drawCanvas.height,
+            );
+          }
+
+          this.image.src = newCanvas.toDataURL();
 
           if (CanvasState.parameters.imageRotate === false) {
             CanvasState.parameters.imageflipVertical = 1;
@@ -411,7 +441,9 @@ class Model {
             CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
           }
 
-          this.applyСhanges();
+          this.image.onload = () => {
+            this.applyСhanges();
+          };
         }
         const doneBtn = document.querySelector('.draw-done-btn') as HTMLButtonElement;
         doneBtn.disabled = true;
@@ -574,24 +606,6 @@ class Model {
       context.save();
       context.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
       context.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
-
-      if (CanvasState.parameters.imageRotate === false) {
-        context.drawImage(
-          this.image,
-          -this.canvas.width / 2,
-          -this.canvas.height / 2,
-          this.canvas.width,
-          this.canvas.height,
-        );
-      } else if (CanvasState.parameters.imageRotate === true) {
-        context.drawImage(
-          this.image,
-          -this.canvas.height / 2,
-          -this.canvas.width / 2,
-          this.canvas.height,
-          this.canvas.width,
-        );
-      }
       context.restore();
 
       context.beginPath();
@@ -601,9 +615,56 @@ class Model {
 
       document.querySelector('.border-done-btn')?.addEventListener('click', async (e) => {
         e.stopPropagation();
-        if (this.image) {
-          this.image.src = drawCanvas.toDataURL();
-          await this.image.decode();
+        if (this.image && this.canvas) {
+          const newCanvas = document.createElement('canvas') as HTMLCanvasElement;
+          const newContext = newCanvas?.getContext('2d') as CanvasRenderingContext2D;
+
+          newCanvas.width = this.canvas.width;
+          newCanvas.height = this.canvas.height;
+
+          newContext.translate(this.canvas.width / 2, this.canvas.height / 2);
+          newContext.save();
+          newContext.scale(CanvasState.parameters.imageflipVertical, CanvasState.parameters.imageflipHorizontal);
+          newContext.rotate((CanvasState.parameters.imageRotateDegree * Math.PI) / 180);
+
+          if (CanvasState.parameters.imageRotate === false) {
+            newContext.drawImage(
+              this.image,
+              -this.canvas.width / 2,
+              -this.canvas.height / 2,
+              this.canvas.width,
+              this.canvas.height,
+            );
+          } else if (CanvasState.parameters.imageRotate === true) {
+            newContext.drawImage(
+              this.image,
+              -this.canvas.height / 2,
+              -this.canvas.width / 2,
+              this.canvas.height,
+              this.canvas.width,
+            );
+          }
+          newContext.restore();
+
+          if (CanvasState.parameters.imageRotate === true) {
+            newContext.drawImage(
+              drawCanvas,
+              -drawCanvas.width / 2,
+              -drawCanvas.height / 2,
+              drawCanvas.width,
+              drawCanvas.height,
+            );
+          } else if (CanvasState.parameters.imageRotate === false) {
+            newContext.drawImage(
+              drawCanvas,
+              -drawCanvas.width / 2,
+              -drawCanvas.height / 2,
+              drawCanvas.width,
+              drawCanvas.height,
+            );
+          }
+
+          this.image.src = newCanvas.toDataURL();
 
           if (CanvasState.parameters.imageRotate === false) {
             CanvasState.parameters.imageflipVertical = 1;
@@ -616,7 +677,9 @@ class Model {
             CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
           }
 
-          this.applyСhanges();
+          this.image.onload = () => {
+            this.applyСhanges();
+          };
         }
         const doneBtn = document.querySelector('.border-done-btn') as HTMLButtonElement;
         doneBtn.disabled = true;
@@ -658,7 +721,7 @@ class Model {
     CanvasState.parameters.canvasBorderWidth = 10;
   }
 
-  private async applyСhanges(): Promise<void> {
+  public async applyСhanges(): Promise<void> {
     const changes = {
       canvas: document.getElementById('canvas') as HTMLCanvasElement,
       context: this.canvas?.getContext('2d') as CanvasRenderingContext2D,
