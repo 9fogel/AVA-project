@@ -67,8 +67,7 @@
   gap: 2px;
 }
 
-.custom-wrap:hover {
-  cursor: pointer;
+.custom-wrap.selected {
   color: $blue;
 
   .crop-icon {
@@ -485,7 +484,7 @@
 }
 
 .width-number-input {
-  width: 61px;
+  width: 64px;
 }
 
 .width-sign {

@@ -301,7 +301,7 @@ class Editor {
     const widthInput = document.getElementById('width-input');
     const heightInput = document.getElementById('height-input');
     inputs.forEach((input) => {
-      input.addEventListener('change', (event) => {
+      input.addEventListener('input', (event) => {
         if (event.target instanceof HTMLInputElement) {
           event.target.value = event.target.value.replace(/[^0-9 ]+/g, '');
           if (event.target.value.startsWith('0')) {

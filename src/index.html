@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/crop-icon.svg">
     <title>AVAeditor - online tool for editing photos and images</title>
   </head>
   <body>
@@ -31,7 +32,7 @@
                 <input class="support-input" type="email" id="contact-email">
                 <p class="support-message"></p>
               </div>
-              <div class="modal-input-wrap user-name-wrap">
+              <div class="support-input-wrap">
                 <label class="support-label">Message</label>
                 <textarea class="support-textarea" name="message-to-support" id="message-to-support" cols="30" rows="10" maxlength="600" placeholder="Message length should be at least 10, maximum 600 characters"></textarea>
                 <p class="support-message support-counter-message">0/600</p>
@@ -161,8 +162,8 @@
         <div class="edit-area hidden">
           <div class="undo-controls">
             <button class="button reset-btn">Reset All Changes</button>
-            <button class="button undo-btn">Undo</button>
-            <button class="button redo-btn">Redo</button>
+            <button class="button undo-btn hidden">Undo</button>
+            <button class="button redo-btn hidden">Redo</button>
           </div>
           <div class="zoom-controls">
             <div class="remove-zoom"></div>
@@ -270,10 +271,12 @@
                     <div class="back-arrow" id="crop-arrow"></div>
                     <div class="controls-content">
                       <span class="option-title">Crop</span>
-                      <div class="crop-wrap tooltip">
-                        <span class="tooltiptext">Choose selection tool color and shape</span>
-                        <input class="crop-input" type="color" id="crop-color-input" value="#00d0c3" />
-                        <div class="custom-wrap">
+                      <div class="crop-wrap">
+                        <div class="tooltip">
+                          <input class="crop-input" type="color" id="crop-color-input" value="#00d0c3" />
+                          <span class="tooltiptext">Choose selection tool color</span>
+                        </div>
+                        <div class="custom-wrap selected">
                           <span class="crop-text">Custom</span>
                           <div class="crop-icon"></div>
                         </div>
@@ -475,7 +478,6 @@
                   </div>
                 </div>
               </li>
-              <li class="tool-item text-tool" id="text">Text</li>
               <li class="tool-item border-tool" id="border">Border
                 <div class="option-controls border-option-controls">
                   <div class="border-controls border-list hidden" id="border-list">
@@ -514,7 +516,7 @@
                           <div class="width-icon"></div>
                           <div class="width-input-wrap">
                             <input class="option-input width-number-input"  id="draw-width" type="text" min="0" value="10"
-                              maxlength="2" />
+                              maxlength="3" />
                             <span class="width-sign">px</span>
                           </div>
                         </div>
