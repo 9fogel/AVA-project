@@ -271,9 +271,11 @@
                     <div class="back-arrow" id="crop-arrow"></div>
                     <div class="controls-content">
                       <span class="option-title">Crop</span>
-                      <div class="crop-wrap tooltip">
-                        <span class="tooltiptext">Choose selection tool color and shape</span>
-                        <input class="crop-input" type="color" id="crop-color-input" value="#00d0c3" />
+                      <div class="crop-wrap">
+                        <div class="tooltip">
+                          <input class="crop-input" type="color" id="crop-color-input" value="#00d0c3" />
+                          <span class="tooltiptext">Choose selection tool color</span>
+                        </div>
                         <div class="custom-wrap selected">
                           <span class="crop-text">Custom</span>
                           <div class="crop-icon"></div>
@@ -514,7 +516,7 @@
                           <div class="width-icon"></div>
                           <div class="width-input-wrap">
                             <input class="option-input width-number-input"  id="draw-width" type="text" min="0" value="10"
-                              maxlength="2" />
+                              maxlength="3" />
                             <span class="width-sign">px</span>
                           </div>
                         </div>
