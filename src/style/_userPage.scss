@@ -109,7 +109,6 @@
   height: 1px;
   content: '';
   background-color: $gray;
-  // opacity: 0.8;
 }
 
 .info-title {
@@ -208,7 +207,6 @@
 .update-password-btn,
 .confirm-deletion-btn,
 .get-premium-btn {
-  // justify-self: flex-start;
   align-self: self-start;
   margin-top: 2px;
   padding: 18px 33px 18px 54px;
@@ -266,10 +264,6 @@
 }
 
 .get-premium-btn {
-  // padding-top: 18px;
-  // padding-bottom: 18px;
-  // color: $black;
-  // font-weight: bold;
   background-image: url('img/premium-icon.svg');
 }
 
