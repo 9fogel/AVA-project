@@ -24,20 +24,6 @@ function findIndexError(error: ValidError, value: string): number {
 //Пеписать запросы в один или два и переписать в соответстии с этим контроллер
 
 class AuthModel {
-  // async getUsers() {
-  //   const response = await fetch(`${Baseurl}/auth/users/`, {});
-
-  //   const data = await response.json();
-  //   if (!response.ok) {
-  //     console.error(`Erros:${response.status}`);
-  //   }
-  //   if (!data) {
-  //     console.log('data not found');
-  //   } else {
-  //     console.log(data);
-  //   }
-  // }
-
   async registrationUser(username: string, userEmail: string, password: string) {
     const response = await fetch(`${Baseurl}/auth/registration/`, {
       method: 'POST',
@@ -148,7 +134,6 @@ class AuthModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`, data);
     }
-    console.log(JSON.stringify(data));
     return data;
   }
 
@@ -158,7 +143,6 @@ class AuthModel {
       headers: {
         'Content-Type': 'application/json',
 
-        //Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('JWT')}`,
       },
       body: JSON.stringify({ password }),
@@ -178,7 +162,6 @@ class AuthModel {
       headers: {
         'Content-Type': 'application/json',
 
-        //Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('JWT')}`,
       },
       body: JSON.stringify({ password }),
@@ -188,7 +171,6 @@ class AuthModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`);
     }
-    //console.log(data);
     return data;
   }
 
@@ -214,7 +196,6 @@ class AuthModel {
       headers: {
         'Content-Type': 'application/json',
 
-        //Accept: 'application/json',
         Authorization: `Bearer ${localStorage.getItem('JWT')}`,
       },
       body: JSON.stringify({ key }),

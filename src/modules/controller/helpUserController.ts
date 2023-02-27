@@ -45,7 +45,6 @@ class HelpMethodsUser {
       buttonLogin.classList.remove('hidden');
       buttonName.classList.add('hidden');
       buttonName.textContent = 'User Profil';
-      //this.JWT =
       localStorage.setItem('JWT', '');
 
       State.userState = 'default';
@@ -130,7 +129,6 @@ class HelpMethodsUser {
   }
 
   public controlInputLength(input: HTMLInputElement, button: HTMLButtonElement) {
-    //if (input && button) {
     input.addEventListener('input', () => {
       if (input.value.length < 10 || input.value.length > 600) {
         button.setAttribute('disabled', '');
@@ -138,7 +136,6 @@ class HelpMethodsUser {
         button.removeAttribute('disabled');
       }
     });
-    //}
   }
 
   public writeMessageLength(input: HTMLInputElement, container: HTMLElement) {

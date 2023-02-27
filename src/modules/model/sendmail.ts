@@ -16,7 +16,7 @@ class MailModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`);
     }
-    //console.log(data);
+
     return data;
   }
 
@@ -49,7 +49,7 @@ class MailModel {
     if (!response.ok) {
       console.error(`Erros:${response.status}`);
     }
-    //console.log(data);
+
     return data;
   }
 }
