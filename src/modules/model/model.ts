@@ -798,8 +798,6 @@ class Model {
         this.context.putImageData(croppedImage, 0, 0);
 
         this.image.src = this.canvas.toDataURL();
-
-        await this.image.decode();
       },
     };
 
@@ -816,18 +814,22 @@ class Model {
         } else if (CanvasState.parameters.imageCrop === true) {
           changes.drawImage();
 
-          await changes.updateImage();
+          changes.updateImage();
 
           CanvasState.parameters.imageflipVertical = 1;
           CanvasState.parameters.imageflipHorizontal = 1;
           CanvasState.parameters.imageRotateDegree = 0;
 
-          CanvasState.parameters.imageWidth = this.canvas.width = this.image.naturalWidth;
-          CanvasState.parameters.imageHeight = this.canvas.height = this.image.naturalHeight;
+          this.image.onload = () => {
+            if (this.canvas && this.image) {
+              CanvasState.parameters.imageWidth = this.canvas.width = this.image.naturalWidth;
+              CanvasState.parameters.imageHeight = this.canvas.height = this.image.naturalHeight;
 
-          changes.applyFilter();
-          changes.drawImage();
-          changes.applyColor();
+              changes.applyFilter();
+              changes.drawImage();
+              changes.applyColor();
+            }
+          };
         }
       } else if (CanvasState.parameters.imageRotate === true) {
         if (CanvasState.parameters.imageCrop === false) {
@@ -837,21 +839,23 @@ class Model {
         } else if (CanvasState.parameters.imageCrop === true) {
           changes.drawImageAfterRotate();
 
-          await changes.updateImage();
+          changes.updateImage();
 
           CanvasState.parameters.imageflipVertical = 1;
           CanvasState.parameters.imageflipHorizontal = 1;
           CanvasState.parameters.imageRotateDegree = 0;
           CanvasState.parameters.imageRotate = !CanvasState.parameters.imageRotate;
 
-          CanvasState.parameters.imageWidth = this.canvas.width = this.image.naturalWidth;
-          CanvasState.parameters.imageHeight = this.canvas.height = this.image.naturalHeight;
+          this.image.onload = () => {
+            if (this.canvas && this.image) {
+              CanvasState.parameters.imageWidth = this.canvas.width = this.image.naturalWidth;
+              CanvasState.parameters.imageHeight = this.canvas.height = this.image.naturalHeight;
 
-          changes.applyFilter();
-
-          changes.drawImage();
-
-          changes.applyColor();
+              changes.applyFilter();
+              changes.drawImage();
+              changes.applyColor();
+            }
+          };
         }
       }
     }
