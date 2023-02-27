@@ -78,12 +78,6 @@ h1 {
   transition: ease-in-out .3s;
 }
 
-// .button:disabled {
-//   cursor: default;
-//   background-color: gray;
-//   box-shadow: none;
-// }
-
 .button:active {
   background-color: $yellow-hover;
   box-shadow: none;

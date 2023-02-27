@@ -303,7 +303,6 @@
   top: 50%;
   transform: translateY(-50%);
   right: 8px;
-  // font-size: 14px;
 }
 
 .download-buttons-wrap {
@@ -338,7 +337,6 @@
 
 .apply-download-btn:hover {
   cursor: pointer;
-  // background-color: $blue-hover;
   box-shadow: $shadow-medium;
 }
 
@@ -351,7 +349,6 @@
   position: absolute;
   top: -12px;
   right: 10%;
-  // right: 13px;
   display: block;
   margin: 0 auto;
   width: 0;
@@ -591,7 +588,7 @@
   bottom: 130%;
   left: 50%;
   display: none;
-  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  margin-left: -60px;
   min-width: 120px;
   padding: 4px 12px;
   font-size: 12px;
@@ -604,7 +601,7 @@
 .tooltip .tooltiptext::after {
   content: " ";
   position: absolute;
-  top: 100%; /* At the bottom of the tooltip */
+  top: 100%;
   left: 50%;
   margin-left: -5px;
   border-width: 5px;
@@ -621,7 +618,6 @@
   margin-left: 0;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
