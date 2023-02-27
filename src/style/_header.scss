@@ -1,0 +1,379 @@
+.header {
+  margin: 8px auto 40px;
+  font-weight: bold;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 36px;
+}
+
+.logo-highlighted {
+  color: $blue;
+}
+
+.user-content {
+  position: relative;
+  display: flex;
+  gap: 117px;
+}
+
+.login-btn,
+.profile-btn {
+  padding-left: 54px;
+  background-image: url('img/user-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.header-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.support,
+.settings {
+  width: 40px;
+  height: 40px;
+  background-image: url('img/settings-icon.svg');
+  border-radius: 50%;
+}
+
+.support {
+  background-image: url('img/help-icon.svg');
+}
+
+.settings {
+  background-image: url('img/settings-icon.svg');
+}
+
+.support:hover,
+.settings:hover {
+  cursor: pointer;
+  border-radius: 50%;
+  transition: ease-in-out .3s;
+}
+
+.support:hover {
+  background-image: url('img/help-icon-hover.svg');
+}
+
+.support.active {
+  background-image: url('img/help-icon-hover.svg');
+}
+
+.settings:hover {
+  background-image: url('img/settings-icon-hover.svg');
+}
+
+.settings.active {
+  background-image: url('img/settings-icon-hover.svg');
+}
+
+.support-menu,
+.settings-menu {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  z-index: 4;
+  padding: 16px 16px 24px;
+  width: 282px;
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: 4px -4px 8px 0px #0000001a, -4px 4px 8px 0px #0000001a;
+  transition: ease-in-out .3s;
+}
+
+.support-menu {
+  right: 52px;
+}
+
+.support-title,
+.settings-title {
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.support-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.support-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 400;
+}
+
+.support-input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.support-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: $light-black;
+}
+
+.support-input,
+.support-textarea {
+  padding: 12px 16px;
+  width: 100%;
+  color: $black;
+  background-color: $light-gray;
+  border: none;
+  border-radius: $border-radius;
+  outline: 0;
+}
+
+.support-input {
+  height: 60px;
+}
+
+.support-message {
+  font-size: 12px;
+  font-weight: bold;
+  color: $red;
+}
+
+.support-counter-message {
+  text-align: right;
+  color: $light-black;
+}
+
+textarea::-webkit-scrollbar {
+  width: 0.7em;
+}
+
+textarea::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: $light-gray;
+  border-radius: $border-radius;
+  outline: 1px solid $gray;
+}
+
+.support-btn:disabled {
+  cursor: default;
+  background-color: $black-opacity;
+  opacity: 0.8;
+}
+
+.support-btn:disabled:hover {
+  box-shadow: none;
+  background-color: $black-opacity;
+  opacity: 0.8;
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-weight: 400;
+}
+
+.theme-item {
+  display: flex;
+  gap: 8px;
+}
+
+.toggle-wrap {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  background-color: $black-opacity;
+  border-radius: 24px;
+}
+
+.toggle-wrap.active {
+  background-color: $blue;
+}
+
+.theme-checkbox {
+  cursor: pointer;
+  z-index: 3;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.theme-label::after {
+  cursor: pointer;
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-color: $white;
+  border-radius: 50%;
+  transition: left 0.3s ease-in-out, right 0.3s ease-in-out;
+}
+
+.toggle-wrap.active .theme-label::after{
+  left: 3px;
+}
+
+.tooltips-choice-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tooltips-choice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  height: 40px;
+  background-color: $gray-selected;
+  border-radius: $border-radius-btn;
+}
+
+.tooltips-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 118px;
+  height: 32px;
+  color: $blue;
+  background-color: $gray-selected;
+  border-radius: $border-radius-btn;
+  transition: ease-in-out .3s;
+}
+
+.tooltips-wrap:hover {
+  cursor: pointer;
+}
+
+.tooltips-wrap.selected {
+  color: $black;
+  background-color: $blue;
+}
+
+.radio-check {
+  position: absolute;
+  clip: rect(0,0,0,0);
+  pointer-events: none;
+}
+
+.tooltips-btn {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.support-arrow,
+.settings-arrow {
+  position:absolute;
+  top: -12px;
+  right: 13px;
+  display: block;
+  margin: 0 auto;
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid $white;
+}
+
+//dark theme styles
+.dark-theme {
+  .support {
+    background-image: url('img/dark-help-icon.svg');
+  }
+
+  .support:hover {
+    background-image: url('img/help-icon-hover.svg');
+  }
+
+  .support.active {
+    background-image: url('img/help-icon-hover.svg');
+  }
+
+  textarea::-webkit-scrollbar-thumb {
+    background-color: $light-black;
+    outline: 1px solid $black;
+  }
+
+  .support-counter-message {
+    color: $light-gray;
+  }
+
+  .support-btn:disabled {
+    cursor: default;
+    background-color: $white;
+    opacity: 0.2;
+  }
+
+  .support-btn:disabled:hover {
+    box-shadow: none;
+    background-color: $white;
+    opacity: 0.2;
+  }
+
+  .settings {
+    background-image: url('img/dark-settings-icon.svg');
+  }
+
+  .settings:hover {
+    background-image: url('img/dark-settings-icon-hover.svg');
+  }
+
+  .settings.active {
+    background-image: url('img/dark-settings-icon-hover.svg');
+  }
+
+  .support-menu,
+  .settings-menu {
+    background-color: $black;
+    box-shadow: 4px -4px 8px 0px #99ece71a, -4px 4px 8px 0px #99ece71a;
+  }
+
+  .support-label {
+    color: $light-gray;
+  }
+
+  .support-input,
+  .support-textarea {
+    color: $white;
+    background-color: $light-black;
+  }
+
+  .support-textarea::placeholder {
+    color: $gray;
+  }
+
+  .tooltips-choice {
+    background-color: $light-black;
+  }
+
+  .tooltips-wrap {
+    background-color: $light-black;
+  }
+
+  .tooltips-wrap.selected {
+    background-color: $blue;
+  }
+
+  .support-arrow,
+  .settings-arrow {
+    border-bottom: 6px solid $black;
+  }
+}

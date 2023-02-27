@@ -1,0 +1,595 @@
+.option-controls {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -58px;
+  z-index: 3;
+  background-color: $white;
+  border-radius: $border-radius;
+  box-shadow: $shadow-medium;
+}
+
+.crop-controls,
+.resize-controls,
+.rotate-controls {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px;
+}
+
+.back-arrow {
+  width: 24px;
+  height: 24px;
+  background-image: url('img/arrow-back-icon.svg');
+}
+
+.back-arrow:hover {
+  cursor: pointer;
+  background-image: url('img/arrow-back-icon-hover.svg');
+}
+
+.controls-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.option-title {
+  font-size: 14px;
+  line-height: 29px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+//_______________________________________________CROP
+.crop-controls.hidden {
+  display: none;
+}
+
+.crop-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.crop-input {
+  padding: 0px 2px;
+}
+
+.crop-input:hover {
+  cursor: pointer;
+}
+
+.custom-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.custom-wrap.selected {
+  color: $blue;
+
+  .crop-icon {
+    background-image: url('img/crop-icon-hover.svg');
+  }
+}
+
+.crop-text {
+  font-size: 14px;
+}
+
+.crop-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('img/crop-icon.svg');
+}
+
+//_______________________________________________RESIZE
+.resize-option-controls {
+  top: -62px;
+}
+
+.resize-controls.hidden {
+  display: none;
+}
+
+.size-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.option-input {
+  padding: 5px 6px 4px;
+  width: 66px;
+  border-radius: $border-radius;
+  outline: 0;
+}
+
+.option-input:focus {
+  border-color: $blue;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.option-input::-webkit-outer-spin-button,
+.option-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.option-input[type=number] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.option-input::-webkit-input-placeholder {
+  color: $gray;
+}
+
+.proportions {
+  width: 24px;
+  height: 24px;
+}
+
+.proportions {
+  cursor: pointer;
+  background-image: url('img/unlock-proportions-icon.svg');
+}
+
+.proportions:hover {
+  background-image: url('img/unlock-proportions-icon-hover.svg');
+}
+
+.proportions.locked {
+  background-image: url('img/lock-proportions-icon.svg');
+}
+
+.proportions.locked:hover {
+  background-image: url('img/lock-proportions-icon-hover.svg');
+}
+
+.border-done-btn,
+.draw-done-btn,
+.draw-clear-btn,
+.crop-done-btn,
+.done-btn {
+  padding: 2px 17px;
+  width: 58px;
+  height: 28px;
+  background-color: $blue;
+  background-image: url('img/done-icon.svg');
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: $border-radius;
+}
+
+.draw-clear-btn {
+  background-image: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 29px;
+  text-transform: uppercase;
+  vertical-align: middle;
+  color: $black;
+}
+
+.draw-clear-btn .tooltiptext {
+  font-weight: 400;
+  text-transform: none;
+  line-height: 1.15;
+}
+
+.border-done-btn:hover,
+.draw-done-btn:hover,
+.draw-clear-btn:hover,
+.crop-done-btn:hover,
+.done-btn:hover {
+  background-color: $blue-hover;
+  box-shadow: $shadow-large;
+  transition: ease-in-out 0.3s;
+}
+
+.border-done-btn:disabled,
+.draw-done-btn:disabled,
+.draw-clear-btn:disabled,
+.crop-done-btn:disabled,
+.done-btn:disabled {
+  cursor: default;
+  background-color: #2d294280;
+  opacity: 0.7;
+}
+//_______________________________________________FLIP & ROTATE
+.rotate-controls {
+  width: 344px;
+  padding: 9px 8px;
+
+  .option-title {
+    line-height: 1px;
+  }
+}
+
+.rotate-controls.hidden {
+  display: none;
+}
+
+.flip-vert,
+.flip-hor,
+.rotate-left,
+.rotate-right {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.flip-vert {
+  background-image: url('img/flip-vertically-icon.svg');
+}
+
+.flip-vert:hover {
+  background-image: url('img/flip-vertically-icon-hover.svg');
+}
+
+.flip-hor {
+  background-image: url('img/flip-horizontally-icon.svg');
+}
+
+.flip-hor:hover {
+  background-image: url('img/flip-horizontally-icon-hover.svg');
+}
+
+.rotate-left {
+  background-image: url('img/rotate-left-icon.svg');
+}
+
+.rotate-left:hover {
+  background-image: url('img/rotate-left-icon-hover.svg');
+}
+
+.rotate-right {
+  background-image: url('img/rotate-right-icon.svg');
+}
+
+.rotate-right:hover {
+  background-image: url('img/rotate-right-icon-hover.svg');
+}
+
+//_______________________________________________FILTERS
+.filter-option-controls {
+  top: -185px;
+}
+
+.filters-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items:flex-start;
+  padding: 32px 120px;
+  width: 100%;
+  height: 170px;
+  font-weight: bold;
+  text-align: center;
+  color: $white;
+  background-color: $black;
+  border-radius: $border-radius;
+  opacity: 0.7;
+}
+
+.filters-message.hidden {
+  display: none;
+}
+
+.filters-controls {
+  cursor: default;
+  width: 795px;
+  top: -108px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 8px;
+}
+
+.filters-controls.hidden {
+  display: none;
+}
+
+.filter-wrap {
+  position: relative;
+}
+
+.user-filter:after,
+.premium-filter:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  background-color: $yellow;
+
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-position: 50%;
+  border-radius: 50%;
+  content: '';
+}
+
+.user-filter:after {
+  background-image: url('img/user-icon.svg');
+}
+
+.premium-filter:after {
+  background-image: url('img/premium-icon.svg');
+}
+
+.user-filter:hover.user-filter:after {
+  background-color: $yellow-hover;
+}
+
+.filter {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 76px;
+  height: 76px;
+  border-radius: $border-radius;
+}
+
+.filter:hover {
+  border: 2px solid $blue;
+}
+
+.filter.selected {
+  border: 2px solid $blue;
+}
+
+.filter-title {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  color: $white;
+  background-color: $black;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  opacity: 0.7;
+}
+//_______________________________________________ADJUSTMENTS
+.adjustments-option-controls {
+  top: -62px;
+}
+
+.adjustments-controls {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px;
+  width: fit-content;
+}
+
+.adjustments-controls.hidden {
+  display: none;
+}
+
+.range-wrapper {
+  cursor: pointer;
+  position: relative;
+  padding-top: 1px;
+  width: 246px;
+  min-height: 4px;
+}
+
+.adjust-range-input {
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background-color: $black;
+}
+
+.adjust-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: all;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  background-color: $blue;
+  border-radius: 50%;
+}
+
+.adjust-range-input::-webkit-slider-thumb:hover {
+  box-shadow: $shadow-large;
+}
+
+.percentage-input-wrap {
+  position: relative;
+}
+
+.adjust-number-input {
+  width: 61px;
+}
+
+.percentage-sign {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+}
+
+//_______________________________________________BORDER & DRAW
+.border-option-controls,
+.draw-option-controls {
+  top: -62px;
+}
+
+.border-controls,
+.draw-controls {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 8px;
+  width: fit-content;
+}
+
+.border-controls.hidden,
+.draw-controls.hidden {
+  display: none;
+}
+
+.border-wrap,
+.draw-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.border-input,
+.draw-input {
+  padding: 0px 2px;
+}
+
+.border-input:hover,
+.draw-input:hover {
+  cursor: pointer;
+}
+
+.width-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.width-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('img/width-icon.svg');
+}
+
+.width-input-wrap {
+  position: relative;
+}
+
+.width-number-input {
+  width: 64px;
+}
+
+.width-sign {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+}
+
+//dark theme styles
+.dark-theme {
+  .option-controls {
+    background-color: $black;
+  }
+
+  .back-arrow {
+    background-image: url('img/dark-arrow-back-icon.svg');
+  }
+
+  .back-arrow:hover {
+    background-image: url('img/arrow-back-icon-hover.svg');
+  }
+
+  .crop-input,
+  .border-input,
+  .draw-input {
+    color-scheme: dark;
+  }
+
+  .crop-icon {
+    background-image: url('img/dark-crop-icon.svg');
+  }
+
+  .option-input {
+    color-scheme: dark;
+    background-color: $black;
+    border-color: $white;
+  }
+
+  .option-input:focus {
+    border-color: $blue;
+  }
+
+  .proportions {
+    background-image: url('img/dark-unlock-proportions-icon.svg');
+  }
+
+  .proportions:hover {
+    background-image: url('img/unlock-proportions-icon-hover.svg');
+  }
+
+  .proportions.locked {
+    background-image: url('img/dark-lock-proportions-icon.svg');
+  }
+
+  .proportions.locked:hover {
+    background-image: url('img/lock-proportions-icon-hover.svg');
+  }
+
+  .border-done-btn:disabled,
+  .draw-done-btn:disabled,
+  .draw-clear-btn:disabled,
+  .crop-done-btn:disabled,
+  .done-btn:disabled {
+    background-color: $white;
+    opacity: 0.2;
+  }
+
+  .flip-vert {
+    background-image: url('img/dark-flip-vertically-icon.svg');
+  }
+
+  .flip-vert:hover {
+    background-image: url('img/flip-vertically-icon-hover.svg');
+  }
+
+  .flip-hor {
+    background-image: url('img/dark-flip-horizontally-icon.svg');
+  }
+
+  .flip-hor:hover {
+    background-image: url('img/flip-horizontally-icon-hover.svg');
+  }
+
+  .rotate-left {
+    background-image: url('img/dark-rotate-left-icon.svg');
+  }
+
+  .rotate-left:hover {
+    background-image: url('img/rotate-left-icon-hover.svg');
+  }
+
+  .rotate-right {
+    background-image: url('img/dark-rotate-right-icon.svg');
+  }
+
+  .rotate-right:hover {
+    background-image: url('img/rotate-right-icon-hover.svg');
+  }
+
+  .adjust-range-input {
+    background-color: $white;
+  }
+
+  .width-icon {
+    background-image: url('img/dark-width-icon.svg');
+  }
+}

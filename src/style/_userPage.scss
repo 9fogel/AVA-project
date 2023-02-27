@@ -1,0 +1,406 @@
+.profile-page-wrapper {
+  display: grid;
+  grid-template-columns: 3fr 9fr;
+  min-height: 65vh;
+  background-color: $light-gray;
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  transition: ease-in-out .3s;
+}
+
+.profile-page-wrapper.hidden {
+  display: none;
+}
+
+.profile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  font-size: 20px;
+  background-color: $white;
+}
+
+.user-account-content,
+.get-premium-content {
+  position: relative;
+  padding: 42px 20px 32px 32px;
+}
+
+.return-btn {
+  position: absolute;
+  right: 20px;
+  top: 16px;
+  padding-left: 52px;
+  font-weight: 400;
+  background-color: transparent;
+  background-image: url('img/back-to-editor-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.nav-item {
+  cursor: pointer;
+  padding: 14px 56px;
+  border-radius: $border-radius;
+}
+
+.nav-item.selected {
+  padding: 14px 56px;
+  font-weight: bold;
+  background-color: $light-gray;
+}
+
+.nav-item:hover {
+  color: $blue;
+  transition: ease-in-out .3s;
+}
+
+.account-item {
+  background-image: url('img/user-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.premium-item {
+  background-image: url('img/premium-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.sign-out-item {
+  background-image: url('img/sign-out-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+}
+
+.account-item:hover {
+  background-image: url('img/user-icon-hover.svg');
+}
+
+.premium-item:hover {
+  background-image: url('img/premium-icon-hover.svg');
+}
+
+.sign-out-item:hover {
+  background-image: url('img/sign-out-icon-hover.svg');
+}
+
+.profile-title {
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.user-info {
+  position: relative;
+  margin-bottom: 64px;
+}
+
+.user-info::after {
+  position: absolute;
+  left: 0;
+  bottom: -32px;
+  width: 100%;
+  height: 1px;
+  content: '';
+  background-color: $gray;
+}
+
+.info-title {
+  margin-bottom: 32px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-input-wrap {
+  display: flex;
+  gap: 16px;
+}
+
+.info-input-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: -20px;
+}
+
+.info-password-content {
+  display: flex;
+  gap: 16px;
+}
+
+.info-password-content.hidden {
+  display: none;
+}
+
+.change-password-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.info-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: $light-black;
+}
+
+.info-input,
+.change-password-input,
+.confirm-deletion-input,
+.promo-input {
+  padding: 12px 16px;
+  height: 60px;
+  color: $black;
+  background-color: $white;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: calc(100% - 16px) 50%;
+  border: 1px solid $black;
+  border-radius: $border-radius;
+  outline: 0;
+}
+
+.info-input {
+  width: 389px;
+  background-image: url('img/edit-icon.svg');
+}
+
+.info-input:hover {
+  cursor: pointer;
+}
+
+.change-password-input,
+.promo-input {
+  width: 267px;
+}
+
+.confirm-deletion-input {
+  width: 389px;
+}
+
+.change-password-input:focus,
+.info-input:focus,
+.confirm-deletion-input:focus {
+  border-color: $blue;
+}
+
+.info-message {
+  padding-bottom: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: $red;
+}
+
+.save-changes-btn,
+.update-password-btn,
+.confirm-deletion-btn,
+.get-premium-btn {
+  align-self: self-start;
+  margin-top: 2px;
+  padding: 18px 33px 18px 54px;
+  font-weight: bold;
+  color: $black;
+  background-color: $blue;
+  background-image: url('img/save-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+  border-radius: $border-radius-btn;
+  box-shadow: $shadow-medium;
+}
+
+.update-password-btn {
+  background-image: url('img/change-password-icon.svg');
+}
+
+.save-changes-btn:hover,
+.update-password-btn:hover {
+  background-color: $blue-hover;
+}
+
+.update-password-btn:disabled,
+.confirm-deletion-btn:disabled {
+  cursor: default;
+  background-color: #2d294280;
+  opacity: 0.8;
+}
+
+.manage-text {
+  margin-bottom: 16px;
+}
+
+.change-password-btn,
+.delete-account-btn {
+  margin-bottom: 32px;
+  padding: 11px 24px 10px 51px;
+  background-color: $blue;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+  background-position: 24px 50%;
+  border-radius: $border-radius-btn;
+  box-shadow: $shadow-medium;
+}
+
+.change-password-btn {
+  margin-bottom: 0;
+  background-image: url('img/change-password-icon.svg');
+}
+
+.delete-account-btn,
+.confirm-deletion-btn {
+  background-image: url('img/delete-icon.svg');
+}
+
+.get-premium-btn {
+  background-image: url('img/premium-icon.svg');
+}
+
+.change-password-btn:hover,
+.delete-account-btn:hover,
+.get-premium-btn:hover {
+  cursor: pointer;
+  background-color: $blue-hover;
+  transition: ease-in-out .3s;
+}
+
+.confirm-deletion-wrap {
+  margin-top: 32px;
+}
+
+.confirm-deletion-wrap.hidden {
+  display: none;
+}
+
+.premium-banner {
+  margin-bottom: 24px;
+  width: 500px;
+  height: 350px;
+  background-image: url('img/premium-banner.jpg');
+  background-size: cover;
+  border-radius: $border-radius;
+  box-shadow: $shadow-medium;
+}
+
+.premium-text {
+  margin-bottom: 24px;
+}
+
+.premium-text.highlighted {
+  font-weight: bold;
+  color: $blue;
+}
+
+.premium-text.uppercase {
+  text-transform: uppercase;
+}
+
+.promo-input-wrap {
+  margin-top: 32px;
+}
+
+.get-premium-btn:disabled {
+  cursor: default;
+  background-color: #2d294280;
+  opacity: 0.8;
+}
+
+//dark theme styles
+.dark-theme {
+  .profile-page-wrapper {
+    background-color: $light-black;
+  }
+
+  .profile-nav-list {
+    background-color: $black;
+  }
+
+  .nav-item.selected {
+    background-color: $light-black;
+  }
+
+  .account-item {
+    background-image: url('img/dark-user-icon.svg');
+  }
+
+  .premium-item {
+    background-image: url('img/dark-premium-icon.svg');
+  }
+
+  .sign-out-item {
+    background-image: url('img/dark-sign-out-icon.svg');
+  }
+
+  .account-item:hover {
+    background-image: url('img/user-icon-hover.svg');
+  }
+
+  .premium-item:hover {
+    background-image: url('img/premium-icon-hover.svg');
+  }
+
+  .sign-out-item:hover {
+    background-image: url('img/sign-out-icon-hover.svg');
+  }
+
+  .return-btn {
+    color: $white;
+    background-image: url('img/dark-back-to-editor-icon.svg');
+  }
+
+  .return-btn:hover {
+    color: $black;
+    background-image: url('img/back-to-editor-icon.svg');
+  }
+
+  .info-label {
+    color: $light-gray;
+  }
+
+  .info-input {
+    color: $white;
+    border: 1px solid $white;
+    background-color: $light-black;
+    background-image: url('img/dark-edit-icon.svg');
+  }
+
+  .change-password-input,
+  .confirm-deletion-input,
+  .promo-input {
+    color: $white;
+    border: 1px solid $white;
+    background-color: $light-black;
+  }
+
+  .info-input:focus,
+  .change-password-input:focus,
+  .confirm-deletion-input:focus,
+  .promo-input:focus {
+    border-color: $blue;
+    transition: ease-in-out .3s;
+  }
+
+  .confirm-deletion-input::placeholder,
+  .promo-input::placeholder {
+    color: $black;
+  }
+
+  .update-password-btn:disabled,
+  .confirm-deletion-btn:disabled,
+  .get-premium-btn:disabled {
+    background-color: $white;
+    opacity: 0.4;
+  }
+
+}
