@@ -18,22 +18,22 @@ class Editor {
   }
 
   public updateElements(): void {
-    // this.model.removeCropArea();
     const resizeWidthInput = <HTMLInputElement>document.getElementById('width-input');
     const resizeHeightInput = <HTMLInputElement>document.getElementById('height-input');
     const adjustRangeInput = <HTMLInputElement>document.querySelector('.adjust-range-input');
     const adjustNumberInput = <HTMLInputElement>document.querySelector('.adjust-number-input');
     const adjustNumberSign = <HTMLInputElement>document.querySelector('.percentage-sign');
+    const drawColorInput = <HTMLInputElement>document.getElementById('draw-color-input');
+    const borderColorInput = <HTMLInputElement>document.getElementById('border-color-input');
+    const drawWidth = <HTMLInputElement>document.getElementById('draw-width');
+    const borderWidth = <HTMLInputElement>document.getElementById('border-width');
+
     resizeWidthInput.value = String(CanvasState.parameters.imageWidth);
     resizeHeightInput.value = String(CanvasState.parameters.imageHeight);
 
-    const drawColorInput = <HTMLInputElement>document.getElementById('draw-color-input');
     drawColorInput.value = '#00d0c3';
-    const borderColorInput = <HTMLInputElement>document.getElementById('border-color-input');
     borderColorInput.value = '#00d0c3';
-    const drawWidth = <HTMLInputElement>document.getElementById('draw-width');
     drawWidth.value = '10';
-    const borderWidth = <HTMLInputElement>document.getElementById('border-width');
     borderWidth.value = '10';
 
     const filters = document.querySelectorAll('.filter');
@@ -129,7 +129,6 @@ class Editor {
       }
     });
     this.hideMessageWrap();
-    //TODO: убирать слушатель draw?
   }
 
   public hideOpenedOptionControls(): void {
@@ -183,7 +182,6 @@ class Editor {
     this.listenCrop();
     this.listenDraw();
     this.listenBorder();
-    //TODO сюда добавятся методы и на другие опции
   }
 
   private showToolOptionsList(toolName: string): void {
@@ -439,12 +437,10 @@ class Editor {
     // const adjustmentTitle: HTMLElement | null = document.querySelector('.adjust-title');
     // const adjustmentName = adjustmentTitle?.innerText;
 
-    //Здесь специально отлавливается событие change, а не input
     range?.addEventListener('change', () => {
       if (inputNum) {
         inputNum.value = range.value;
         this.model.useAdjustment(range.value);
-        // console.log(`${adjustmentName} выставлен на уровень ${inputNum.value}`);
       }
     });
 
@@ -474,7 +470,7 @@ class Editor {
     this.listenClearDrawing();
   }
 
-  private listenDrawArea() {
+  private listenDrawArea(): void {
     document.getElementById('draw')?.addEventListener('click', (event) => {
       if (event.target instanceof HTMLLIElement) {
         if (event.target.id === 'draw') {
@@ -484,11 +480,13 @@ class Editor {
       }
     });
   }
+
   private listenClearDrawing(): void {
     document.querySelector('.draw-clear-btn')?.addEventListener('click', () => {
       this.model.clearDrawing();
     });
   }
+
   private listenDrawColorInput(): void {
     document.getElementById('draw-color-input')?.addEventListener('input', () => {
       this.model.drawColorChange();
