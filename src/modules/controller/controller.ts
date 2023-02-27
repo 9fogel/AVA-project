@@ -268,12 +268,6 @@ class Controller {
     document.querySelector('body')?.addEventListener('mousemove', this.model.mouseDragEvents.mousemove);
     document.querySelector('body')?.addEventListener('mouseup', this.model.mouseDragEvents.mouseup);
   }
-  // public canvasDragOff(): void {
-  //   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-  //   canvas.removeEventListener('mousedown', this.model.mouseDragEvents.mousedown);
-  //   document.querySelector('body')?.removeEventListener('mousemove', this.model.mouseDragEvents.mousemove);
-  //   document.querySelector('body')?.removeEventListener('mouseup', this.model.mouseDragEvents.mouseup);
-  // }
 }
 
 export default Controller;
