@@ -1,6 +1,11 @@
 # RS Clone - приложение AVAeditor
 Final project for RS School Stage #2
 
+Contributors:
+- [@9fogel](https://github.com/9fogel)
+- [@andreiplavinski](https://github.com/andreiplavinski)
+- [@AndreiZaretski](https://github.com/andreizaretski)
+
 ## AVAeditor - это онлайн редактор изображений с личным кабинетом пользователя, техподдержкой и настройками.
 В приложении использован следующий технический стек: HTML, SASS, TS, Canvas, Express, Node.js, MongoDB
 
