@@ -127,8 +127,6 @@ class Controller {
       this.editor.hideOpenedToolMenus();
       this.editor.hideOpenedOptionControls();
       this.showDownloadOptions();
-      // this.handleDownloadOptions();
-      // this.model.downloadImage();
     });
   }
 

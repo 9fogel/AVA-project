@@ -400,7 +400,6 @@ class Editor {
     const messageWrap = document.querySelector('.filters-message');
     messageWrap?.addEventListener('click', () => {
       this.hideMessageWrap();
-      //TODO: прятать, когда закрываются все менюшки
     });
   }
 
@@ -434,8 +433,6 @@ class Editor {
   private listenAdjustments(): void {
     const range: HTMLInputElement | null = document.querySelector('.adjust-range-input');
     const inputNum: HTMLInputElement | null = document.querySelector('.adjust-number-input');
-    // const adjustmentTitle: HTMLElement | null = document.querySelector('.adjust-title');
-    // const adjustmentName = adjustmentTitle?.innerText;
 
     range?.addEventListener('change', () => {
       if (inputNum) {
