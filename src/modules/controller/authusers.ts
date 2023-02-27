@@ -2,13 +2,11 @@ import AuthModel from '../model/auth';
 import { user } from '../model/auth';
 import UserPage from './userPage';
 import State from '../state.ts/editorState';
-//import SystemPopup from './systemPopup';
 import HelpMethodsUser from './helpUserController';
 
 // Вынести вспамогательные методы в отдельный класс и вызывать их оттуда
 
 class UsersControler {
-  //private readonly systemPopup: SystemPopup;
   private readonly helpMethods: HelpMethodsUser;
   static State: State;
   users: AuthModel;
@@ -30,19 +28,17 @@ class UsersControler {
   constructor() {
     this.users = new AuthModel();
     this.userPage = new UserPage();
-    //this.systemPopup = new SystemPopup();
     this.helpMethods = new HelpMethodsUser();
   }
 
   handleUsers() {
     this.handleRegistrationUser();
-    //this.handleGetUsers();
     this.handleLoginUser();
     this.handlegetUserName();
     this.clickLogOut();
 
     this.handleUpdateUser(this.inputName, 'updateusername', this.saveName, this.userMessage, 1);
-    //&& this.inputEmail instanceof HTMLInputElement
+
     if (this.inputEmail) {
       this.handleUpdateUser(this.inputEmail, 'updateuseremail', this.saveEmail, this.emailMessage, 2);
     }
@@ -53,10 +49,6 @@ class UsersControler {
 
     this.handeUpdatePremium();
   }
-
-  // handleGetUsers() {
-  //   this.users.getUsers();
-  // }
 
   handleRegistrationUser() {
     const userName = document.querySelector('#user-name') as HTMLInputElement;
@@ -90,9 +82,8 @@ class UsersControler {
     const password = document.querySelector('#password') as HTMLInputElement;
 
     document.getElementById('sign-in')?.addEventListener('click', async () => {
-      console.log('click');
       const data = await this.users.logInUser(userEmail.value, userEmail.value, password.value);
-      //console.log(data);
+
       if (data.token) {
         this.helpMethods.logIn(data.username1, data.userEmail1);
         this.helpMethods.updateState(data.roles);
@@ -107,10 +98,8 @@ class UsersControler {
     if (data.username) {
       this.helpMethods.logIn(data.username, data.userEmail);
       this.helpMethods.updateState(data.roles);
-      console.log('Role:', State.userState);
     } else {
       this.helpMethods.logOut();
-      console.log('Role:', State.userState);
     }
   }
 
@@ -236,11 +225,7 @@ class UsersControler {
           if (newData.messageOK && this.messageNewPassword) {
             messageOldPassword.textContent = JSON.stringify(newData.messageOK).replace(/"/g, '');
             messageOldPassword.style.color = 'green';
-            // this.inputNewPassword.value = '';
-            // this.inputOldPasswors.value = '';
-            // if (this.inputConfirmNewPassword) {
-            //   this.inputConfirmNewPassword.value = '';
-            // }
+
             this.helpMethods.clearText(messageOldPassword);
             this.helpMethods.clearText(this.messageNewPassword);
             setTimeout(() => this.userPage.setDefaultState(), 6000);
@@ -273,9 +258,13 @@ class UsersControler {
         }
 
         if (data.messageOK) {
-          // messgePremium.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
-          // messgePremium.style.color = 'green';
-          this.userPage.switchPremiumView();
+          messgePremium.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
+          messgePremium.style.color = 'green';
+          this.helpMethods.clearText(messgePremium);
+
+          setTimeout(() => {
+            this.userPage.switchPremiumView();
+          }, 2000);
 
           State.userState = 'premium';
         }

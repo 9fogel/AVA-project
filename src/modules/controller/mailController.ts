@@ -112,7 +112,6 @@ class MailController {
 
           this.helpMethods.updateState(data.roles);
           localStorage.setItem('JWT', data.token);
-          //this.systemPopup.hideModal();
         }
       }
     });
