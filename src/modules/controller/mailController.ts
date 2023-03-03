@@ -42,7 +42,10 @@ class MailController {
     if (this.buttonEmail) {
       this.buttonEmail.addEventListener('click', async () => {
         if (this.inputEmail) {
+          this.buttonEmail?.setAttribute('disabled', '');
           const data = await this.mail.getKey(this.inputEmail.value);
+
+          this.buttonEmail?.removeAttribute('disabled');
 
           if (data.messageNo && this.textResponse) {
             this.textResponse.textContent = JSON.stringify(data.messageNo).replace(/"/g, '');
@@ -125,7 +128,11 @@ class MailController {
 
     this.buttonHelpMessage?.addEventListener('click', async () => {
       if (this.inputEmailHelp && this.helpMessage && this.inputTextMessage) {
+        this.buttonHelpMessage?.setAttribute('disabled', '');
+
         const data = await this.mail.sendMessage(this.inputEmailHelp.value, this.inputTextMessage.value);
+
+        this.buttonHelpMessage?.removeAttribute('disabled');
         if (data.errors) {
           this.helpMessage.textContent = 'It is not a valid email';
           this.helpMessage.style.color = 'red';
@@ -142,6 +149,7 @@ class MailController {
           this.helpMessage.textContent = JSON.stringify(data.messageOK).replace(/"/g, '');
           this.helpMessage.style.color = 'green';
           this.helpMethods.clearText(this.helpMessage);
+          this.buttonHelpMessage?.setAttribute('disabled', '');
           setTimeout(() => {
             this.support.hideSupport();
             this.countCharacter.textContent = '0/600';
